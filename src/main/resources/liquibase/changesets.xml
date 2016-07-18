@@ -48,4 +48,14 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
+    <changeSet id="201608172304" author="Thiru">
+        <createSequence catalogName="InventorySequence"
+                        incrementBy="1"
+                        maxValue="1000000"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="inventory_seq_id"
+                        startValue="1"/>
+    </changeSet>
+
 </databaseChangeLog>
