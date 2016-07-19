@@ -2,6 +2,8 @@ package com.rightminds.biller.util;
 
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+
 public class CastUtil {
 
     public static String getString(Object value) {
@@ -17,6 +19,14 @@ public class CastUtil {
             return null;
         }
         return Integer.valueOf(stringValue);
+    }
+
+    public static BigDecimal getBigDecimal(Object value) {
+        String stringValue = getString(value);
+        if (StringUtils.isEmpty(stringValue)) {
+            return null;
+        }
+        return new BigDecimal(stringValue);
     }
 
 

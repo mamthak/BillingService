@@ -34,9 +34,6 @@ public class Inventory {
     @Column(name = "QUANTITY")
     private Integer quantity;
 
-    @OneToOne(mappedBy = "inventory")
-    private Menu menu;
-
     @CreatedDate
     @Column(name = "CREATED_ON")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
@@ -51,6 +48,13 @@ public class Inventory {
     }
 
     public Inventory(String name, String description, Integer quantity) {
+        this.name = name;
+        this.description = description;
+        this.quantity = quantity;
+    }
+
+    public Inventory(Integer id, String name, String description, Integer quantity) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
@@ -76,10 +80,13 @@ public class Inventory {
     }
 
     public static Inventory fromMap(Map map) {
+        Integer id = CastUtil.getInteger(map.get("id"));
         String name = CastUtil.getString(map.get("name"));
         String description = CastUtil.getString(map.get("description"));
         Integer quantity = CastUtil.getInteger(map.get("quantity"));
-        return new Inventory(name, description, quantity);
+        if (id == null)
+            return new Inventory(name, description, quantity);
+        return new Inventory(id, name, description, quantity);
     }
 
     @Override
@@ -92,4 +99,15 @@ public class Inventory {
         return new HashCodeBuilder(17, 37).reflectionHashCode(this);
     }
 
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
+                ", createdOn=" + createdOn +
+                ", lastModifiedOn=" + lastModifiedOn +
+                '}';
+    }
 }

@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.util.HashMap;
 
@@ -34,12 +33,9 @@ public class InventoryControllerTest {
     @Test
     public void saveShouldSaveTheInventoryItem() throws Exception {
         HashMap map = new HashMap<>();
-        map.put("id", "1");
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
         map.put("quantity", "1");
-
-        Inventory inventory = new Inventory("Coke", "Cool drink", 1);
 
         inventoryController.save(map);
 
@@ -58,5 +54,15 @@ public class InventoryControllerTest {
         inventoryController.get(1);
 
         verify(inventoryService).getById(1);
+    }
+
+    @Test
+    public void getAllShouldReturnAllInventoryItems() throws Exception {
+        Inventory inventory = new Inventory("Coke", "Cool drink", 1);
+        when(inventoryService.getById(any())).thenReturn(inventory);
+
+        inventoryController.getAll();
+
+        verify(inventoryService).getAll();
     }
 }

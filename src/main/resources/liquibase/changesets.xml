@@ -44,7 +44,7 @@
 
         <addForeignKeyConstraint baseTableName="MENU" baseColumnNames="INVENTORY_ID"
                                  constraintName="MENU_INVENTORY_ID_FK"
-                                 referencedTableName="MENU"
+                                 referencedTableName="INVENTORY"
                                  referencedColumnNames="ID"/>
     </changeSet>
 
@@ -55,6 +55,16 @@
                         minValue="1"
                         schemaName="public"
                         sequenceName="inventory_seq_id"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet id="201608192141" author="Thiru">
+        <createSequence catalogName="MenuSequence"
+                        incrementBy="1"
+                        maxValue="1000000"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="menu_seq_id"
                         startValue="1"/>
     </changeSet>
 
