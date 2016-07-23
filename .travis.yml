@@ -5,3 +5,10 @@ services:
  - postgresql
 before_script:
  - psql -c 'create database bill;' -U postgres
+deploy:
+  provider: heroku
+  api_key:
+    secure: qKOPdIx4rTSZSJO17s1woJK9UImBafc5lKIs+y3Tb11ZuLG3z5MjUctGBeJoBnMndsXU3CHOKYKhNsfcTlNTjWCRugXZFftiMeRHRLWr+ahKx5SdJVC3HeiTcchIKzc7MZtXgMXaiu88bqsm86HLl/ZLmD5VNPpShuENg3FnUce2SLfOIZ9SLC1rbbCsLTUrN6jP8b+ZBnddQNrZICSDpFmTWXlWfoPFYLPJ4TFO+ttoc5Ki91JQSIR7LcKA6/XcZr7b5GCg7d3YMMPHipn67ndpFGvxjAROMHccPlkDUVDIO3VVunLliONZJb1KeFZzN6UDXMasiW5x/A/WgTIrT2XZlFPEru1Kxn4hY44Np9pKqLN0hFmQhwDGbQ4SyKofwAWScB4+q2rihLeeM3KS09cHGyi6elEvcq5Lr3kg2XsM2qe2agqlvqtxu+khwhBcdXrFapqE/TJ05yx/kP/z9xka2LIKpLm0cFODzd1cXBTnrlpHPRsJA8FKN3Bzv744Mnz4L9dLo0DYbEUL0VKYAxHEPV4HL/1DlSKbxR76mTi6LVslaLjWKfDsnEzLO5HuMXUK6vfkoR41xWnwS1qkHDFPdzVbZIgxakBPiUmTCKlJygaxXqlWUqf+H9ag0TY2ZtunMNuktMKkswsCp7kEActz+2N97OVN+WdsyK9zlxg=
+  app: boiling-meadow-60033
+  on:
+    repo: thirunar/BillingService
