@@ -29,7 +29,7 @@ public class MenuTest {
         assertThat(menu.getName(), is("Coke"));
         assertThat(menu.getDescription(), is("Cool Drink"));
         assertThat(menu.getAmount(), is(new BigDecimal(1)));
-        assertThat(menu.getInventory(), is(Inventory.fromMap(inventory)));
+        assertThat(menu.getCategory(), is(Category.fromMap(inventory)));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.rightminds.biller.controller;
 
-import com.rightminds.biller.entity.Inventory;
-import com.rightminds.biller.service.InventoryService;
+import com.rightminds.biller.entity.Category;
+import com.rightminds.biller.service.CategoryService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -17,13 +17,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class InventoryControllerTest {
+public class CategoryControllerTest {
 
     @InjectMocks
-    private InventoryController inventoryController;
+    private CategoryController categoryController;
 
     @Mock
-    private InventoryService inventoryService;
+    private CategoryService categoryService;
 
     @Before
     public void setUp() throws Exception {
@@ -35,34 +35,32 @@ public class InventoryControllerTest {
         HashMap map = new HashMap<>();
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
-        map.put("quantity", "1");
 
-        inventoryController.save(map);
+        categoryController.save(map);
 
-        ArgumentCaptor<Inventory> argumentCaptor = ArgumentCaptor.forClass(Inventory.class);
-        verify(inventoryService).save(argumentCaptor.capture());
+        ArgumentCaptor<Category> argumentCaptor = ArgumentCaptor.forClass(Category.class);
+        verify(categoryService).save(argumentCaptor.capture());
         assertThat(argumentCaptor.getValue().getName(), is("Coke"));
         assertThat(argumentCaptor.getValue().getDescription(), is("Cool Drink"));
-        assertThat(argumentCaptor.getValue().getQuantity(), is(1));
     }
 
     @Test
     public void getShouldReturnInventoryBasedOnTheIdValue() throws Exception {
-        Inventory inventory = new Inventory("Coke", "Cool drink", 1);
-        when(inventoryService.getById(any())).thenReturn(inventory);
+        Category category = new Category("Coke", "Cool drink");
+        when(categoryService.getById(any())).thenReturn(category);
 
-        inventoryController.get(1);
+        categoryController.get(1);
 
-        verify(inventoryService).getById(1);
+        verify(categoryService).getById(1);
     }
 
     @Test
     public void getAllShouldReturnAllInventoryItems() throws Exception {
-        Inventory inventory = new Inventory("Coke", "Cool drink", 1);
-        when(inventoryService.getById(any())).thenReturn(inventory);
+        Category category = new Category("Coke", "Cool drink");
+        when(categoryService.getById(any())).thenReturn(category);
 
-        inventoryController.getAll();
+        categoryController.getAll();
 
-        verify(inventoryService).getAll();
+        verify(categoryService).getAll();
     }
 }

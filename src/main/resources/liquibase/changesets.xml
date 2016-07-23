@@ -7,65 +7,69 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
     <changeSet id="201608170737" author="Thiru">
-        <createTable tableName="INVENTORY">
+        <createTable tableName="CATEGORY">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="NAME" type="varchar(255)"/>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
             <column name="DESCRIPTION" type="varchar(255)"/>
-            <column name="QUANTITY" type="BIGINT">
+            <column name="CREATEDON" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_ON" type="TIMESTAMP WITH TIME ZONE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="LAST_MODIFIED_ON" type="TIMESTAMP WITH TIME ZONE">
+            <column name="LASTMODIFIEDON" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <createTable tableName="MENU">
+        <createTable tableName="ITEM">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="NAME" type="varchar(255)"/>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
             <column name="DESCRIPTION" type="varchar(255)"/>
-            <column name="INVENTORY_ID" type="BIGINT"/>
-            <column name="AMOUNT" type="BIGINT">
+            <column name="CATEGORYID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_ON" type="TIMESTAMP WITH TIME ZONE">
+            <column name="PRICE" type="DECIMAL">
                 <constraints nullable="false"/>
             </column>
-            <column name="LAST_MODIFIED_ON" type="TIMESTAMP WITH TIME ZONE">
+            <column name="ISINVENTORY" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="QUANTITY" type="BIGINT"/>
+            <column name="CREATEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LASTMODIFIEDON" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="MENU" baseColumnNames="INVENTORY_ID"
-                                 constraintName="MENU_INVENTORY_ID_FK"
-                                 referencedTableName="INVENTORY"
+        <addForeignKeyConstraint baseTableName="ITEM" baseColumnNames="CATEGORYID"
+                                 constraintName="ITEM_CATEGORY_ID_FK"
+                                 referencedTableName="CATEGORY"
                                  referencedColumnNames="ID"/>
-    </changeSet>
-
-    <changeSet id="201608172304" author="Thiru">
-        <createSequence catalogName="InventorySequence"
+        <createSequence catalogName="CategorySequence"
                         incrementBy="1"
                         maxValue="1000000"
                         minValue="1"
                         schemaName="public"
-                        sequenceName="inventory_seq_id"
+                        sequenceName="category_seq_id"
                         startValue="1"/>
-    </changeSet>
-
-    <changeSet id="201608192141" author="Thiru">
-        <createSequence catalogName="MenuSequence"
+        <createSequence catalogName="ItemSequence"
                         incrementBy="1"
                         maxValue="1000000"
                         minValue="1"
                         schemaName="public"
-                        sequenceName="menu_seq_id"
+                        sequenceName="item_seq_id"
                         startValue="1"/>
+
     </changeSet>
+
+
 
 </databaseChangeLog>

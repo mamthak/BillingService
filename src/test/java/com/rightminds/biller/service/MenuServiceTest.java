@@ -1,6 +1,7 @@
 package com.rightminds.biller.service;
 
-import com.rightminds.biller.entity.Inventory;
+import com.rightminds.biller.entity.Category;
+import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Menu;
 import com.rightminds.biller.repository.MenuRepository;
 import org.junit.Assert;
@@ -35,8 +36,8 @@ public class MenuServiceTest {
 
     @Test
     public void saveShouldSaveTheMenu() throws Exception {
-        Inventory inventory = new Inventory("Coke", "Cool drink", 1);
-        Menu menu = new Menu("Coke", "Cool drink", BigDecimal.ONE, inventory);
+        Category category = new Category("Coke", "Cool drink");
+        Menu menu = new Menu("Coke", "Cool drink", BigDecimal.ONE, category);
 
         menuService.save(menu);
 
@@ -45,8 +46,8 @@ public class MenuServiceTest {
 
     @Test
     public void getAllShouldReturnAllMenuItems() throws Exception {
-        Inventory inventory = new Inventory("Coke", "Cool drink", 1);
-        Menu menu = new Menu("Coke", "Cool drink", BigDecimal.ONE, inventory);
+        Category category = new Category("Coke", "Cool drink");
+        Menu menu = new Menu("Coke", "Cool drink", BigDecimal.ONE, category);
         when(repository.findAll()).thenReturn(Arrays.asList(menu));
 
         List<Menu> menus = menuService.getAll();

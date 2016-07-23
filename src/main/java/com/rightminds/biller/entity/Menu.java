@@ -35,7 +35,7 @@ public class Menu {
     private BigDecimal amount;
 
     @OneToOne
-    private Inventory inventory;
+    private Category category;
 
     @CreatedDate
     @Column(name = "CREATED_ON")
@@ -48,11 +48,11 @@ public class Menu {
     public Menu() {
     }
 
-    public Menu(String name, String description, BigDecimal amount, Inventory inventory) {
+    public Menu(String name, String description, BigDecimal amount, Category category) {
         this.name = name;
         this.description = description;
         this.amount = amount;
-        this.inventory = inventory;
+        this.category = category;
     }
 
     @PrePersist
@@ -78,21 +78,9 @@ public class Menu {
         String name = getString(map.get("name"));
         String description = getString(map.get("description"));
         BigDecimal amount = getBigDecimal(map.get("amount"));
-        Inventory inventory = map.get("inventory") != null ? Inventory.fromMap((Map) map.get("inventory")) : null;
+        Category category = map.get("inventory") != null ? Category.fromMap((Map) map.get("inventory")) : null;
 
-        return new Menu(name, description, amount, inventory);
+        return new Menu(name, description, amount, category);
     }
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", amount=" + amount +
-//                ", inventory=" + inventory +
-                ", createdOn=" + createdOn +
-                ", lastModifiedOn=" + lastModifiedOn +
-                '}';
-    }
 }

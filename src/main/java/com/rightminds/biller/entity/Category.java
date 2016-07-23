@@ -14,14 +14,14 @@ import java.util.Date;
 import java.util.Map;
 
 @Entity
-@Table(name = "INVENTORY")
+@Table(name = "CATEGORY")
 @Data
-public class Inventory {
+public class Category {
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_seq_gen")
-    @SequenceGenerator(name = "inventory_seq_gen", sequenceName = "inventory_seq_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq_gen")
+    @SequenceGenerator(name = "category_seq_gen", sequenceName = "category_seq_id")
     @Column(name = "ID")
     private Integer id;
 
@@ -31,33 +31,28 @@ public class Inventory {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "QUANTITY")
-    private Integer quantity;
-
     @CreatedDate
-    @Column(name = "CREATED_ON")
+    @Column(name = "CREATEDON")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private Date createdOn;
 
     @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_ON")
+    @Column(name = "LASTMODIFIEDON")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private Date lastModifiedOn;
 
-    public Inventory() {
+    public Category() {
     }
 
-    public Inventory(String name, String description, Integer quantity) {
+    public Category(String name, String description) {
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
     }
 
-    public Inventory(Integer id, String name, String description, Integer quantity) {
+    public Category(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
     }
 
     @PrePersist
@@ -79,14 +74,13 @@ public class Inventory {
         this.lastModifiedOn = new Date();
     }
 
-    public static Inventory fromMap(Map map) {
+    public static Category fromMap(Map map) {
         Integer id = CastUtil.getInteger(map.get("id"));
         String name = CastUtil.getString(map.get("name"));
         String description = CastUtil.getString(map.get("description"));
-        Integer quantity = CastUtil.getInteger(map.get("quantity"));
         if (id == null)
-            return new Inventory(name, description, quantity);
-        return new Inventory(id, name, description, quantity);
+            return new Category(name, description);
+        return new Category(id, name, description);
     }
 
     @Override
@@ -105,7 +99,6 @@ public class Inventory {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", quantity=" + quantity +
                 ", createdOn=" + createdOn +
                 ", lastModifiedOn=" + lastModifiedOn +
                 '}';

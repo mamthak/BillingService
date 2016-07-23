@@ -1,7 +1,7 @@
 package com.rightminds.biller.repository;
 
 import com.rightminds.biller.BillingServiceApplication;
-import com.rightminds.biller.entity.Inventory;
+import com.rightminds.biller.entity.Category;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,17 +21,17 @@ import static org.hamcrest.core.Is.is;
 @Rollback
 @SpringApplicationConfiguration(classes = BillingServiceApplication.class)
 @WebAppConfiguration
-public class InventoryRepositoryTest {
+public class CategoryRepositoryTest {
 
     @Autowired
-    private InventoryRepository repository;
+    private CategoryRepository repository;
 
     @Test
-    public void findByIdShouldReturnTheInventory() throws Exception {
-        Inventory inventory = new Inventory("Coke", "Cool drink", 1);
-        Inventory savedItem = repository.save(inventory);
+    public void findByIdShouldReturnTheCategory() throws Exception {
+        Category category = new Category("Coke", "Cool drink");
+        Category savedItem = repository.save(category);
 
-        Inventory fromRepository = repository.findById(savedItem.getId());
+        Category fromRepository = repository.findById(savedItem.getId());
 
         Assert.assertThat(savedItem, is(fromRepository));
     }
