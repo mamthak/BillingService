@@ -4,7 +4,6 @@ jdk:
 services:
  - postgresql
 before_script:
- - git init
  - psql -c 'create database bill;' -U postgres
 
 deploy:
