@@ -5,6 +5,7 @@ services:
  - postgresql
 before_script:
  - psql -c 'create database bill;' -U postgres
+
 deploy:
   provider: heroku
   api_key:
@@ -12,3 +13,7 @@ deploy:
   app: boiling-meadow-60033
   on:
     repo: thirunar/BillingService
+
+env:
+ - JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/bill
+
