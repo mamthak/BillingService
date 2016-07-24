@@ -17,3 +17,8 @@ deploy:
 env:
  - JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/bill
 
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.m2
+
