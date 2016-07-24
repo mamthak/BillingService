@@ -1,7 +1,7 @@
 package com.rightminds.biller.controller;
 
-import com.rightminds.biller.entity.Menu;
-import com.rightminds.biller.service.MenuService;
+import com.rightminds.biller.entity.Item;
+import com.rightminds.biller.service.ItemService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -18,13 +18,13 @@ import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class MenuControllerTest {
+public class ItemControllerTest {
 
     @InjectMocks
-    private MenuController menuController;
+    private ItemController itemController;
 
     @Mock
-    private MenuService menuService;
+    private ItemService itemService;
 
     @Before
     public void setUp() throws Exception {
@@ -36,21 +36,21 @@ public class MenuControllerTest {
         Map map = new HashMap<>();
         map.put("name", "Coke");
         map.put("description", "Cool drink");
-        map.put("amount", "30");
+        map.put("price", "30");
 
-        menuController.save(map);
+        itemController.save(map);
 
-        ArgumentCaptor<Menu> argumentCaptor = ArgumentCaptor.forClass(Menu.class);
-        verify(menuService).save(argumentCaptor.capture());
+        ArgumentCaptor<Item> argumentCaptor = ArgumentCaptor.forClass(Item.class);
+        verify(itemService).save(argumentCaptor.capture());
         assertThat(argumentCaptor.getValue().getName(), is("Coke"));
         assertThat(argumentCaptor.getValue().getDescription(), is("Cool drink"));
-        assertThat(argumentCaptor.getValue().getAmount(), is(new BigDecimal(30)));
+        assertThat(argumentCaptor.getValue().getPrice(), is(new BigDecimal(30)));
     }
 
     @Test
     public void allShouldReturnAllMenuItems() throws Exception {
-        menuController.all();
+        itemController.all();
 
-        verify(menuService).getAll();
+        verify(itemService).getAll();
     }
 }

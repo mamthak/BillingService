@@ -34,7 +34,7 @@ public class CategoryController {
         return categoryService.getByName(name);
     }
 
-    @RequestMapping(value = "all", method = GET, produces = "application/json")
+    @RequestMapping(value = "", method = GET, produces = "application/json")
     public List<Category> getAll() {
         return categoryService.getAll();
     }

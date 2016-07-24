@@ -29,5 +29,10 @@ public class CastUtil {
         return new BigDecimal(stringValue);
     }
 
+    public static boolean getBoolean(Object value) {
+        String stringValue = getString(value);
+        return !StringUtils.isEmpty(stringValue) && Boolean.parseBoolean(stringValue);
+    }
+
 
 }

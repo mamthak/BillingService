@@ -6,23 +6,20 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 
-import static com.rightminds.biller.util.CastUtil.getBigDecimal;
-import static com.rightminds.biller.util.CastUtil.getInteger;
-import static com.rightminds.biller.util.CastUtil.getString;
+import static com.rightminds.biller.util.CastUtil.*;
 
 @Entity
-@Table(name = "MENU")
+@Table(name = "ITEM")
 @Data
-public class Menu {
+public class Item {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_seq_gen")
-    @SequenceGenerator(name = "menu_seq_gen", sequenceName = "menu_seq_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_gen")
+    @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_seq_id")
     private Integer id;
 
     @Column(name = "NAME")
@@ -31,11 +28,17 @@ public class Menu {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "AMOUNT")
-    private BigDecimal amount;
+    @Column(name = "PRICE")
+    private BigDecimal price;
 
     @OneToOne
     private Category category;
+
+    @Column(name = "ISINVENTORY")
+    private boolean isInventory;
+
+    @Column(name = "QUANTITY")
+    private Integer quantity;
 
     @CreatedDate
     @Column(name = "CREATED_ON")
@@ -45,14 +48,20 @@ public class Menu {
     @Column(name = "LAST_MODIFIED_ON")
     private Date lastModifiedOn;
 
-    public Menu() {
+    public Item() {
     }
 
-    public Menu(String name, String description, BigDecimal amount, Category category) {
+    public Item(String name, String description, BigDecimal price, Category category, boolean isInventory, Integer quantity) {
         this.name = name;
         this.description = description;
-        this.amount = amount;
+        this.price = price;
         this.category = category;
+        this.isInventory = isInventory;
+        this.quantity = quantity;
+    }
+
+    public Item(String name, String description, BigDecimal price, Category category) {
+        this(name, description, price, category, false, 0);
     }
 
     @PrePersist
@@ -74,13 +83,15 @@ public class Menu {
         this.lastModifiedOn = new Date();
     }
 
-    public static Menu fromMap(Map map) {
+    public static Item fromMap(Map map) {
         String name = getString(map.get("name"));
         String description = getString(map.get("description"));
-        BigDecimal amount = getBigDecimal(map.get("amount"));
-        Category category = map.get("inventory") != null ? Category.fromMap((Map) map.get("inventory")) : null;
+        BigDecimal amount = getBigDecimal(map.get("price"));
+        Category category = map.get("category") != null ? Category.fromMap((Map) map.get("category")) : null;
+        boolean isInventory = getBoolean(map.get("isInventory"));
+        Integer quantity = getInteger(map.get("quantity"));
 
-        return new Menu(name, description, amount, category);
+        return new Item(name, description, amount, category, isInventory, quantity);
     }
 
 }

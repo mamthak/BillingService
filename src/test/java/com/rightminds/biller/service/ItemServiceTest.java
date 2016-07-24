@@ -1,17 +1,14 @@
 package com.rightminds.biller.service;
 
 import com.rightminds.biller.entity.Category;
-import com.rightminds.biller.entity.Category;
-import com.rightminds.biller.entity.Menu;
-import com.rightminds.biller.repository.MenuRepository;
-import org.junit.Assert;
+import com.rightminds.biller.entity.Item;
+import com.rightminds.biller.repository.ItemRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,13 +18,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class MenuServiceTest {
+public class ItemServiceTest {
 
     @InjectMocks
-    private MenuService menuService;
+    private ItemService itemService;
 
     @Mock
-    private MenuRepository repository;
+    private ItemRepository repository;
 
     @Before
     public void setUp() throws Exception {
@@ -37,23 +34,23 @@ public class MenuServiceTest {
     @Test
     public void saveShouldSaveTheMenu() throws Exception {
         Category category = new Category("Coke", "Cool drink");
-        Menu menu = new Menu("Coke", "Cool drink", BigDecimal.ONE, category);
+        Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
 
-        menuService.save(menu);
+        itemService.save(item);
 
-        verify(repository).save(menu);
+        verify(repository).save(item);
     }
 
     @Test
     public void getAllShouldReturnAllMenuItems() throws Exception {
         Category category = new Category("Coke", "Cool drink");
-        Menu menu = new Menu("Coke", "Cool drink", BigDecimal.ONE, category);
-        when(repository.findAll()).thenReturn(Arrays.asList(menu));
+        Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
+        when(repository.findAll()).thenReturn(Arrays.asList(item));
 
-        List<Menu> menus = menuService.getAll();
+        List<Item> items = itemService.getAll();
 
         verify(repository).findAll();
-        assertThat(menus, is(Arrays.asList(menu)));
+        assertThat(items, is(Arrays.asList(item)));
 
     }
 }
