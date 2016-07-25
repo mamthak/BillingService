@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-    <changeSet id="201608170737" author="Thiru">
+    <changeSet id="201607170737" author="Thiru">
         <createTable tableName="CATEGORY">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -70,6 +70,37 @@
 
     </changeSet>
 
+    <changeSet id="201607250641" author="Thiru">
+        <createTable tableName="CUSTOMER">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PHONENUMBER" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ADDRESS" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LASTMODIFIEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
 
+        <createSequence catalogName="CustomerSequence"
+                        incrementBy="1"
+                        maxValue="1000000"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="customer_seq_id"
+                        startValue="1"/>
+
+
+    </changeSet>
 
 </databaseChangeLog>

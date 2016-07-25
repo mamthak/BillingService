@@ -20,6 +20,7 @@ public class CategoryService {
     public Category getById(Integer id) {
         return repository.findById(id);
     }
+
     public Category getByName(String name) {
         return repository.findByName(name);
     }

@@ -14,7 +14,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping(value = "/menu")
+@RequestMapping(value = "/item")
 public class ItemController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class ItemController {
         itemService.save(item);
     }
 
-    @RequestMapping(value = "all", method = GET, consumes = "application/json")
+    @RequestMapping(value = "", method = GET, produces = "application/json")
     public List<Item> all() {
         return itemService.getAll();
     }

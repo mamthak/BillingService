@@ -31,7 +31,8 @@ public class Item {
     @Column(name = "PRICE")
     private BigDecimal price;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "CATEGORYID", referencedColumnName = "ID")
     private Category category;
 
     @Column(name = "ISINVENTORY")
@@ -41,11 +42,11 @@ public class Item {
     private Integer quantity;
 
     @CreatedDate
-    @Column(name = "CREATED_ON")
+    @Column(name = "CREATEDON")
     private Date createdOn;
 
     @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_ON")
+    @Column(name = "LASTMODIFIEDON")
     private Date lastModifiedOn;
 
     public Item() {

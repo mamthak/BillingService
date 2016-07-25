@@ -1,7 +1,7 @@
 package com.rightminds.biller.controller;
 
-import com.rightminds.biller.entity.Category;
-import com.rightminds.biller.service.CategoryService;
+import com.rightminds.biller.entity.Customer;
+import com.rightminds.biller.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,30 +15,30 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/customer")
+public class CustomerController {
 
     @Autowired
-    private CategoryService categoryService;
+    private CustomerService customerService;
 
     @RequestMapping(value = "save", method = POST, consumes = "application/json")
     public void save(@RequestBody Map request) {
-        Category category = Category.fromMap(request);
-        categoryService.save(category);
+        Customer customer = Customer.fromMap(request);
+        customerService.save(customer);
     }
 
     @RequestMapping(value = "get", method = GET, params = "id", produces = "application/json")
-    public Category get(@RequestParam(value = "id") Integer id) {
-        return categoryService.getById(id);
+    public Customer get(@RequestParam(value = "id") Integer id) {
+        return customerService.getById(id);
     }
 
     @RequestMapping(value = "get", method = GET, params = "name", produces = "application/json")
-    public Category getByName(@RequestParam(value = "name") String name) {
-        return categoryService.getByName(name);
+    public Customer getByName(@RequestParam(value = "name") String name) {
+        return customerService.getByName(name);
     }
 
     @RequestMapping(value = "", method = GET, produces = "application/json")
-    public List<Category> getAll() {
-        return categoryService.getAll();
+    public List<Customer> getAll() {
+        return customerService.getAll();
     }
 }
