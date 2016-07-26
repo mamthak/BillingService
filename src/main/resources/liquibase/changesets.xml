@@ -103,4 +103,10 @@
 
     </changeSet>
 
+    <changeSet id="201607262200" author="Thiru">
+        <addColumn tableName="CUSTOMER">
+            <column name="REWARDPOINTS" defaultValue="0" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

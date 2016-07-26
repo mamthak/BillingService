@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Map;
 
+import static com.rightminds.biller.util.CastUtil.getInteger;
 import static com.rightminds.biller.util.CastUtil.getString;
 
 @Entity
@@ -30,6 +31,9 @@ public class Customer {
     @Column(name = "ADDRESS")
     private String address;
 
+    @Column(name = "REWARDPOINTS")
+    private Integer rewardPoints;
+
     @CreatedDate
     @Column(name = "CREATEDON")
     private Date createdOn;
@@ -45,6 +49,14 @@ public class Customer {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.rewardPoints = 0;
+    }
+
+    public Customer(String name, String phoneNumber, String address, Integer rewardPoints) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.rewardPoints = rewardPoints;
     }
 
     @PrePersist
@@ -68,12 +80,13 @@ public class Customer {
 
     public static Customer fromMap(Map map) {
         String name = getString(map.get("name"));
-        String description = getString(map.get("phoneNumber"));
+        String phoneNumber = getString(map.get("phoneNumber"));
         String address = getString(map.get("address"));
-
-        return new Customer(name, description, address);
+        if (map.get("rewardPoints") == null) {
+            return new Customer(name, phoneNumber, address);
+        }
+        return new Customer(name, phoneNumber, address, getInteger(map.get("rewardPoints")));
     }
-
 
 
 }
