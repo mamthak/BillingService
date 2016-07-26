@@ -109,4 +109,33 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="201607262234" author="Thiru">
+        <createTable tableName="CONFIGURATION">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="KEY" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LASTMODIFIEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createSequence catalogName="ConfigSequence"
+                        incrementBy="1"
+                        maxValue="1000000"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="config_seq_id"
+                        startValue="1"/>
+
+    </changeSet>
+
 </databaseChangeLog>

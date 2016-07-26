@@ -21,6 +21,14 @@ public class CastUtil {
         return Integer.valueOf(stringValue);
     }
 
+    public static Long getLong(Object value) {
+        String stringValue = getString(value);
+        if (StringUtils.isEmpty(stringValue)) {
+            return null;
+        }
+        return Long.valueOf(stringValue);
+    }
+
     public static BigDecimal getBigDecimal(Object value) {
         String stringValue = getString(value);
         if (StringUtils.isEmpty(stringValue)) {
