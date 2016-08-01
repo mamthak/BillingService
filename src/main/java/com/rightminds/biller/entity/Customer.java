@@ -45,14 +45,19 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String name, String phoneNumber, String address) {
+    public Customer(String name, String phoneNumber, String address, Integer rewardPoints) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.rewardPoints = 0;
+        this.rewardPoints = rewardPoints;
     }
 
-    public Customer(String name, String phoneNumber, String address, Integer rewardPoints) {
+    public Customer(String name, String phoneNumber, String address) {
+        this(name, phoneNumber, address, 0);
+    }
+
+    public Customer(Integer id, String name, String phoneNumber, String address, Integer rewardPoints) {
+        this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -82,10 +87,12 @@ public class Customer {
         String name = getString(map.get("name"));
         String phoneNumber = getString(map.get("phoneNumber"));
         String address = getString(map.get("address"));
-        if (map.get("rewardPoints") == null) {
-            return new Customer(name, phoneNumber, address);
+        Integer rewardPoints = map.get("rewardPoints") != null ? getInteger(map.get("rewardPoints")) : 0;
+        Integer id = getInteger(map.get("id"));
+        if (id != null) {
+            return new Customer(id, name, phoneNumber, address, rewardPoints);
         }
-        return new Customer(name, phoneNumber, address, getInteger(map.get("rewardPoints")));
+        return new Customer(name, phoneNumber, address, rewardPoints);
     }
 
 

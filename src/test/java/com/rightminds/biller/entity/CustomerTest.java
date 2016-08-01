@@ -29,6 +29,7 @@ public class CustomerTest {
     @Test
     public void fromMapShouldReturnCustomerWithRewardPoints() throws Exception {
         Map<String, Object> map = new HashMap<String, Object>() {{
+            put("id", "1");
             put("name", "Thiru");
             put("phoneNumber", "9876543210");
             put("address", "perundurai");
@@ -37,6 +38,7 @@ public class CustomerTest {
 
         Customer customer = Customer.fromMap(map);
 
+        assertThat(customer.getId(), is(1));
         assertThat(customer.getName(), is("Thiru"));
         assertThat(customer.getPhoneNumber(), is("9876543210"));
         assertThat(customer.getAddress(), is("perundurai"));

@@ -138,4 +138,86 @@
 
     </changeSet>
 
+    <changeSet id="201608011842" author="Thiru">
+        <createTable tableName="RESTAURANTORDER">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)"/>
+            <column name="CUSTOMERID" type="BIGINT"/>
+            <column name="SERVICECHARGE" type="NUMERIC"/>
+            <column name="SERVICETAX" type="NUMERIC"/>
+            <column name="SUBTOTAL" type="NUMERIC"/>
+            <column name="TOTAL" type="NUMERIC"/>
+            <column name="CASH" type="NUMERIC"/>
+            <column name="CARD" type="NUMERIC"/>
+            <column name="STATUS" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LASTMODIFIEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createSequence catalogName="OrderSequence"
+                        incrementBy="1"
+                        maxValue="1000000"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="order_seq_id"
+                        startValue="1"/>
+
+        <addForeignKeyConstraint baseTableName="RESTAURANTORDER" baseColumnNames="CUSTOMERID"
+                                 constraintName="ORDER_CUSTOMER_ID_FK"
+                                 referencedTableName="CUSTOMER"
+                                 referencedColumnNames="ID"/>
+
+        <createTable tableName="ORDEREDITEM">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORDERID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ITEMID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="QUANITY" type="NUMERIC" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISCOUNT" type="NUMERIC" defaultValue="0"/>
+            <column name="TOTAL" type="NUMERIC" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LASTMODIFIEDON" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <createSequence catalogName="OrderItemSequence"
+                        incrementBy="1"
+                        maxValue="1000000"
+                        minValue="1"
+                        schemaName="public"
+                        sequenceName="order_item_seq_id"
+                        startValue="1"/>
+
+        <addForeignKeyConstraint baseTableName="ORDEREDITEM" baseColumnNames="ORDERID"
+                                 constraintName="ORDERITEM_ORDER_ID_FK"
+                                 referencedTableName="RESTAURANTORDER"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="ORDEREDITEM" baseColumnNames="ITEMID"
+                                 constraintName="ORDERITEM_ITEM_ID_FK"
+                                 referencedTableName="ITEM"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
 </databaseChangeLog>

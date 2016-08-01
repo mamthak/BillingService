@@ -1,6 +1,5 @@
 package com.rightminds.biller.controller;
 
-import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
 import com.rightminds.biller.service.CustomerService;
 import org.junit.Before;

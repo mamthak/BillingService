@@ -1,7 +1,9 @@
 package com.rightminds.biller.repository;
 
 import com.rightminds.biller.BillingServiceApplication;
+import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
+import com.rightminds.biller.entity.Order;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
 
+import java.math.BigDecimal;
+
 import static org.hamcrest.core.Is.is;
 
 
@@ -21,17 +25,22 @@ import static org.hamcrest.core.Is.is;
 @Rollback
 @SpringApplicationConfiguration(classes = BillingServiceApplication.class)
 @WebAppConfiguration
-public class CustomerRepositoryTest {
+public class OrderRepositoryTest {
 
     @Autowired
-    private CustomerRepository repository;
+    private OrderRepository repository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Test
-    public void findByIdShouldReturnTheCustomer() throws Exception {
-        Customer customer = new Customer("Thiru", "9876543210", "Perundurai");
-        Customer savedItem = repository.save(customer);
+    public void findByIdShouldReturnTheOrder() throws Exception {
+        Customer customer = new Customer("Thiru", "963247955", "Perundurai");
+        customerRepository.save(customer);
+        Order order = new Order(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), false);
+        Order savedItem = repository.save(order);
 
-        Customer fromRepository = repository.findById(savedItem.getId());
+        Order fromRepository = repository.findById(savedItem.getId());
 
         Assert.assertThat(savedItem, is(fromRepository));
     }

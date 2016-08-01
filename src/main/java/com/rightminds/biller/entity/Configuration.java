@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Map;
 
-import static com.rightminds.biller.util.CastUtil.getInteger;
 import static com.rightminds.biller.util.CastUtil.getLong;
 import static com.rightminds.biller.util.CastUtil.getString;
 

@@ -1,8 +1,6 @@
 package com.rightminds.biller.service;
 
-import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
-import com.rightminds.biller.repository.CategoryRepository;
 import com.rightminds.biller.repository.CustomerRepository;
 import org.junit.Before;
 import org.junit.Test;
