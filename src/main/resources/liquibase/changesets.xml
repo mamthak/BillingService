@@ -175,7 +175,7 @@
                                  referencedTableName="CUSTOMER"
                                  referencedColumnNames="ID"/>
 
-        <createTable tableName="ORDEREDITEM">
+        <createTable tableName="ORDERITEM">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -185,7 +185,7 @@
             <column name="ITEMID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="QUANITY" type="NUMERIC" defaultValue="0">
+            <column name="QUANTITY" type="NUMERIC" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
             <column name="DISCOUNT" type="NUMERIC" defaultValue="0"/>
@@ -209,12 +209,12 @@
                         sequenceName="order_item_seq_id"
                         startValue="1"/>
 
-        <addForeignKeyConstraint baseTableName="ORDEREDITEM" baseColumnNames="ORDERID"
+        <addForeignKeyConstraint baseTableName="ORDERITEM" baseColumnNames="ORDERID"
                                  constraintName="ORDERITEM_ORDER_ID_FK"
                                  referencedTableName="RESTAURANTORDER"
                                  referencedColumnNames="ID"/>
 
-        <addForeignKeyConstraint baseTableName="ORDEREDITEM" baseColumnNames="ITEMID"
+        <addForeignKeyConstraint baseTableName="ORDERITEM" baseColumnNames="ITEMID"
                                  constraintName="ORDERITEM_ITEM_ID_FK"
                                  referencedTableName="ITEM"
                                  referencedColumnNames="ID"/>

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Entity
-@Table(name = "ORDEREDITEM")
+@Table(name = "ORDERITEM")
 @Data
 public class OrderItem {
 
