@@ -1,10 +1,12 @@
 package com.rightminds.biller.service;
 
+import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.entity.OrderItem;
 import com.rightminds.biller.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -13,8 +15,13 @@ public class OrderItemService {
     @Autowired
     private OrderItemRepository repository;
 
+    @Autowired
+    private ItemService itemService;
+
     public void save(OrderItem orderItem) {
-        repository.save(orderItem);
+        BigDecimal total = getTotal(orderItem);
+        OrderItem updatedOrderItem = orderItem.withTotal(total);
+        repository.save(updatedOrderItem);
     }
 
     public OrderItem getById(Integer id) {
@@ -23,5 +30,11 @@ public class OrderItemService {
 
     public List<OrderItem> getAll() {
         return (List<OrderItem>) repository.findAll();
+    }
+
+    private BigDecimal getTotal(OrderItem orderItem) {
+        Item item = itemService.findById(orderItem.getItem().getId());
+        BigDecimal total = item.getPrice().multiply(orderItem.getQuantity());
+        return total.subtract(orderItem.getDiscount());
     }
 }

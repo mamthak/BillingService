@@ -20,4 +20,8 @@ public class ItemService {
     public List<Item> getAll() {
         return (List<Item>) repository.findAll();
     }
+
+    public Item findById(Integer id) {
+        return repository.findById(id);
+    }
 }

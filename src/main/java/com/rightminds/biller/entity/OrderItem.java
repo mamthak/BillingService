@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rightminds.biller.util.CastUtil;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,6 +24,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "ORDERID", referencedColumnName = "ID")
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
@@ -45,6 +47,10 @@ public class OrderItem {
     @LastModifiedDate
     @Column(name = "LASTMODIFIEDON")
     private Date lastModifiedOn;
+
+    public OrderItem() {
+
+    }
 
     public OrderItem(Order order, Item item, BigDecimal quantity, BigDecimal discount, BigDecimal total) {
         this.order = order;
@@ -80,6 +86,10 @@ public class OrderItem {
         BigDecimal total = CastUtil.getBigDecimal(map.get("total"));
         Order order = map.get("order") != null ? Order.fromMap((Map) map.get("order")) : null;
         Item item = map.get("item") != null ? Item.fromMap((Map) map.get("item")) : null;
+        return new OrderItem(order, item, quantity, discount, total);
+    }
+
+    public OrderItem withTotal(BigDecimal total) {
         return new OrderItem(order, item, quantity, discount, total);
     }
 }

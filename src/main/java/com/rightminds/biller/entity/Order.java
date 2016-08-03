@@ -1,12 +1,15 @@
 package com.rightminds.biller.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static com.rightminds.biller.util.CastUtil.*;
@@ -58,6 +61,13 @@ public class Order {
     @Column(name = "LASTMODIFIEDON")
     private Date lastModifiedOn;
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    public Order() {
+
+    }
+
     public Order(Customer customer, String name, BigDecimal serviceCharge,
                  BigDecimal serviceTax, BigDecimal subTotal, BigDecimal total, BigDecimal cash,
                  BigDecimal card, boolean status) {
@@ -71,6 +81,7 @@ public class Order {
         this.card = card;
         this.status = status;
     }
+
     public Order(Integer id, Customer customer, String name, BigDecimal serviceCharge, BigDecimal serviceTax,
                  BigDecimal subTotal, BigDecimal total, BigDecimal cash, BigDecimal card, boolean status) {
         this(customer, name, serviceCharge, serviceTax, subTotal, total, cash, card, status);

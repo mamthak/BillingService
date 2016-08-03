@@ -65,6 +65,11 @@ public class Item {
         this(name, description, price, category, false, 0);
     }
 
+    public Item(Integer id, String name, String description, BigDecimal amount, Category category, boolean isInventory, Integer quantity) {
+        this(name, description, amount, category, isInventory, quantity);
+        this.id = id;
+    }
+
     @PrePersist
     protected void onCreate() {
         setCreatedOn();
@@ -85,14 +90,16 @@ public class Item {
     }
 
     public static Item fromMap(Map map) {
+        Integer id = getInteger(map.get("id"));
         String name = getString(map.get("name"));
         String description = getString(map.get("description"));
         BigDecimal amount = getBigDecimal(map.get("price"));
         Category category = map.get("category") != null ? Category.fromMap((Map) map.get("category")) : null;
         boolean isInventory = getBoolean(map.get("isInventory"));
         Integer quantity = getInteger(map.get("quantity"));
-
-        return new Item(name, description, amount, category, isInventory, quantity);
+        if (id == null)
+            return new Item(name, description, amount, category, isInventory, quantity);
+        return new Item(id, name, description, amount, category, isInventory, quantity);
     }
 
 }
