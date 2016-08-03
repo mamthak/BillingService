@@ -3,6 +3,8 @@ package com.rightminds.biller.service;
 import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.entity.OrderItem;
 import com.rightminds.biller.repository.OrderItemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Service
 public class OrderItemService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderItemService.class);
 
     @Autowired
     private OrderItemRepository repository;
@@ -34,6 +38,7 @@ public class OrderItemService {
 
     private BigDecimal getTotal(OrderItem orderItem) {
         Item item = itemService.findById(orderItem.getItem().getId());
+        LOGGER.debug("Fetched the item {}", item);
         BigDecimal total = item.getPrice().multiply(orderItem.getQuantity());
         return total.subtract(orderItem.getDiscount());
     }
