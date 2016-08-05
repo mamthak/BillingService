@@ -219,5 +219,9 @@
                                  referencedTableName="ITEM"
                                  referencedColumnNames="ID"/>
     </changeSet>
+    
+    <changeSet id="201606081232" author="Thiru">
+        <modifyDataType tableName="RESTAURANTORDER" columnName="STATUS" newDataType="varchar(255)"/>
+    </changeSet>
 
 </databaseChangeLog>

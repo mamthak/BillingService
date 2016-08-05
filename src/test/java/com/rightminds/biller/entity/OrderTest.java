@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.rightminds.biller.model.OrderStatus;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ public class OrderTest {
         map.put("total", "110");
         map.put("cash", "50");
         map.put("card", "60");
-        map.put("status", "true");
+        map.put("status", "IN_PROGRESS");
         HashMap<String, String> customer = new HashMap<String, String>() {{
             put("id", "1");
         }};
@@ -35,7 +36,7 @@ public class OrderTest {
         assertThat(order.getTotal(), is(new BigDecimal(110)));
         assertThat(order.getCash(), is(new BigDecimal(50)));
         assertThat(order.getCard(), is(new BigDecimal(60)));
-        assertThat(order.isStatus(), is(true));
+        assertThat(order.getStatus(), is(OrderStatus.IN_PROGRESS));
         assertThat(order.getCustomer(), is(Customer.fromMap(customer)));
 
     }

@@ -3,6 +3,7 @@ package com.rightminds.biller.service;
 import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
 import com.rightminds.biller.entity.Order;
+import com.rightminds.biller.model.OrderStatus;
 import com.rightminds.biller.repository.CategoryRepository;
 import com.rightminds.biller.repository.OrderRepository;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 
 import java.math.BigDecimal;
 
+import static com.rightminds.biller.model.OrderStatus.IN_PROGRESS;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,7 +34,7 @@ public class OrderServiceTest {
 
     @Test
     public void saveShouldSaveTheOrder() throws Exception {
-        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), false);
+        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
 
         orderService.save(order);
 
@@ -41,7 +43,7 @@ public class OrderServiceTest {
 
     @Test
     public void getShouldReturnOrderBasedOnTheIdValue() throws Exception {
-        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), false);
+        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         when(repository.findOne(any())).thenReturn(order);
 
         orderService.getById(1);

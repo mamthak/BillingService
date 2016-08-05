@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.rightminds.biller.model.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -51,7 +52,7 @@ public class Order {
     private BigDecimal card;
 
     @Column(name = "STATUS")
-    private boolean status;
+    private OrderStatus status;
 
     @CreatedDate
     @Column(name = "CREATEDON")
@@ -70,7 +71,7 @@ public class Order {
 
     public Order(Customer customer, String name, BigDecimal serviceCharge,
                  BigDecimal serviceTax, BigDecimal subTotal, BigDecimal total, BigDecimal cash,
-                 BigDecimal card, boolean status) {
+                 BigDecimal card, OrderStatus status) {
         this.customer = customer;
         this.name = name;
         this.serviceCharge = serviceCharge;
@@ -83,7 +84,7 @@ public class Order {
     }
 
     public Order(Integer id, Customer customer, String name, BigDecimal serviceCharge, BigDecimal serviceTax,
-                 BigDecimal subTotal, BigDecimal total, BigDecimal cash, BigDecimal card, boolean status) {
+                 BigDecimal subTotal, BigDecimal total, BigDecimal cash, BigDecimal card, OrderStatus status) {
         this(customer, name, serviceCharge, serviceTax, subTotal, total, cash, card, status);
         this.id = id;
     }
@@ -117,7 +118,7 @@ public class Order {
         BigDecimal total = getBigDecimal(map.get("total"));
         BigDecimal cash = getBigDecimal(map.get("cash"));
         BigDecimal card = getBigDecimal(map.get("card"));
-        boolean status = getBoolean(map.get("status"));
+        OrderStatus status = map.get("status") != null ? OrderStatus.valueOf(getString(map.get("status"))) : null;
         Integer id = getInteger(map.get("id"));
         if (id == null) {
             return new Order(customer, name, serviceCharge, serviceTax, subTotal, total, cash, card, status);

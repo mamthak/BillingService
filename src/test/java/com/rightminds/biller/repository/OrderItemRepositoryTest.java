@@ -2,6 +2,7 @@ package com.rightminds.biller.repository;
 
 import com.rightminds.biller.BillingServiceApplication;
 import com.rightminds.biller.entity.*;
+import com.rightminds.biller.model.OrderStatus;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
+import static com.rightminds.biller.model.OrderStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
 
 
@@ -43,7 +45,7 @@ public class OrderItemRepositoryTest {
     public void findByIdShouldReturnTheOrderItem() throws Exception {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
-        Order order = new Order(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), false);
+        Order order = new Order(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         orderRepository.save(order);
         Category category = categoryRepository.save(new Category("Coke", "Cool drink"));
         Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);

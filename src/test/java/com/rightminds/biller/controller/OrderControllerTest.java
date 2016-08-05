@@ -3,6 +3,7 @@ package com.rightminds.biller.controller;
 import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
 import com.rightminds.biller.entity.Order;
+import com.rightminds.biller.model.OrderStatus;
 import com.rightminds.biller.service.OrderService;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import static com.rightminds.biller.model.OrderStatus.IN_PROGRESS;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
@@ -43,7 +45,7 @@ public class OrderControllerTest {
         map.put("total", "110");
         map.put("cash", "50");
         map.put("card", "60");
-        map.put("status", "true");
+        map.put("status", "COMPLETED");
         HashMap<String, String> customer = new HashMap<String, String>() {{
             put("id", "1");
         }};
@@ -58,7 +60,7 @@ public class OrderControllerTest {
 
     @Test
     public void getShouldReturnOrderBasedOnTheIdValue() throws Exception {
-        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), false);
+        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         when(orderService.getById(any())).thenReturn(order);
 
         orderController.get(1);
@@ -68,7 +70,7 @@ public class OrderControllerTest {
 
     @Test
     public void getAllShouldReturnAllOrderItems() throws Exception {
-        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), false);
+        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         when(orderService.getById(any())).thenReturn(order);
 
         orderController.getAll();

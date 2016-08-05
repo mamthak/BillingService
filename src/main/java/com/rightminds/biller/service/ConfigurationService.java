@@ -21,7 +21,6 @@ public class ConfigurationService {
         return repository.findById(id);
     }
 
-
     public List<Configuration> getAll() {
         return (List<Configuration>) repository.findAll();
     }
