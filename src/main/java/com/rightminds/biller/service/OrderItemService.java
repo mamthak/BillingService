@@ -37,7 +37,7 @@ public class OrderItemService {
     }
 
     private BigDecimal getTotal(OrderItem orderItem) {
-        Item item = itemService.findById(orderItem.getItem().getId());
+        Item item = itemService.getById(orderItem.getItem().getId());
         LOGGER.debug("Fetched the item {}", item);
         BigDecimal total = item.getPrice().multiply(orderItem.getQuantity());
         return total.subtract(orderItem.getDiscount());

@@ -21,7 +21,8 @@ public class ItemService {
         return (List<Item>) repository.findAll();
     }
 
-    public Item findById(Integer id) {
+    public Item getById(Integer id) {
         return repository.findById(id);
     }
+
 }

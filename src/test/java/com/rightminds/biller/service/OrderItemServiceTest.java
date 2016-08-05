@@ -39,7 +39,7 @@ public class OrderItemServiceTest {
     public void saveShouldFetchThePriceOfItemAndComputeTotalAndSave() throws Exception {
         Item itemFromMap = new Item(1, null, null, null, null, false, 0);
         Item item = new Item(1, "Coke", "Cool Drink", BigDecimal.TEN, new Category(), false, 15);
-        when(itemService.findById(any())).thenReturn(item);
+        when(itemService.getById(any())).thenReturn(item);
         OrderItem orderItemFromMap = new OrderItem(null, itemFromMap, BigDecimal.ONE, BigDecimal.ZERO, null);
 
         service.save(orderItemFromMap);
@@ -53,7 +53,7 @@ public class OrderItemServiceTest {
     public void saveShouldFetchThePriceOfItemAndComputeTotalWithDeductingDiscountAndSave() throws Exception {
         Item itemFromMap = new Item(1, null, null, null, null, false, 0);
         Item item = new Item(1, "Coke", "Cool Drink", BigDecimal.TEN, new Category(), false, 15);
-        when(itemService.findById(any())).thenReturn(item);
+        when(itemService.getById(any())).thenReturn(item);
         OrderItem orderItemFromMap = new OrderItem(null, itemFromMap, BigDecimal.ONE, new BigDecimal(2), null);
 
         service.save(orderItemFromMap);

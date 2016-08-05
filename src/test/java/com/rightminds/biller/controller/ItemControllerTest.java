@@ -1,5 +1,6 @@
 package com.rightminds.biller.controller;
 
+import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.service.ItemService;
 import org.junit.Before;
@@ -15,6 +16,7 @@ import java.util.Map;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ItemControllerTest {
@@ -44,6 +46,18 @@ public class ItemControllerTest {
         assertThat(argumentCaptor.getValue().getName(), is("Coke"));
         assertThat(argumentCaptor.getValue().getDescription(), is("Cool drink"));
         assertThat(argumentCaptor.getValue().getPrice(), is(new BigDecimal(30)));
+    }
+
+    @Test
+    public void getByIdShouldReturnItemBasedOnId() throws Exception {
+        Category category = new Category("Coke", "Cool drink");
+        Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
+        when(itemService.getById(1)).thenReturn(item);
+
+        Item actualItem = itemController.get(1);
+
+        verify(itemService).getById(1);
+        assertThat(actualItem, is(item));
     }
 
     @Test
