@@ -1,9 +1,8 @@
 package com.rightminds.biller.controller;
 
-import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
 import com.rightminds.biller.entity.Order;
-import com.rightminds.biller.model.OrderStatus;
+import com.rightminds.biller.service.BillingService;
 import com.rightminds.biller.service.OrderService;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +28,9 @@ public class OrderControllerTest {
 
     @Mock
     private OrderService orderService;
+
+    @Mock
+    private BillingService billingService;
 
     @Before
     public void setUp() throws Exception {
@@ -76,5 +78,28 @@ public class OrderControllerTest {
         orderController.getAll();
 
         verify(orderService).getAll();
+    }
+
+    @Test
+    public void processOrderShouldConfirmTheOrder() throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", "order 1");
+        map.put("serviceCharge", "1");
+        map.put("serviceTax", "2");
+        map.put("subTotal", "10");
+        map.put("total", "110");
+        map.put("cash", "50");
+        map.put("card", "60");
+        map.put("status", "COMPLETED");
+        HashMap<String, String> customer = new HashMap<String, String>() {{
+            put("id", "1");
+        }};
+        map.put("customer", customer);
+
+        orderController.processOrder(map);
+
+        ArgumentCaptor<Order> argumentCaptor = ArgumentCaptor.forClass(Order.class);
+        verify(billingService).processBill(argumentCaptor.capture());
+        assertThat(argumentCaptor.getValue().getName(), is("order 1"));
     }
 }

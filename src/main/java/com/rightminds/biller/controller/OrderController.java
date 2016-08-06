@@ -1,6 +1,7 @@
 package com.rightminds.biller.controller;
 
 import com.rightminds.biller.entity.Order;
+import com.rightminds.biller.service.BillingService;
 import com.rightminds.biller.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BillingService billingService;
 
     @RequestMapping(value = "save", method = POST, consumes = "application/json")
     public void save(@RequestBody Map request) {
@@ -41,5 +46,11 @@ public class OrderController {
     @RequestMapping(value = "", method = GET, produces = "application/json")
     public List<Order> getAll() {
         return orderService.getAll();
+    }
+
+    @RequestMapping(value = "process", method = POST, consumes = "application/json")
+    public void processOrder(HashMap<String, Object> request) {
+        Order order = Order.fromMap(request);
+        billingService.processBill(order);
     }
 }

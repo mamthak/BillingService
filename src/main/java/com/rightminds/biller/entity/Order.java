@@ -1,7 +1,6 @@
 package com.rightminds.biller.entity;
 
 import com.rightminds.biller.model.OrderStatus;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static com.rightminds.biller.model.OrderStatus.COMPLETED;
 import static com.rightminds.biller.util.CastUtil.*;
 
 @Entity
@@ -129,5 +129,9 @@ public class Order {
             return new Order(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
         }
         return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
+    }
+
+    public Order withTotalAndCompletedStatus(BigDecimal total) {
+        return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, COMPLETED);
     }
 }
