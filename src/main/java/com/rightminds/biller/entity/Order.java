@@ -131,7 +131,7 @@ public class Order {
         return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
     }
 
-    public Order withTotalAndCompletedStatus(BigDecimal total) {
+    public Order withComputedValues(BigDecimal serviceCharge, BigDecimal serviceTax, BigDecimal total) {
         return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, COMPLETED);
     }
 }
