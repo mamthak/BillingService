@@ -39,7 +39,7 @@ public class OrderRepositoryTest {
     public void findByIdShouldReturnTheOrder() throws Exception {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
-        Order order = new Order(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Order order = new Order(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         Order savedItem = repository.save(order);
 
         Order fromRepository = repository.findById(savedItem.getId());

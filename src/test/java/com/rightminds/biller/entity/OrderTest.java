@@ -18,6 +18,7 @@ public class OrderTest {
         map.put("serviceCharge", "1");
         map.put("serviceTax", "2");
         map.put("subTotal", "10");
+        map.put("discount", "5");
         map.put("total", "110");
         map.put("cash", "50");
         map.put("card", "60");
@@ -33,6 +34,7 @@ public class OrderTest {
         assertThat(order.getServiceCharge(), is(new BigDecimal(1)));
         assertThat(order.getServiceTax(), is(new BigDecimal(2)));
         assertThat(order.getSubTotal(), is(new BigDecimal(10)));
+        assertThat(order.getDiscount(), is(new BigDecimal(5)));
         assertThat(order.getTotal(), is(new BigDecimal(110)));
         assertThat(order.getCash(), is(new BigDecimal(50)));
         assertThat(order.getCard(), is(new BigDecimal(60)));

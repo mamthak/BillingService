@@ -60,7 +60,7 @@ public class OrderControllerTest {
 
     @Test
     public void getShouldReturnOrderBasedOnTheIdValue() throws Exception {
-        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         when(orderService.getById(any())).thenReturn(order);
 
         orderController.get(1);
@@ -70,7 +70,7 @@ public class OrderControllerTest {
 
     @Test
     public void getAllShouldReturnAllOrderItems() throws Exception {
-        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Order order = new Order(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         when(orderService.getById(any())).thenReturn(order);
 
         orderController.getAll();

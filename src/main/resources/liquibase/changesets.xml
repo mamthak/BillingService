@@ -224,4 +224,10 @@
         <modifyDataType tableName="RESTAURANTORDER" columnName="STATUS" newDataType="varchar(255)"/>
     </changeSet>
 
+    <changeSet id="201608060956" author="Thiru">
+        <addColumn tableName="RESTAURANTORDER">
+            <column name="DISCOUNT" type="NUMERIC"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

@@ -42,6 +42,9 @@ public class Order {
     @Column(name = "SUBTOTAL")
     private BigDecimal subTotal;
 
+    @Column(name = "DISCOUNT")
+    private BigDecimal discount;
+
     @Column(name = "TOTAL")
     private BigDecimal total;
 
@@ -70,13 +73,14 @@ public class Order {
     }
 
     public Order(Customer customer, String name, BigDecimal serviceCharge,
-                 BigDecimal serviceTax, BigDecimal subTotal, BigDecimal total, BigDecimal cash,
+                 BigDecimal serviceTax, BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash,
                  BigDecimal card, OrderStatus status) {
         this.customer = customer;
         this.name = name;
         this.serviceCharge = serviceCharge;
         this.serviceTax = serviceTax;
         this.subTotal = subTotal;
+        this.discount = discount;
         this.total = total;
         this.cash = cash;
         this.card = card;
@@ -84,8 +88,8 @@ public class Order {
     }
 
     public Order(Integer id, Customer customer, String name, BigDecimal serviceCharge, BigDecimal serviceTax,
-                 BigDecimal subTotal, BigDecimal total, BigDecimal cash, BigDecimal card, OrderStatus status) {
-        this(customer, name, serviceCharge, serviceTax, subTotal, total, cash, card, status);
+                 BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash, BigDecimal card, OrderStatus status) {
+        this(customer, name, serviceCharge, serviceTax, discount, subTotal, total, cash, card, status);
         this.id = id;
     }
 
@@ -115,14 +119,15 @@ public class Order {
         BigDecimal serviceCharge = getBigDecimal(map.get("serviceCharge"));
         BigDecimal serviceTax = getBigDecimal(map.get("serviceTax"));
         BigDecimal subTotal = getBigDecimal(map.get("subTotal"));
+        BigDecimal discount = getBigDecimal(map.get("discount"));
         BigDecimal total = getBigDecimal(map.get("total"));
         BigDecimal cash = getBigDecimal(map.get("cash"));
         BigDecimal card = getBigDecimal(map.get("card"));
-        OrderStatus status = map.get("status") != null ? OrderStatus.valueOf(getString(map.get("status"))) : null;
+        OrderStatus status = map.get("status") != null ? OrderStatus.valueOf(getString(map.get("status")).toUpperCase()) : null;
         Integer id = getInteger(map.get("id"));
         if (id == null) {
-            return new Order(customer, name, serviceCharge, serviceTax, subTotal, total, cash, card, status);
+            return new Order(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
         }
-        return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, total, cash, card, status);
+        return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
     }
 }
