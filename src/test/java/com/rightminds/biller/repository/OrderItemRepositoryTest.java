@@ -2,7 +2,6 @@ package com.rightminds.biller.repository;
 
 import com.rightminds.biller.BillingServiceApplication;
 import com.rightminds.biller.entity.*;
-import com.rightminds.biller.model.OrderStatus;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

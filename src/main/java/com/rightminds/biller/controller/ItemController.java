@@ -1,6 +1,5 @@
 package com.rightminds.biller.controller;
 
-import com.rightminds.biller.entity.Customer;
 import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;

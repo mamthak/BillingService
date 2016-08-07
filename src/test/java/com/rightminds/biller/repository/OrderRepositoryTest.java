@@ -1,10 +1,8 @@
 package com.rightminds.biller.repository;
 
 import com.rightminds.biller.BillingServiceApplication;
-import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
 import com.rightminds.biller.entity.Order;
-import com.rightminds.biller.model.OrderStatus;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
-
 import java.math.BigDecimal;
 
 import static com.rightminds.biller.model.OrderStatus.IN_PROGRESS;

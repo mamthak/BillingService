@@ -1,10 +1,7 @@
 package com.rightminds.biller.service;
 
-import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Customer;
 import com.rightminds.biller.entity.Order;
-import com.rightminds.biller.model.OrderStatus;
-import com.rightminds.biller.repository.CategoryRepository;
 import com.rightminds.biller.repository.OrderRepository;
 import org.junit.Before;
 import org.junit.Test;
