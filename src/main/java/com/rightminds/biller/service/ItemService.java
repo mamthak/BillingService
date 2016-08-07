@@ -25,4 +25,13 @@ public class ItemService {
         return repository.findById(id);
     }
 
+
+    public void reduceInventoryCount(Item item, int quantity) {
+        item = repository.findById(item.getId());
+
+        if (item.isInventory()) {
+            Item updatedItem = item.withUpdatedQuantity(quantity);
+            repository.save(updatedItem);
+        }
+    }
 }

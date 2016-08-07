@@ -5,6 +5,7 @@ import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.repository.ItemRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -14,7 +15,9 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -52,5 +55,30 @@ public class ItemServiceTest {
         verify(repository).findAll();
         assertThat(items, is(Arrays.asList(item)));
 
+    }
+
+    @Test
+    public void reduceInventoryCountShouldSubtractTheQuantityOfTheInventory() throws Exception {
+        Category category = new Category("Coke", "Cool drink");
+        Item item = new Item(1, "Coke", "Cool drink", BigDecimal.ONE, category, true, 10);
+        when(repository.findById(any())).thenReturn(item);
+
+        itemService.reduceInventoryCount(item, 2);
+
+        ArgumentCaptor<Item> captor = ArgumentCaptor.forClass(Item.class);
+        verify(repository).save(captor.capture());
+        assertThat(captor.getValue().getQuantity(), is(8));
+    }
+
+    @Test
+    public void reduceInventoryCountShouldDeductTheQuantityOnlyIfTheItemIsAnInventoryItem() throws Exception {
+        Category category = new Category("Coke", "Cool drink");
+        Item item = new Item(1, "Coke", "Cool drink", BigDecimal.ONE, category, false, 0);
+        when(repository.findById(any())).thenReturn(item);
+
+        itemService.reduceInventoryCount(item, 2);
+
+        verify(repository).findById(1);
+        verifyNoMoreInteractions(repository);
     }
 }

@@ -27,7 +27,7 @@ public class OrderItemTest {
 
         OrderItem orderItem = OrderItem.fromMap(map);
 
-        assertThat(orderItem.getQuantity(), is(new BigDecimal(12)));
+        assertThat(orderItem.getQuantity(), is(12));
         assertThat(orderItem.getTotal(), is(new BigDecimal(120)));
         assertThat(orderItem.getDiscount(), is(new BigDecimal(0.5)));
         assertThat(orderItem.getOrder(), is(Order.fromMap(order)));

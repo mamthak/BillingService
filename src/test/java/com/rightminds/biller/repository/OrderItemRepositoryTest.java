@@ -51,7 +51,7 @@ public class OrderItemRepositoryTest {
         Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
         itemRepository.save(item);
 
-        OrderItem orderItem = new OrderItem(order, item, BigDecimal.ONE, new BigDecimal(1), new BigDecimal(10));
+        OrderItem orderItem = new OrderItem(order, item, 1, new BigDecimal(1), new BigDecimal(10));
         OrderItem savedItem = repository.save(orderItem);
 
         OrderItem fromRepository = repository.findById(savedItem.getId());

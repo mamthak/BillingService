@@ -65,6 +65,11 @@ public class Item {
         this(name, description, price, category, false, 0);
     }
 
+    public Item(Integer id, String name, String description, BigDecimal price, Category category) {
+        this(name, description, price, category, false, 0);
+        this.id = id;
+    }
+
     public Item(Integer id, String name, String description, BigDecimal amount, Category category, boolean isInventory, Integer quantity) {
         this(name, description, amount, category, isInventory, quantity);
         this.id = id;
@@ -100,6 +105,11 @@ public class Item {
         if (id == null)
             return new Item(name, description, amount, category, isInventory, quantity);
         return new Item(id, name, description, amount, category, isInventory, quantity);
+    }
+
+    public Item withUpdatedQuantity(int quantity) {
+        int updatedQuantity = this.quantity - quantity;
+        return new Item(id, name, description, price, category, true, updatedQuantity);
     }
 
 }

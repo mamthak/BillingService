@@ -32,7 +32,7 @@ public class OrderItem {
     private Item item;
 
     @Column(name = "QUANTITY")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     @Column(name = "DISCOUNT")
     private BigDecimal discount;
@@ -52,7 +52,7 @@ public class OrderItem {
 
     }
 
-    public OrderItem(Order order, Item item, BigDecimal quantity, BigDecimal discount, BigDecimal total) {
+    public OrderItem(Order order, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
         this.order = order;
         this.item = item;
         this.quantity = quantity;
@@ -81,7 +81,7 @@ public class OrderItem {
 
 
     public static OrderItem fromMap(Map<String, Object> map) {
-        BigDecimal quantity = CastUtil.getBigDecimal(map.get("quantity"));
+        Integer quantity = CastUtil.getInteger(map.get("quantity"));
         BigDecimal discount = CastUtil.getBigDecimal(map.get("discount"));
         BigDecimal total = CastUtil.getBigDecimal(map.get("total"));
         Order order = map.get("order") != null ? Order.fromMap((Map) map.get("order")) : null;
