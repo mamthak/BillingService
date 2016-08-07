@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.Map;
 
 @Entity
-@Table(name = "ORDERITEM")
+@Table(name = "BILLITEM")
 @Data
-public class OrderItem {
+public class BillItem {
 
     @Id
     @Column(name = "ID")
@@ -23,9 +23,9 @@ public class OrderItem {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "ORDERID", referencedColumnName = "ID")
+    @JoinColumn(name = "BILLID", referencedColumnName = "ID")
     @JsonIgnore
-    private Order order;
+    private Bill bill;
 
     @ManyToOne
     @JoinColumn(name = "ITEMID", referencedColumnName = "ID")
@@ -48,12 +48,12 @@ public class OrderItem {
     @Column(name = "LASTMODIFIEDON")
     private Date lastModifiedOn;
 
-    public OrderItem() {
+    public BillItem() {
 
     }
 
-    public OrderItem(Order order, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
-        this.order = order;
+    public BillItem(Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
+        this.bill = bill;
         this.item = item;
         this.quantity = quantity;
         this.discount = discount;
@@ -80,16 +80,16 @@ public class OrderItem {
     }
 
 
-    public static OrderItem fromMap(Map<String, Object> map) {
+    public static BillItem fromMap(Map<String, Object> map) {
         Integer quantity = CastUtil.getInteger(map.get("quantity"));
         BigDecimal discount = CastUtil.getBigDecimal(map.get("discount"));
         BigDecimal total = CastUtil.getBigDecimal(map.get("total"));
-        Order order = map.get("order") != null ? Order.fromMap((Map) map.get("order")) : null;
+        Bill bill = map.get("order") != null ? Bill.fromMap((Map) map.get("order")) : null;
         Item item = map.get("item") != null ? Item.fromMap((Map) map.get("item")) : null;
-        return new OrderItem(order, item, quantity, discount, total);
+        return new BillItem(bill, item, quantity, discount, total);
     }
 
-    public OrderItem withTotal(BigDecimal total) {
-        return new OrderItem(order, item, quantity, discount, total);
+    public BillItem withTotal(BigDecimal total) {
+        return new BillItem(bill, item, quantity, discount, total);
     }
 }

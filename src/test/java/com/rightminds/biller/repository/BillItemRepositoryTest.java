@@ -14,7 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
-import static com.rightminds.biller.model.OrderStatus.IN_PROGRESS;
+import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
 
 
@@ -23,16 +23,16 @@ import static org.hamcrest.core.Is.is;
 @Rollback
 @SpringApplicationConfiguration(classes = BillingServiceApplication.class)
 @WebAppConfiguration
-public class OrderItemRepositoryTest {
+public class BillItemRepositoryTest {
 
     @Autowired
-    private OrderItemRepository repository;
+    private BillItemRepository repository;
 
     @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private BillRepository billRepository;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -44,16 +44,16 @@ public class OrderItemRepositoryTest {
     public void findByIdShouldReturnTheOrderItem() throws Exception {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
-        Order order = new Order(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
-        orderRepository.save(order);
+        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        billRepository.save(bill);
         Category category = categoryRepository.save(new Category("Coke", "Cool drink"));
         Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
         itemRepository.save(item);
 
-        OrderItem orderItem = new OrderItem(order, item, 1, new BigDecimal(1), new BigDecimal(10));
-        OrderItem savedItem = repository.save(orderItem);
+        BillItem billItem = new BillItem(bill, item, 1, new BigDecimal(1), new BigDecimal(10));
+        BillItem savedItem = repository.save(billItem);
 
-        OrderItem fromRepository = repository.findById(savedItem.getId());
+        BillItem fromRepository = repository.findById(savedItem.getId());
         Assert.assertThat(fromRepository, is(savedItem));
     }
 }

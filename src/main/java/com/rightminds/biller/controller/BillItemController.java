@@ -1,7 +1,7 @@
 package com.rightminds.biller.controller;
 
-import com.rightminds.biller.entity.OrderItem;
-import com.rightminds.biller.service.OrderItemService;
+import com.rightminds.biller.entity.BillItem;
+import com.rightminds.biller.service.BillItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,25 +15,25 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping("/orderItem")
-public class OrderItemController {
+@RequestMapping("/billItem")
+public class BillItemController {
 
     @Autowired
-    private OrderItemService orderItemService;
+    private BillItemService billItemService;
 
     @RequestMapping(value = "save", method = POST, consumes = "application/json")
     public void save(@RequestBody Map request) {
-        OrderItem order = OrderItem.fromMap(request);
-        orderItemService.save(order);
+        BillItem order = BillItem.fromMap(request);
+        billItemService.save(order);
     }
 
     @RequestMapping(value = "", method = GET, params = "id", produces = "application/json")
-    public OrderItem get(@PathParam(value = "id") Integer id) {
-        return orderItemService.getById(id);
+    public BillItem get(@PathParam(value = "id") Integer id) {
+        return billItemService.getById(id);
     }
 
     @RequestMapping(value = "", method = GET, produces = "application/json")
-    public List<OrderItem> getAll() {
-        return orderItemService.getAll();
+    public List<BillItem> getAll() {
+        return billItemService.getAll();
     }
 }

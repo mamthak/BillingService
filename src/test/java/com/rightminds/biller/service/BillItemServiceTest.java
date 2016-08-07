@@ -1,9 +1,9 @@
 package com.rightminds.biller.service;
 
+import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.entity.Item;
-import com.rightminds.biller.entity.OrderItem;
-import com.rightminds.biller.repository.OrderItemRepository;
+import com.rightminds.biller.repository.BillItemRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,16 +19,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class OrderItemServiceTest {
+public class BillItemServiceTest {
 
     @InjectMocks
-    private OrderItemService service;
+    private BillItemService service;
 
     @Mock
     private ItemService itemService;
 
     @Mock
-    private OrderItemRepository repository;
+    private BillItemRepository repository;
 
     @Before
     public void setUp() throws Exception {
@@ -40,11 +40,11 @@ public class OrderItemServiceTest {
         Item itemFromMap = new Item(1, null, null, null, null, false, 0);
         Item item = new Item(1, "Coke", "Cool Drink", BigDecimal.TEN, new Category(), false, 15);
         when(itemService.getById(any())).thenReturn(item);
-        OrderItem orderItemFromMap = new OrderItem(null, itemFromMap, 1, BigDecimal.ZERO, null);
+        BillItem billItemFromMap = new BillItem(null, itemFromMap, 1, BigDecimal.ZERO, null);
 
-        service.save(orderItemFromMap);
+        service.save(billItemFromMap);
 
-        ArgumentCaptor<OrderItem> captor = ArgumentCaptor.forClass(OrderItem.class);
+        ArgumentCaptor<BillItem> captor = ArgumentCaptor.forClass(BillItem.class);
         verify(repository).save(captor.capture());
         assertThat(captor.getValue().getTotal(), is(BigDecimal.TEN));
     }
@@ -54,11 +54,11 @@ public class OrderItemServiceTest {
         Item itemFromMap = new Item(1, null, null, null, null, false, 0);
         Item item = new Item(1, "Coke", "Cool Drink", BigDecimal.TEN, new Category(), false, 15);
         when(itemService.getById(any())).thenReturn(item);
-        OrderItem orderItemFromMap = new OrderItem(null, itemFromMap, 1, new BigDecimal(2), null);
+        BillItem billItemFromMap = new BillItem(null, itemFromMap, 1, new BigDecimal(2), null);
 
-        service.save(orderItemFromMap);
+        service.save(billItemFromMap);
 
-        ArgumentCaptor<OrderItem> captor = ArgumentCaptor.forClass(OrderItem.class);
+        ArgumentCaptor<BillItem> captor = ArgumentCaptor.forClass(BillItem.class);
         verify(repository).save(captor.capture());
         assertThat(captor.getValue().getTotal(), is(new BigDecimal(8)));
     }

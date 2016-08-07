@@ -229,5 +229,11 @@
             <column name="DISCOUNT" type="NUMERIC"/>
         </addColumn>
     </changeSet>
+    
+    <changeSet id="201608070632" author="Thiru">
+        <renameTable oldTableName="RESTAURANTORDER" newTableName="BILL"/>
+        <renameTable oldTableName="ORDERITEM" newTableName="BILLITEM"/>
+        <renameColumn tableName="BILLITEM" oldColumnName="ORDERID" newColumnName="BILLID"/>
+    </changeSet>
 
 </databaseChangeLog>

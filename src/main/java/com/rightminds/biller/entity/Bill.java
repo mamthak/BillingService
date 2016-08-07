@@ -1,6 +1,6 @@
 package com.rightminds.biller.entity;
 
-import com.rightminds.biller.model.OrderStatus;
+import com.rightminds.biller.model.BillStatus;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,13 +12,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.rightminds.biller.model.OrderStatus.COMPLETED;
+import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.util.CastUtil.*;
 
 @Entity
-@Table(name = "RESTAURANTORDER")
+@Table(name = "BILL")
 @Data
-public class Order {
+public class Bill {
 
     @Id
     @Column(name = "ID")
@@ -55,7 +55,7 @@ public class Order {
     private BigDecimal card;
 
     @Column(name = "STATUS")
-    private OrderStatus status;
+    private BillStatus status;
 
     @CreatedDate
     @Column(name = "CREATEDON")
@@ -65,16 +65,16 @@ public class Order {
     @Column(name = "LASTMODIFIEDON")
     private Date lastModifiedOn;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    @OneToMany(mappedBy = "bill", fetch = FetchType.EAGER)
+    private List<BillItem> billItems = new ArrayList<>();
 
-    public Order() {
+    public Bill() {
 
     }
 
-    public Order(Customer customer, String name, BigDecimal serviceCharge,
-                 BigDecimal serviceTax, BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash,
-                 BigDecimal card, OrderStatus status) {
+    public Bill(Customer customer, String name, BigDecimal serviceCharge,
+                BigDecimal serviceTax, BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash,
+                BigDecimal card, BillStatus status) {
         this.customer = customer;
         this.name = name;
         this.serviceCharge = serviceCharge;
@@ -87,8 +87,8 @@ public class Order {
         this.status = status;
     }
 
-    public Order(Integer id, Customer customer, String name, BigDecimal serviceCharge, BigDecimal serviceTax,
-                 BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash, BigDecimal card, OrderStatus status) {
+    public Bill(Integer id, Customer customer, String name, BigDecimal serviceCharge, BigDecimal serviceTax,
+                BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash, BigDecimal card, BillStatus status) {
         this(customer, name, serviceCharge, serviceTax, discount, subTotal, total, cash, card, status);
         this.id = id;
     }
@@ -113,7 +113,7 @@ public class Order {
     }
 
 
-    public static Order fromMap(Map map) {
+    public static Bill fromMap(Map map) {
         Customer customer = map.get("customer") != null ? Customer.fromMap((Map) map.get("customer")) : null;
         String name = getString(map.get("name"));
         BigDecimal serviceCharge = getBigDecimal(map.get("serviceCharge"));
@@ -123,15 +123,15 @@ public class Order {
         BigDecimal total = getBigDecimal(map.get("total"));
         BigDecimal cash = getBigDecimal(map.get("cash"));
         BigDecimal card = getBigDecimal(map.get("card"));
-        OrderStatus status = map.get("status") != null ? OrderStatus.valueOf(getString(map.get("status")).toUpperCase()) : null;
+        BillStatus status = map.get("status") != null ? BillStatus.valueOf(getString(map.get("status")).toUpperCase()) : null;
         Integer id = getInteger(map.get("id"));
         if (id == null) {
-            return new Order(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
+            return new Bill(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
         }
-        return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
+        return new Bill(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
     }
 
-    public Order withComputedValues(BigDecimal serviceCharge, BigDecimal serviceTax, BigDecimal total) {
-        return new Order(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, COMPLETED);
+    public Bill withComputedValues(BigDecimal serviceCharge, BigDecimal serviceTax, BigDecimal total) {
+        return new Bill(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, COMPLETED);
     }
 }

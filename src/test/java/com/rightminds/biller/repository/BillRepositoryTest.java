@@ -1,8 +1,8 @@
 package com.rightminds.biller.repository;
 
 import com.rightminds.biller.BillingServiceApplication;
+import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.Customer;
-import com.rightminds.biller.entity.Order;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
-import static com.rightminds.biller.model.OrderStatus.IN_PROGRESS;
+import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
 
 
@@ -24,10 +24,10 @@ import static org.hamcrest.core.Is.is;
 @Rollback
 @SpringApplicationConfiguration(classes = BillingServiceApplication.class)
 @WebAppConfiguration
-public class OrderRepositoryTest {
+public class BillRepositoryTest {
 
     @Autowired
-    private OrderRepository repository;
+    private BillRepository repository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -36,10 +36,10 @@ public class OrderRepositoryTest {
     public void findByIdShouldReturnTheOrder() throws Exception {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
-        Order order = new Order(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
-        Order savedItem = repository.save(order);
+        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill savedItem = repository.save(bill);
 
-        Order fromRepository = repository.findById(savedItem.getId());
+        Bill fromRepository = repository.findById(savedItem.getId());
 
         Assert.assertThat(savedItem, is(fromRepository));
     }

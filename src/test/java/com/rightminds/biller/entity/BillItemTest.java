@@ -8,7 +8,7 @@ import java.util.HashMap;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class OrderItemTest {
+public class BillItemTest {
 
     @Test
     public void fromMapShouldReturnOrderedItem() throws Exception {
@@ -25,12 +25,12 @@ public class OrderItemTest {
         }};
         map.put("item", item);
 
-        OrderItem orderItem = OrderItem.fromMap(map);
+        BillItem billItem = BillItem.fromMap(map);
 
-        assertThat(orderItem.getQuantity(), is(12));
-        assertThat(orderItem.getTotal(), is(new BigDecimal(120)));
-        assertThat(orderItem.getDiscount(), is(new BigDecimal(0.5)));
-        assertThat(orderItem.getOrder(), is(Order.fromMap(order)));
-        assertThat(orderItem.getItem(), is(Item.fromMap(item)));
+        assertThat(billItem.getQuantity(), is(12));
+        assertThat(billItem.getTotal(), is(new BigDecimal(120)));
+        assertThat(billItem.getDiscount(), is(new BigDecimal(0.5)));
+        assertThat(billItem.getBill(), is(Bill.fromMap(order)));
+        assertThat(billItem.getItem(), is(Item.fromMap(item)));
     }
 }

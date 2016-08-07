@@ -1,6 +1,6 @@
 package com.rightminds.biller.model;
 
-public enum OrderStatus {
+public enum BillStatus {
     IN_PROGRESS,
     COMPLETED
 }

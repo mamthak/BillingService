@@ -1,6 +1,6 @@
 package com.rightminds.biller.entity;
 
-import com.rightminds.biller.model.OrderStatus;
+import com.rightminds.biller.model.BillStatus;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class OrderTest {
+public class BillTest {
 
     @Test
     public void fromMapShouldReturnOrderObject() throws Exception {
@@ -28,18 +28,18 @@ public class OrderTest {
         }};
         map.put("customer", customer);
 
-        Order order = Order.fromMap(map);
+        Bill bill = Bill.fromMap(map);
 
-        assertThat(order.getName(), is("order 1"));
-        assertThat(order.getServiceCharge(), is(new BigDecimal(1)));
-        assertThat(order.getServiceTax(), is(new BigDecimal(2)));
-        assertThat(order.getSubTotal(), is(new BigDecimal(10)));
-        assertThat(order.getDiscount(), is(new BigDecimal(5)));
-        assertThat(order.getTotal(), is(new BigDecimal(110)));
-        assertThat(order.getCash(), is(new BigDecimal(50)));
-        assertThat(order.getCard(), is(new BigDecimal(60)));
-        assertThat(order.getStatus(), is(OrderStatus.IN_PROGRESS));
-        assertThat(order.getCustomer(), is(Customer.fromMap(customer)));
+        assertThat(bill.getName(), is("order 1"));
+        assertThat(bill.getServiceCharge(), is(new BigDecimal(1)));
+        assertThat(bill.getServiceTax(), is(new BigDecimal(2)));
+        assertThat(bill.getSubTotal(), is(new BigDecimal(10)));
+        assertThat(bill.getDiscount(), is(new BigDecimal(5)));
+        assertThat(bill.getTotal(), is(new BigDecimal(110)));
+        assertThat(bill.getCash(), is(new BigDecimal(50)));
+        assertThat(bill.getCard(), is(new BigDecimal(60)));
+        assertThat(bill.getStatus(), is(BillStatus.IN_PROGRESS));
+        assertThat(bill.getCustomer(), is(Customer.fromMap(customer)));
 
     }
 }
