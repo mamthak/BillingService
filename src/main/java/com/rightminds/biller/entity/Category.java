@@ -31,6 +31,9 @@ public class Category {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "IMAGEPATH")
+    private String imagePath;
+
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
@@ -44,15 +47,17 @@ public class Category {
     public Category() {
     }
 
-    public Category(String name, String description) {
+    public Category(String name, String description, String imagePath) {
         this.name = name;
         this.description = description;
+        this.imagePath = imagePath;
     }
 
-    public Category(Integer id, String name, String description) {
+    public Category(Integer id, String name, String description, String imagePath) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.imagePath = imagePath;
     }
 
     @PrePersist
@@ -77,10 +82,11 @@ public class Category {
     public static Category fromMap(Map map) {
         Integer id = CastUtil.getInteger(map.get("id"));
         String name = CastUtil.getString(map.get("name"));
+        String imagePath = CastUtil.getString(map.get("imagePath"));
         String description = CastUtil.getString(map.get("description"));
         if (id == null)
-            return new Category(name, description);
-        return new Category(id, name, description);
+            return new Category(name, description, imagePath);
+        return new Category(id, name, description, imagePath);
     }
 
     @Override

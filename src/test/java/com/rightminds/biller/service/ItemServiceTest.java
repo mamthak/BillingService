@@ -34,8 +34,8 @@ public class ItemServiceTest {
 
     @Test
     public void saveShouldSaveTheMenu() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
-        Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
 
         itemService.save(item);
 
@@ -44,8 +44,8 @@ public class ItemServiceTest {
 
     @Test
     public void getAllShouldReturnAllMenuItems() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
-        Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         when(repository.findAll()).thenReturn(Arrays.asList(item));
 
         List<Item> items = itemService.getAll();
@@ -57,8 +57,8 @@ public class ItemServiceTest {
 
     @Test
     public void reduceInventoryCountShouldSubtractTheQuantityOfTheInventory() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
-        Item item = new Item(1, "Coke", "Cool drink", BigDecimal.ONE, category, true, 10);
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 10);
         when(repository.findById(any())).thenReturn(item);
 
         itemService.reduceInventoryCount(item, 2);
@@ -70,8 +70,8 @@ public class ItemServiceTest {
 
     @Test
     public void reduceInventoryCountShouldDeductTheQuantityOnlyIfTheItemIsAnInventoryItem() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
-        Item item = new Item(1, "Coke", "Cool drink", BigDecimal.ONE, category, false, 0);
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0);
         when(repository.findById(any())).thenReturn(item);
 
         itemService.reduceInventoryCount(item, 2);

@@ -83,7 +83,7 @@ public class OrderServiceTest {
         Bill bill = new Bill(new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
                 null, null, IN_PROGRESS);
-        Item item = new Item(1, "Coke", "Cool Drink", BigDecimal.TEN, new Category(), true, 15);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), true, 15);
         BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, null);
         bill.setBillItems(Arrays.asList(billItem));
 

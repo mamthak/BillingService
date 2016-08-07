@@ -235,5 +235,14 @@
         <renameTable oldTableName="ORDERITEM" newTableName="BILLITEM"/>
         <renameColumn tableName="BILLITEM" oldColumnName="ORDERID" newColumnName="BILLID"/>
     </changeSet>
+    
+    <changeSet id="201608070813" author="Thiru">
+        <addColumn tableName="ITEM">
+            <column name="IMAGEPATH" type="varchar(255)"/>
+        </addColumn>
+        <addColumn tableName="CATEGORY">
+            <column name="IMAGEPATH" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

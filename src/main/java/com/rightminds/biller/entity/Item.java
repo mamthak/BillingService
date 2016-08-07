@@ -28,6 +28,9 @@ public class Item {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "IMAGEPATH")
+    private String imagePath;
+
     @Column(name = "PRICE")
     private BigDecimal price;
 
@@ -52,26 +55,27 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, String description, BigDecimal price, Category category, boolean isInventory, Integer quantity) {
+    public Item(String name, String description, String imagePath, BigDecimal price, Category category, boolean isInventory, Integer quantity) {
         this.name = name;
         this.description = description;
+        this.imagePath = imagePath;
         this.price = price;
         this.category = category;
         this.isInventory = isInventory;
         this.quantity = quantity;
     }
 
-    public Item(String name, String description, BigDecimal price, Category category) {
-        this(name, description, price, category, false, 0);
+    public Item(String name, String description, String imagePath, BigDecimal price, Category category) {
+        this(name, description, imagePath, price, category, false, 0);
     }
 
-    public Item(Integer id, String name, String description, BigDecimal price, Category category) {
-        this(name, description, price, category, false, 0);
+    public Item(Integer id, String name, String description, String imagePath,  BigDecimal price, Category category) {
+        this(name, description, imagePath, price, category, false, 0);
         this.id = id;
     }
 
-    public Item(Integer id, String name, String description, BigDecimal amount, Category category, boolean isInventory, Integer quantity) {
-        this(name, description, amount, category, isInventory, quantity);
+    public Item(Integer id, String name, String description, String imagePath, BigDecimal amount, Category category, boolean isInventory, Integer quantity) {
+        this(name, description, imagePath, amount, category, isInventory, quantity);
         this.id = id;
     }
 
@@ -98,18 +102,19 @@ public class Item {
         Integer id = getInteger(map.get("id"));
         String name = getString(map.get("name"));
         String description = getString(map.get("description"));
+        String imagePath = getString(map.get("imagePath"));
         BigDecimal amount = getBigDecimal(map.get("price"));
         Category category = map.get("category") != null ? Category.fromMap((Map) map.get("category")) : null;
         boolean isInventory = getBoolean(map.get("isInventory"));
         Integer quantity = getInteger(map.get("quantity"));
         if (id == null)
-            return new Item(name, description, amount, category, isInventory, quantity);
-        return new Item(id, name, description, amount, category, isInventory, quantity);
+            return new Item(name, description, imagePath, amount, category, isInventory, quantity);
+        return new Item(id, name, description, imagePath, amount, category, isInventory, quantity);
     }
 
     public Item withUpdatedQuantity(int quantity) {
         int updatedQuantity = this.quantity - quantity;
-        return new Item(id, name, description, price, category, true, updatedQuantity);
+        return new Item(id, name, description, imagePath, price, category, true, updatedQuantity);
     }
 
 }

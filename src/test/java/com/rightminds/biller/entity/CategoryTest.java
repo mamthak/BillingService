@@ -15,10 +15,12 @@ public class CategoryTest {
         map.put("id", "1");
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
+        map.put("imagePath", "/category.jpg");
 
         Category category = Category.fromMap(map);
 
         assertThat(category.getName(), is("Coke"));
         assertThat(category.getDescription(), is("Cool Drink"));
+        assertThat(category.getImagePath(), is("/category.jpg"));
     }
 }

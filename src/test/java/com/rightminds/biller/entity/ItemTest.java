@@ -11,13 +11,14 @@ import static org.junit.Assert.assertThat;
 public class ItemTest {
 
     @Test
-    public void fromMapShouldConvertMapToInventory() throws Exception {
+    public void fromMapShouldConvertMapToItem() throws Exception {
         HashMap map = new HashMap<>();
         map.put("id", "1");
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
         map.put("price", "1");
         map.put("isInventory", "true");
+        map.put("imagePath", "/item.jpg");
         map.put("quantity", "10");
         HashMap category = new HashMap<>();
         category.put("id", "1");
@@ -32,6 +33,7 @@ public class ItemTest {
         assertThat(item.getPrice(), is(new BigDecimal(1)));
         assertThat(item.isInventory(), is(true));
         assertThat(item.getQuantity(), is(10));
+        assertThat(item.getImagePath(), is("/item.jpg"));
         assertThat(item.getCategory(), is(Category.fromMap(category)));
     }
 

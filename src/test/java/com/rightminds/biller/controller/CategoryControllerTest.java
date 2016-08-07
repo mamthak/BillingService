@@ -46,7 +46,7 @@ public class CategoryControllerTest {
 
     @Test
     public void getShouldReturnInventoryBasedOnTheIdValue() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
         when(categoryService.getById(any())).thenReturn(category);
 
         categoryController.get(1);
@@ -56,7 +56,7 @@ public class CategoryControllerTest {
 
     @Test
     public void getAllShouldReturnAllInventoryItems() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
         when(categoryService.getById(any())).thenReturn(category);
 
         categoryController.getAll();

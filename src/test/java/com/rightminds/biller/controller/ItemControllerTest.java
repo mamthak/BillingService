@@ -50,8 +50,8 @@ public class ItemControllerTest {
 
     @Test
     public void getByIdShouldReturnItemBasedOnId() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
-        Item item = new Item("Coke", "Cool drink", BigDecimal.ONE, category);
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         when(itemService.getById(1)).thenReturn(item);
 
         Item actualItem = itemController.get(1);

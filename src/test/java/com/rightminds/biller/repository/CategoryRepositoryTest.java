@@ -28,7 +28,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void findByIdShouldReturnTheCategory() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
         Category savedItem = repository.save(category);
 
         Category fromRepository = repository.findById(savedItem.getId());

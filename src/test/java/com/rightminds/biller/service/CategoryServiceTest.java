@@ -27,7 +27,7 @@ public class CategoryServiceTest {
 
     @Test
     public void saveShouldSaveTheInventoryItem() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
 
         categoryService.save(category);
 
@@ -36,7 +36,7 @@ public class CategoryServiceTest {
 
     @Test
     public void getShouldReturnInventoryBasedOnTheIdValue() throws Exception {
-        Category category = new Category("Coke", "Cool drink");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
         when(repository.findOne(any())).thenReturn(category);
 
         categoryService.getById(1);

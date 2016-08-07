@@ -37,8 +37,8 @@ public class BillItemServiceTest {
 
     @Test
     public void saveShouldFetchThePriceOfItemAndComputeTotalAndSave() throws Exception {
-        Item itemFromMap = new Item(1, null, null, null, null, false, 0);
-        Item item = new Item(1, "Coke", "Cool Drink", BigDecimal.TEN, new Category(), false, 15);
+        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
         when(itemService.getById(any())).thenReturn(item);
         BillItem billItemFromMap = new BillItem(null, itemFromMap, 1, BigDecimal.ZERO, null);
 
@@ -51,8 +51,8 @@ public class BillItemServiceTest {
 
     @Test
     public void saveShouldFetchThePriceOfItemAndComputeTotalWithDeductingDiscountAndSave() throws Exception {
-        Item itemFromMap = new Item(1, null, null, null, null, false, 0);
-        Item item = new Item(1, "Coke", "Cool Drink", BigDecimal.TEN, new Category(), false, 15);
+        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
         when(itemService.getById(any())).thenReturn(item);
         BillItem billItemFromMap = new BillItem(null, itemFromMap, 1, new BigDecimal(2), null);
 
