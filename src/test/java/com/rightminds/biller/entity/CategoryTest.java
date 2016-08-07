@@ -15,7 +15,7 @@ public class CategoryTest {
         map.put("id", "1");
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
-        map.put("imagePath", "/category.jpg");
+        map.put("imagepath", "/category.jpg");
 
         Category category = Category.fromMap(map);
 

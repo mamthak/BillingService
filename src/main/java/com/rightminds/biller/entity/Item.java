@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -29,6 +30,7 @@ public class Item {
     private String description;
 
     @Column(name = "IMAGEPATH")
+    @JsonProperty("imagepath")
     private String imagePath;
 
     @Column(name = "PRICE")
@@ -39,6 +41,7 @@ public class Item {
     private Category category;
 
     @Column(name = "ISINVENTORY")
+    @JsonProperty("isinventory")
     private boolean isInventory;
 
     @Column(name = "QUANTITY")
@@ -102,10 +105,10 @@ public class Item {
         Integer id = getInteger(map.get("id"));
         String name = getString(map.get("name"));
         String description = getString(map.get("description"));
-        String imagePath = getString(map.get("imagePath"));
+        String imagePath = getString(map.get("imagepath"));
         BigDecimal amount = getBigDecimal(map.get("price"));
         Category category = map.get("category") != null ? Category.fromMap((Map) map.get("category")) : null;
-        boolean isInventory = getBoolean(map.get("isInventory"));
+        boolean isInventory = getBoolean(map.get("isinventory"));
         Integer quantity = getInteger(map.get("quantity"));
         if (id == null)
             return new Item(name, description, imagePath, amount, category, isInventory, quantity);

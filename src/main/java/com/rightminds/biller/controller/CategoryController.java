@@ -3,9 +3,9 @@ package com.rightminds.biller.controller;
 import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -21,8 +21,9 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(value = "save", method = POST, consumes = "application/json")
-    public void save(@RequestBody Map request) {
+    @RequestMapping(value = "save", method = POST, consumes = "application/x-www-form-urlencoded")
+    @ResponseBody
+    public void save(@RequestParam Map<String, String> request) {
         Category category = Category.fromMap(request);
         categoryService.save(category);
     }

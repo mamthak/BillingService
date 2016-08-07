@@ -2,6 +2,7 @@ package com.rightminds.biller.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.util.CastUtil;
 import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -32,6 +33,7 @@ public class Category {
     private String description;
 
     @Column(name = "IMAGEPATH")
+    @JsonProperty("imagepath")
     private String imagePath;
 
     @CreatedDate
@@ -82,7 +84,7 @@ public class Category {
     public static Category fromMap(Map map) {
         Integer id = CastUtil.getInteger(map.get("id"));
         String name = CastUtil.getString(map.get("name"));
-        String imagePath = CastUtil.getString(map.get("imagePath"));
+        String imagePath = CastUtil.getString(map.get("imagepath"));
         String description = CastUtil.getString(map.get("description"));
         if (id == null)
             return new Category(name, description, imagePath);

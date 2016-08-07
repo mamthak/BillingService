@@ -5,6 +5,7 @@ import com.rightminds.biller.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
@@ -21,8 +22,8 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @RequestMapping(value = "save", method = POST, consumes = "application/json")
-    public void save(@RequestBody Map map) {
+    @RequestMapping(value = "save", method = POST, consumes = "application/x-www-form-urlencoded")
+    public void save(@RequestParam Map map) {
         Item item = Item.fromMap(map);
         itemService.save(item);
     }

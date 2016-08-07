@@ -17,8 +17,8 @@ public class ItemTest {
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
         map.put("price", "1");
-        map.put("isInventory", "true");
-        map.put("imagePath", "/item.jpg");
+        map.put("isinventory", "true");
+        map.put("imagepath", "/item.jpg");
         map.put("quantity", "10");
         HashMap category = new HashMap<>();
         category.put("id", "1");

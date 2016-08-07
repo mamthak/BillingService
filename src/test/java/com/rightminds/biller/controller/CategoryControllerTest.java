@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -32,7 +33,7 @@ public class CategoryControllerTest {
 
     @Test
     public void saveShouldSaveTheInventoryItem() throws Exception {
-        HashMap map = new HashMap<>();
+        Map map = new HashMap<>();
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
 
