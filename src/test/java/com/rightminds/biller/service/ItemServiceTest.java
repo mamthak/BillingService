@@ -79,4 +79,32 @@ public class ItemServiceTest {
         verify(repository).findById(1);
         verifyNoMoreInteractions(repository);
     }
+
+    @Test
+    public void getByCategoryShouldReturnAllItemsBelongingTheCategoryWhenInventoryIsFalse() throws Exception {
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0);
+        Item secondItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0);
+        when(repository.findAllByCategoryId(any())).thenReturn(Arrays.asList(firstItem, secondItem));
+
+        List<Item> actualItems = itemService.getByCategoryId(1, false);
+
+        verify(repository).findAllByCategoryId(1);
+        assertThat(actualItems.size(), is(2));
+        assertThat(actualItems.get(0), is(firstItem));
+    }
+
+    @Test
+    public void getByCategoryShouldReturnOnlyInventoryItemsBelongingTheCategoryWhenInventoryIsTrue() throws Exception {
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0);
+        Item secondItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0);
+        when(repository.findAllByCategoryId(any())).thenReturn(Arrays.asList(firstItem, secondItem));
+
+        List<Item> actualItems = itemService.getByCategoryId(1, true);
+
+        verify(repository).findAllByCategoryId(1);
+        assertThat(actualItems.size(), is(1));
+        assertThat(actualItems.get(0), is(secondItem));
+    }
 }

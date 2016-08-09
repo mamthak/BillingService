@@ -3,7 +3,6 @@ package com.rightminds.biller.controller;
 import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +27,7 @@ public class ItemController {
         itemService.save(item);
     }
 
-    @RequestMapping(value = "", method = GET, produces = "application/json")
+    @RequestMapping(value = "all", method = GET, produces = "application/json")
     public List<Item> all() {
         return itemService.getAll();
     }
@@ -37,5 +36,11 @@ public class ItemController {
     public Item get(@PathParam(value = "id") Integer id) {
         return itemService.getById(id);
     }
+
+    @RequestMapping(value = "", method = GET, produces = "application/json")
+    public List<Item> getByCategory(@RequestParam(value = "categoryid") Integer id, @RequestParam(value = "isinventory") boolean isInventory) {
+        return itemService.getByCategoryId(id, isInventory);
+    }
+
 
 }

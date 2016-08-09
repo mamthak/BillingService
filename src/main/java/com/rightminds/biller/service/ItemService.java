@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
@@ -26,6 +28,7 @@ public class ItemService {
     }
 
 
+
     public void reduceInventoryCount(Item item, int quantity) {
         item = repository.findById(item.getId());
 
@@ -33,5 +36,13 @@ public class ItemService {
             Item updatedItem = item.withUpdatedQuantity(quantity);
             repository.save(updatedItem);
         }
+    }
+
+    public List<Item> getByCategoryId(Integer categoryId, boolean isInventory) {
+        List<Item> items = repository.findAllByCategoryId(categoryId);
+        if (isInventory) {
+            return items.stream().filter(Item::isInventory).collect(Collectors.toList());
+        }
+        return items;
     }
 }

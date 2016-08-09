@@ -20,11 +20,7 @@ public class ItemTest {
         map.put("isinventory", "true");
         map.put("imagepath", "/item.jpg");
         map.put("quantity", "10");
-        HashMap category = new HashMap<>();
-        category.put("id", "1");
-        category.put("name", "Coke");
-        category.put("description", "Cool Drink");
-        map.put("category", category);
+        map.put("categoryid", 1);
 
         Item item = Item.fromMap(map);
 
@@ -34,7 +30,7 @@ public class ItemTest {
         assertThat(item.isInventory(), is(true));
         assertThat(item.getQuantity(), is(10));
         assertThat(item.getImagePath(), is("/item.jpg"));
-        assertThat(item.getCategory(), is(Category.fromMap(category)));
+        assertThat(item.getCategory(), is(new Category(1)));
     }
 
 }

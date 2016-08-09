@@ -107,7 +107,7 @@ public class Item {
         String description = getString(map.get("description"));
         String imagePath = getString(map.get("imagepath"));
         BigDecimal amount = getBigDecimal(map.get("price"));
-        Category category = map.get("category") != null ? Category.fromMap((Map) map.get("category")) : null;
+        Category category = new Category(getInteger(map.get("categoryid")));
         boolean isInventory = getBoolean(map.get("isinventory"));
         Integer quantity = getInteger(map.get("quantity"));
         if (id == null)

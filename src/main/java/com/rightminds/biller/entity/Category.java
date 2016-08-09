@@ -49,6 +49,10 @@ public class Category {
     public Category() {
     }
 
+    public Category(Integer id) {
+        this.id = id;
+    }
+
     public Category(String name, String description, String imagePath) {
         this.name = name;
         this.description = description;
@@ -103,7 +107,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Inventory{" +
+        return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
