@@ -42,9 +42,14 @@ public class BillController {
         return billService.getByName(name);
     }
 
-    @RequestMapping(value = "", method = GET, produces = "application/json")
+    @RequestMapping(value = "all", method = GET, produces = "application/json")
     public List<Bill> getAll() {
         return billService.getAll();
+    }
+
+    @RequestMapping(value = "ongoingOrders", method = GET, produces = "application/json")
+    public List<Bill> getOngoingBills() {
+        return billService.getOngoingBills();
     }
 
     @RequestMapping(value = "process", method = POST, consumes = "application/json")

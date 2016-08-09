@@ -14,7 +14,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.List;
 
+import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
 

@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.model.BillStatus;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.rightminds.biller.model.BillStatus.COMPLETED;
+import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static com.rightminds.biller.util.CastUtil.*;
 
 @Entity
@@ -66,6 +68,7 @@ public class Bill {
     private Date lastModifiedOn;
 
     @OneToMany(mappedBy = "bill", fetch = FetchType.EAGER)
+    @JsonProperty("orders")
     private List<BillItem> billItems = new ArrayList<>();
 
     public Bill() {
@@ -123,7 +126,7 @@ public class Bill {
         BigDecimal total = getBigDecimal(map.get("total"));
         BigDecimal cash = getBigDecimal(map.get("cash"));
         BigDecimal card = getBigDecimal(map.get("card"));
-        BillStatus status = map.get("status") != null ? BillStatus.valueOf(getString(map.get("status")).toUpperCase()) : null;
+        BillStatus status = map.get("status") != null ? BillStatus.valueOf(getString(map.get("status")).toUpperCase()) : IN_PROGRESS;
         Integer id = getInteger(map.get("id"));
         if (id == null) {
             return new Bill(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);

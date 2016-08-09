@@ -9,9 +9,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
+import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -48,4 +54,16 @@ public class BillServiceTest {
         verify(repository).findById(1);
     }
 
+    @Test
+    public void getOngoingOrderShouldReturnOrdersWithStatusAsFalse() throws Exception {
+        Bill firstBill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill secondBill = new Bill(new Customer(), "Order 2", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), COMPLETED);
+        when(repository.findAll()).thenReturn(Arrays.asList(firstBill, secondBill));
+
+        List<Bill> ongoingOrders = billService.getOngoingBills();
+
+        assertThat(ongoingOrders.size(), is(1));
+        assertThat(ongoingOrders.get(0), is(firstBill));
+
+    }
 }

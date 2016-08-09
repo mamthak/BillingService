@@ -81,6 +81,16 @@ public class BillControllerTest {
     }
 
     @Test
+    public void getOngoingBillShouldReturnOngoingBills() throws Exception {
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        when(billService.getById(any())).thenReturn(bill);
+
+        billController.getOngoingBills();
+
+        verify(billService).getOngoingBills();
+    }
+
+    @Test
     public void processOrderShouldConfirmTheOrder() throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", "order 1");
