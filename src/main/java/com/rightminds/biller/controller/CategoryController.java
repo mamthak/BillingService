@@ -16,6 +16,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/category")
+@CrossOrigin
 public class CategoryController {
 
     @Autowired

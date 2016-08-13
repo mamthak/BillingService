@@ -3,6 +3,7 @@ package com.rightminds.biller.controller;
 import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.service.BillItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/billItem")
+@CrossOrigin
 public class BillItemController {
 
     @Autowired
