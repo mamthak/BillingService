@@ -2,6 +2,7 @@ package com.rightminds.biller.service;
 
 import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.entity.Item;
+import com.rightminds.biller.model.BillItemResponse;
 import com.rightminds.biller.repository.BillItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +25,11 @@ public class BillItemService {
     @Autowired
     private ItemService itemService;
 
-    public void save(BillItem billItem) {
+    public BillItemResponse save(BillItem billItem) {
         BigDecimal total = getTotal(billItem);
         BillItem updatedBillItem = billItem.withTotal(total);
-        repository.save(updatedBillItem);
+        BillItem savedItem = repository.save(updatedBillItem);
+        return new BillItemResponse(savedItem, savedItem.getBill());
     }
 
     public BillItem getById(Integer id) {

@@ -1,6 +1,7 @@
 package com.rightminds.biller.controller;
 
 import com.rightminds.biller.entity.BillItem;
+import com.rightminds.biller.model.BillItemResponse;
 import com.rightminds.biller.service.BillItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,9 +25,9 @@ public class BillItemController {
     private BillItemService billItemService;
 
     @RequestMapping(value = "save", method = POST, consumes = "application/x-www-form-urlencoded")
-    public void save(@RequestParam Map<String, String> request) {
+    public BillItemResponse save(@RequestParam Map<String, String> request) {
         BillItem order = BillItem.fromMap(request);
-        billItemService.save(order);
+        return billItemService.save(order);
     }
 
     @RequestMapping(value = "", method = GET, params = "id", produces = "application/json")
