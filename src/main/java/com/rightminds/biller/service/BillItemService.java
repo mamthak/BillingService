@@ -44,6 +44,6 @@ public class BillItemService {
         Item item = itemService.getById(billItem.getItem().getId());
         LOGGER.debug("Fetched the item {}", item);
         BigDecimal total = item.getPrice().multiply(getBigDecimal(billItem.getQuantity()));
-        return total.subtract(billItem.getDiscount());
+        return total.subtract(getBigDecimal(billItem.getDiscount()));
     }
 }
