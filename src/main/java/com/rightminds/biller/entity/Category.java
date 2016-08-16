@@ -36,6 +36,9 @@ public class Category {
     @JsonProperty("imagepath")
     private String imagePath;
 
+    @Column(name = "DELETED")
+    private boolean deleted = false;
+
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)

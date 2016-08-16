@@ -66,4 +66,14 @@ public class ItemControllerTest {
 
         verify(itemService).getAll();
     }
+
+    @Test
+    public void deleteShouldDeleteTheITem() throws Exception {
+        Map id = new HashMap() {{
+            put("id", 1);
+        }};
+        itemController.delete(id);
+
+        verify(itemService).delete(Item.fromMap(id));
+    }
 }

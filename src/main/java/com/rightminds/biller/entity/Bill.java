@@ -75,6 +75,10 @@ public class Bill {
 
     }
 
+    public Bill(Integer id) {
+        this.id = id;
+    }
+
     public Bill(Customer customer, String name, BigDecimal serviceCharge,
                 BigDecimal serviceTax, BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash,
                 BigDecimal card, BillStatus status) {
@@ -115,6 +119,24 @@ public class Bill {
         this.lastModifiedOn = new Date();
     }
 
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", name='" + name + '\'' +
+                ", serviceCharge=" + serviceCharge +
+                ", serviceTax=" + serviceTax +
+                ", subTotal=" + subTotal +
+                ", discount=" + discount +
+                ", total=" + total +
+                ", cash=" + cash +
+                ", card=" + card +
+                ", status=" + status +
+                ", createdOn=" + createdOn +
+                ", lastModifiedOn=" + lastModifiedOn +
+                '}';
+    }
 
     public static Bill fromMap(Map map) {
         Customer customer = map.get("customer") != null ? Customer.fromMap((Map) map.get("customer")) : null;

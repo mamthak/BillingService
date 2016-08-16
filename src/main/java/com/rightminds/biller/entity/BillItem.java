@@ -1,6 +1,7 @@
 package com.rightminds.biller.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.util.CastUtil;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
+
+import static com.rightminds.biller.util.CastUtil.getInteger;
 
 @Entity
 @Table(name = "BILLITEM")
@@ -79,13 +82,24 @@ public class BillItem {
         this.lastModifiedOn = new Date();
     }
 
+    @Override
+    public String toString() {
+        return "BillItem{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", discount=" + discount +
+                ", total=" + total +
+                ", createdOn=" + createdOn +
+                ", lastModifiedOn=" + lastModifiedOn +
+                '}';
+    }
 
-    public static BillItem fromMap(Map<String, Object> map) {
-        Integer quantity = CastUtil.getInteger(map.get("quantity"));
+    public static BillItem fromMap(Map<String, String> map) {
+        Integer quantity = map.get("quantity") != null ? getInteger(map.get("quantity")) : 0;
         BigDecimal discount = CastUtil.getBigDecimal(map.get("discount"));
         BigDecimal total = CastUtil.getBigDecimal(map.get("total"));
-        Bill bill = map.get("order") != null ? Bill.fromMap((Map) map.get("order")) : null;
-        Item item = map.get("item") != null ? Item.fromMap((Map) map.get("item")) : null;
+        Bill bill = map.get("billid") != null ? new Bill(getInteger(map.get("billid"))) : null;
+        Item item = map.get("itemid") != null ? new Item(getInteger(map.get("itemid"))) : null;
         return new BillItem(bill, item, quantity, discount, total);
     }
 

@@ -47,6 +47,9 @@ public class Item {
     @Column(name = "QUANTITY")
     private Integer quantity;
 
+    @Column(name = "DELETED")
+    private boolean deleted = false;
+
     @CreatedDate
     @Column(name = "CREATEDON")
     private Date createdOn;
@@ -56,6 +59,10 @@ public class Item {
     private Date lastModifiedOn;
 
     public Item() {
+    }
+
+    public Item(Integer id) {
+        this.id = id;
     }
 
     public Item(String name, String description, String imagePath, BigDecimal price, Category category, boolean isInventory, Integer quantity) {

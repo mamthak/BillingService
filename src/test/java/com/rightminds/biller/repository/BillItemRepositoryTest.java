@@ -45,12 +45,12 @@ public class BillItemRepositoryTest {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
         Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
-        billRepository.save(bill);
+        Bill savedBill = billRepository.save(bill);
         Category category = categoryRepository.save(new Category("Coke", "Cool drink", "/category.jpg"));
         Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
-        itemRepository.save(item);
+        Item save = itemRepository.save(item);
 
-        BillItem billItem = new BillItem(bill, item, 1, new BigDecimal(1), new BigDecimal(10));
+        BillItem billItem = new BillItem(new Bill(savedBill.getId()), new Item(save.getId()), 1, new BigDecimal(1), new BigDecimal(10));
         BillItem savedItem = repository.save(billItem);
 
         BillItem fromRepository = repository.findById(savedItem.getId());

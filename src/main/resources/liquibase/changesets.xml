@@ -245,4 +245,25 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="201608150113" author="Thiru">
+        <addColumn tableName="BILL">
+            <column name="DELETED" type="BOOLEAN" defaultValue="false"/>
+        </addColumn>
+        <addColumn tableName="BILLITEM">
+            <column name="DELETED" type="BOOLEAN" defaultValue="false"/>
+        </addColumn>
+        <addColumn tableName="CATEGORY">
+            <column name="DELETED" type="BOOLEAN" defaultValue="false"/>
+        </addColumn>
+        <addColumn tableName="ITEM">
+            <column name="DELETED" type="BOOLEAN" defaultValue="false"/>
+        </addColumn>
+        <addColumn tableName="CONFIGURATION">
+            <column name="DELETED" type="BOOLEAN" defaultValue="false"/>
+        </addColumn>
+        <addColumn tableName="CUSTOMER">
+            <column name="DELETED" type="BOOLEAN" defaultValue="false"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

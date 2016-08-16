@@ -2,6 +2,7 @@ package com.rightminds.biller.service;
 
 import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.repository.CategoryRepository;
+import com.rightminds.biller.repository.ItemRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -19,6 +20,9 @@ public class CategoryServiceTest {
 
     @Mock
     private CategoryRepository repository;
+
+    @Mock
+    private ItemRepository itemRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -41,7 +45,27 @@ public class CategoryServiceTest {
 
         categoryService.getById(1);
 
-        verify(repository).findById(1);
+        verify(repository).findActiveCategoryById(1);
+    }
+
+    @Test
+    public void getAllShouldReturnAllActiveCategories() throws Exception {
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        when(repository.findOne(any())).thenReturn(category);
+
+        categoryService.getAllActiveCategories();
+
+        verify(repository).findAllActiveCategories();
+    }
+
+    @Test
+    public void deleteShouldDeleteTheCategory() throws Exception {
+        Category category = new Category(1);
+
+        categoryService.delete(category);
+
+        verify(repository).softDelete(1);
+        verify(itemRepository).softDeleteByCategoryId(1);
     }
 
 }

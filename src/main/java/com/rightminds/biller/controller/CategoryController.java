@@ -3,8 +3,6 @@ package com.rightminds.biller.controller;
 import com.rightminds.biller.entity.Category;
 import com.rightminds.biller.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -40,7 +38,18 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "", method = GET, produces = "application/json")
-    public List<Category> getAll() {
+    public List<Category> getAllNonDeletedCategories() {
+        return categoryService.getAllActiveCategories();
+    }
+
+    @RequestMapping(value = "all", method = GET, produces = "application/json")
+    public List<Category> getAllCategories() {
         return categoryService.getAll();
+    }
+
+    @RequestMapping(value = "delete", method = POST, consumes = "application/x-www-form-urlencoded")
+    public void delete(@RequestParam Map<String, String> map) {
+        Category category = Category.fromMap(map);
+        categoryService.delete(category);
     }
 }

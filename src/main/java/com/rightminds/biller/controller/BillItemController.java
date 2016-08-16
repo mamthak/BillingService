@@ -4,8 +4,8 @@ import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.service.BillItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
@@ -23,8 +23,8 @@ public class BillItemController {
     @Autowired
     private BillItemService billItemService;
 
-    @RequestMapping(value = "save", method = POST, consumes = "application/json")
-    public void save(@RequestBody Map request) {
+    @RequestMapping(value = "save", method = POST, consumes = "application/x-www-form-urlencoded")
+    public void save(@RequestParam Map<String, String> request) {
         BillItem order = BillItem.fromMap(request);
         billItemService.save(order);
     }

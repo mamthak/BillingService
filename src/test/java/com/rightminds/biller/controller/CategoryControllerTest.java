@@ -60,8 +60,19 @@ public class CategoryControllerTest {
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
         when(categoryService.getById(any())).thenReturn(category);
 
-        categoryController.getAll();
+        categoryController.getAllNonDeletedCategories();
 
-        verify(categoryService).getAll();
+        verify(categoryService).getAllActiveCategories();
+    }
+
+    @Test
+    public void deleteShouldDeleteTheCategory() throws Exception {
+        Map map = new HashMap() {{
+            put("id", 1);
+        }};
+
+        categoryController.delete(map);
+
+        verify(categoryService).delete(Category.fromMap(map));
     }
 }
