@@ -95,8 +95,8 @@ public class BillItem {
     }
 
     public static BillItem fromMap(Map<String, String> map) {
-        Integer quantity = map.get("quantity") != null ? getInteger(map.get("quantity")) : 0;
-        BigDecimal discount = CastUtil.getBigDecimal(map.get("discount"));
+        Integer quantity = map.get("quantity") != null ? getInteger(map.get("quantity")) : 1;
+        BigDecimal discount = map.get("discount") != null ? CastUtil.getBigDecimal(map.get("discount")) : BigDecimal.ZERO;
         BigDecimal total = CastUtil.getBigDecimal(map.get("total"));
         Bill bill = map.get("billid") != null ? new Bill(getInteger(map.get("billid"))) : null;
         Item item = map.get("itemid") != null ? new Item(getInteger(map.get("itemid"))) : null;

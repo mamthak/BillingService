@@ -27,4 +27,20 @@ public class BillItemTest {
         assertThat(billItem.getBill(), is(new Bill(1)));
         assertThat(billItem.getItem(), is(new Item(1)));
     }
+
+    @Test
+    public void fromMapShouldReturnBillItemWithQuantityAsOneAndDiscountAsZeroIfItIsNotThere() throws Exception {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("total", "120");
+        map.put("billid", "1");
+        map.put("itemid", "1");
+
+        BillItem billItem = BillItem.fromMap(map);
+
+        assertThat(billItem.getQuantity(), is(1));
+        assertThat(billItem.getTotal(), is(new BigDecimal(120)));
+        assertThat(billItem.getDiscount(), is(new BigDecimal(0)));
+        assertThat(billItem.getBill(), is(new Bill(1)));
+        assertThat(billItem.getItem(), is(new Item(1)));
+    }
 }
