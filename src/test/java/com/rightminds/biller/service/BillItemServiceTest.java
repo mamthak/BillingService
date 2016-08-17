@@ -67,7 +67,7 @@ public class BillItemServiceTest {
         ArgumentCaptor<BillItem> captor = ArgumentCaptor.forClass(BillItem.class);
         verify(repository).save(captor.capture());
         assertThat(captor.getValue().getTotal(), is(new BigDecimal(8)));
-        assertThat(response.getItem(), is(billItemFromMap));
+        assertThat(response.getBillItem(), is(billItemFromMap));
         assertThat(response.getBill(), is(bill));
     }
 }
