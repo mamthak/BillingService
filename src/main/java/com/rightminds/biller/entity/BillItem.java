@@ -45,6 +45,7 @@ public class BillItem {
 
     @CreatedDate
     @Column(name = "CREATEDON")
+    @JsonProperty("created")
     private Date createdOn;
 
     @LastModifiedDate

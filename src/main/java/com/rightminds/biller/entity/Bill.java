@@ -36,12 +36,15 @@ public class Bill {
     private String name;
 
     @Column(name = "SERVICECHARGE")
+    @JsonProperty("servicecharge")
     private BigDecimal serviceCharge;
 
     @Column(name = "SERVICETAX")
+    @JsonProperty("servicetax")
     private BigDecimal serviceTax;
 
     @Column(name = "SUBTOTAL")
+    @JsonProperty("subtotal")
     private BigDecimal subTotal;
 
     @Column(name = "DISCOUNT")
@@ -61,6 +64,7 @@ public class Bill {
 
     @CreatedDate
     @Column(name = "CREATEDON")
+    @JsonProperty("created")
     private Date createdOn;
 
     @LastModifiedDate

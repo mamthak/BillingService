@@ -52,6 +52,7 @@ public class Item {
 
     @CreatedDate
     @Column(name = "CREATEDON")
+    @JsonProperty("created")
     private Date createdOn;
 
     @LastModifiedDate

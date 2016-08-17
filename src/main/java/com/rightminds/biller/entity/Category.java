@@ -42,6 +42,7 @@ public class Category {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
+    @JsonProperty("created")
     private Date createdOn;
 
     @LastModifiedDate
