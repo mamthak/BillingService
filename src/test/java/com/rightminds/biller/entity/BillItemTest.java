@@ -28,7 +28,7 @@ public class BillItemTest {
         assertThat(billItem.getQuantity(), is(12));
         assertThat(billItem.getTotal(), is(new BigDecimal(120)));
         assertThat(billItem.getDiscount(), is(new BigDecimal(0.5)));
-        assertThat(billItem.getCreatedOn().toString(), is(CastUtil.getDate(map.get("created"))));
+        assertThat(billItem.getCreatedOn(), is(CastUtil.getDate(map.get("created"))));
         assertThat(billItem.getBill(), is(new Bill(1)));
         assertThat(billItem.getItem(), is(new Item(1)));
     }
