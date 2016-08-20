@@ -3,6 +3,7 @@ package com.rightminds.biller.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.model.BillStatus;
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -45,6 +46,9 @@ public class Bill {
 
     @Column(name = "SUBTOTAL")
     @JsonProperty("subtotal")
+    @Formula(value = "(SELECT SUM(BI.TOTAL) " +
+            "                       FROM BILLITEM BI " +
+            "                       WHERE BI.BILLID=ID)")
     private BigDecimal subTotal;
 
     @Column(name = "DISCOUNT")
