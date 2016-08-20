@@ -2,7 +2,6 @@ package com.rightminds.biller.service;
 
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.BillItem;
-import com.rightminds.biller.model.BillStatus;
 import com.rightminds.biller.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class BillService {
     }
 
     public Bill getById(Integer id) {
-        return repository.findById(id);
+        return  repository.findById(id);
     }
 
     public Bill getByName(String name) {
@@ -43,21 +42,27 @@ public class BillService {
 
     public List<Bill> getAll() {
         List<Bill> bills = (List<Bill>) repository.findAll();
+        enrichBills(bills);
+        return bills;
+    }
+
+    private void enrichBills(List<Bill> bills) {
         bills.stream().forEach(bill -> {
             List<BillItem> billItems = bill.getBillItems()
                     .stream().map(BillItem::withTransientData).collect(Collectors.toList());
             bill.getBillItems().clear();
             bill.getBillItems().addAll(billItems);
         });
-        return bills;
     }
 
     public List<Bill> getOngoingBills() {
         List<Bill> allBills = (List<Bill>) repository.findAll();
-        return allBills
+        List<Bill> ongoingBills = allBills
                 .stream()
                 .filter(bill -> bill.getStatus().equals(IN_PROGRESS))
                 .collect(Collectors.toList());
+        enrichBills(ongoingBills);
+        return ongoingBills;
     }
 
     public void processBill(Bill bill) {
