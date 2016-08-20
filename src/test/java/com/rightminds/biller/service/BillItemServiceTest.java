@@ -88,10 +88,12 @@ public class BillItemServiceTest {
         Bill bill = new Bill(1);
         when(itemService.getById(any())).thenReturn(item);
         when(billService.getById(any())).thenReturn(bill);
-        BillItem billItemFromMap = new BillItem(bill, itemFromMap, 0, new BigDecimal(2), null);
+        BillItem billItemFromMap = new BillItem(1, bill, itemFromMap, 0, new BigDecimal(2), null);
+        when(repository.findById(any())).thenReturn(billItemFromMap);
 
         BillItemResponse response = service.save(billItemFromMap);
 
+        verify(repository).findById(1);
         verify(repository).delete(billItemFromMap);
         assertThat(response.itemMap(), is(new HashMap()));
         verifyNoMoreInteractions(repository);

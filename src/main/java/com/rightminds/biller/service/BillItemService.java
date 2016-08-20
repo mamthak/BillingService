@@ -30,14 +30,16 @@ public class BillItemService {
     private BillService billService;
 
     public BillItemResponse save(BillItem billItem) {
-        BigDecimal total = getTotal(billItem);
-        BillItem updatedBillItem = billItem.withTotal(total);
-        Bill bill = billService.getById(billItem.getBill().getId());
         if (billItem.getQuantity() == 0) {
-            repository.delete(billItem);
-            return new BillItemResponse(billItem, null, bill);
+            BillItem billItemFromDb = repository.findById(billItem.getId());
+            // TODO: Use delete column for deleting the item
+            repository.delete(billItemFromDb);
+            return new BillItemResponse(billItemFromDb, null, billItemFromDb.getBill());
         } else {
+            BigDecimal total = getTotal(billItem);
+            BillItem updatedBillItem = billItem.withTotal(total);
             BillItem savedBillItem = repository.save(updatedBillItem);
+            Bill bill = billService.getById(billItem.getBill().getId());
             Item item = itemService.getById(billItem.getItem().getId());
             return new BillItemResponse(savedBillItem, item, bill);
         }

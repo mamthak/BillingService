@@ -73,6 +73,7 @@ public class Bill {
 
     @OneToMany(mappedBy = "bill", fetch = FetchType.EAGER)
     @JsonProperty("orders")
+    // TODO: Fetch bill items with delete = false
     private List<BillItem> billItems = new ArrayList<>();
 
     public Bill() {

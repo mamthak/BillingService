@@ -11,7 +11,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.rightminds.biller.util.CastUtil.getInteger;
@@ -48,7 +47,7 @@ public class BillItem {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
     private Date createdOn;
 
     @LastModifiedDate
@@ -57,6 +56,11 @@ public class BillItem {
 
     public BillItem() {
 
+    }
+
+    public BillItem(Integer id, Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
+        this(bill, item, quantity, discount, total);
+        this.id = id;
     }
 
     public BillItem(Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
@@ -99,12 +103,15 @@ public class BillItem {
     }
 
     public static BillItem fromMap(Map<String, String> map) {
+        Integer id = getInteger(map.get("id"));
         Integer quantity = map.get("quantity") != null ? getInteger(map.get("quantity")) : 1;
         BigDecimal discount = map.get("discount") != null ? CastUtil.getBigDecimal(map.get("discount")) : BigDecimal.ZERO;
         BigDecimal total = CastUtil.getBigDecimal(map.get("total"));
         Bill bill = map.get("billid") != null ? new Bill(getInteger(map.get("billid"))) : null;
         Item item = map.get("itemid") != null ? new Item(getInteger(map.get("itemid"))) : null;
-        return new BillItem(bill, item, quantity, discount, total);
+        if (id == null)
+            return new BillItem(bill, item, quantity, discount, total);
+        return new BillItem(id, bill, item, quantity, discount, total);
     }
 
     public BillItem withTotal(BigDecimal total) {

@@ -13,6 +13,7 @@ public class BillItemTest {
     @Test
     public void fromMapShouldReturnOrderedItem() throws Exception {
         HashMap<String, String> map = new HashMap<>();
+        map.put("id", "1");
         map.put("quantity", "12");
         map.put("total", "120");
         map.put("discount", "0.5");
@@ -21,6 +22,7 @@ public class BillItemTest {
 
         BillItem billItem = BillItem.fromMap(map);
 
+        assertThat(billItem.getId(), is(1));
         assertThat(billItem.getQuantity(), is(12));
         assertThat(billItem.getTotal(), is(new BigDecimal(120)));
         assertThat(billItem.getDiscount(), is(new BigDecimal(0.5)));
