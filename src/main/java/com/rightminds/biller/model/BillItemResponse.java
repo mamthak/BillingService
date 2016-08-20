@@ -37,13 +37,15 @@ public class BillItemResponse {
     @JsonProperty("order")
     public Map itemMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("item", item);
-        map.put("itemid", item.getId());
-        map.put("itemname", item.getName());
-        map.put("quantity", billItem.getQuantity());
-        map.put("discount", billItem.getDiscount());
-        map.put("total", billItem.getTotal());
-        map.put("created", billItem.getCreatedOn());
+        if (item != null) {
+            map.put("item", item);
+            map.put("itemid", item.getId());
+            map.put("itemname", item.getName());
+            map.put("quantity", billItem.getQuantity());
+            map.put("discount", billItem.getDiscount());
+            map.put("total", billItem.getTotal());
+            map.put("created", billItem.getCreatedOn());
+        }
         return map;
     }
 }

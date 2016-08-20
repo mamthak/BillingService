@@ -14,11 +14,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -75,5 +79,21 @@ public class BillItemServiceTest {
         assertThat(captor.getValue().getTotal(), is(new BigDecimal(8)));
         assertThat(response.getBillItem(), is(billItemFromMap));
         assertThat(response.getBill(), is(bill));
+    }
+
+    @Test
+    public void saveShouldDeleteTheItemWhenTheQuantityIsZero() throws Exception {
+        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
+        Bill bill = new Bill(1);
+        when(itemService.getById(any())).thenReturn(item);
+        when(billService.getById(any())).thenReturn(bill);
+        BillItem billItemFromMap = new BillItem(bill, itemFromMap, 0, new BigDecimal(2), null);
+
+        BillItemResponse response = service.save(billItemFromMap);
+
+        verify(repository).delete(billItemFromMap);
+        assertThat(response.itemMap(), is(new HashMap()));
+        verifyNoMoreInteractions(repository);
     }
 }
