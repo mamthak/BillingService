@@ -5,6 +5,7 @@ import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.model.BillItemResponse;
 import com.rightminds.biller.repository.BillItemRepository;
+import com.rightminds.biller.util.CastUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class BillItemService {
         return (List<BillItem>) repository.findAll();
     }
 
+    // TODO: use JPA formula to compute the total
     private BigDecimal getTotal(BillItem billItem) {
         Item item = itemService.getById(billItem.getItem().getId());
         LOGGER.debug("Fetched the item {}", item);

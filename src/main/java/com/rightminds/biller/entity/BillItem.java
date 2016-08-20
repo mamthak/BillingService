@@ -54,6 +54,14 @@ public class BillItem {
     @Column(name = "LASTMODIFIEDON")
     private Date lastModifiedOn;
 
+    @JsonProperty("itemname")
+    @Transient
+    private String itemName;
+
+    @JsonProperty("itemid")
+    @Transient
+    private Integer itemId;
+
     public BillItem() {
 
     }
@@ -61,6 +69,7 @@ public class BillItem {
     public BillItem(Integer id, Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
         this(bill, item, quantity, discount, total);
         this.id = id;
+        initializeItem(item);
     }
 
     public BillItem(Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
@@ -69,6 +78,14 @@ public class BillItem {
         this.quantity = quantity;
         this.discount = discount;
         this.total = total;
+        initializeItem(item);
+    }
+
+    private void initializeItem(Item item) {
+        if (item != null) {
+            this.itemId = item.getId();
+            this.itemName = item.getName();
+        }
     }
 
     @PrePersist
@@ -102,6 +119,7 @@ public class BillItem {
                 '}';
     }
 
+
     public static BillItem fromMap(Map<String, String> map) {
         Integer id = getInteger(map.get("id"));
         Integer quantity = map.get("quantity") != null ? getInteger(map.get("quantity")) : 1;
@@ -116,5 +134,9 @@ public class BillItem {
 
     public BillItem withTotal(BigDecimal total) {
         return new BillItem(bill, item, quantity, discount, total);
+    }
+
+    public BillItem withTransientData() {
+        return new BillItem(id, bill, item, quantity, discount, total);
     }
 }

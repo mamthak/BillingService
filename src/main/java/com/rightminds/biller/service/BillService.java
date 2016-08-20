@@ -42,7 +42,14 @@ public class BillService {
     }
 
     public List<Bill> getAll() {
-        return (List<Bill>) repository.findAll();
+        List<Bill> bills = (List<Bill>) repository.findAll();
+        bills.stream().forEach(bill -> {
+            List<BillItem> billItems = bill.getBillItems()
+                    .stream().map(BillItem::withTransientData).collect(Collectors.toList());
+            bill.getBillItems().clear();
+            bill.getBillItems().addAll(billItems);
+        });
+        return bills;
     }
 
     public List<Bill> getOngoingBills() {

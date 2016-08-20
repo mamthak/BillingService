@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.model.BillStatus;
 import lombok.Data;
@@ -69,6 +70,7 @@ public class Bill {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
     private Date createdOn;
 
     @LastModifiedDate

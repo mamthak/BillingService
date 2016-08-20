@@ -63,6 +63,22 @@ public class BillServiceTest {
     }
 
     @Test
+    public void findAllShouldReturnBillWithTransientData() throws Exception {
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, new Category(), true, 10);
+        BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, BigDecimal.ONE);
+        billItem.setItemId(null);
+        billItem.setItemName(null);
+        bill.getBillItems().add(billItem);
+        when(repository.findAll()).thenReturn(Arrays.asList(bill));
+
+        List<Bill> bills = billService.getAll();
+
+        assertThat(bills.get(0).getBillItems().get(0).getItemId(), is(1));
+        assertThat(bills.get(0).getBillItems().get(0).getItemName(), is("Coke"));
+    }
+
+    @Test
     public void getOngoingOrderShouldReturnOrdersWithStatusAsFalse() throws Exception {
         Bill firstBill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         Bill secondBill = new Bill(new Customer(), "Order 2", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), COMPLETED);
