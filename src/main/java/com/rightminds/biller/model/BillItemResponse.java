@@ -41,9 +41,12 @@ public class BillItemResponse {
     public Map itemMap() {
         Map<String, Object> map = new HashMap<>();
         if (item != null) {
+            map.put("id", billItem.getId());
+            map.put("billid", bill.getId());
             map.put("item", item);
             map.put("itemid", item.getId());
             map.put("itemname", item.getName());
+            map.put("unitamount", item.getPrice());
             map.put("quantity", billItem.getQuantity());
             map.put("discount", billItem.getDiscount());
             map.put("total", billItem.getTotal());
