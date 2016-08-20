@@ -62,6 +62,14 @@ public class BillItem {
     @Transient
     private Integer itemId;
 
+    @JsonProperty("unitamount")
+    @Transient
+    private BigDecimal unitAmount;
+
+    @JsonProperty("billid")
+    @Transient
+    private Integer billId;
+
     public BillItem() {
 
     }
@@ -85,6 +93,10 @@ public class BillItem {
         if (item != null) {
             this.itemId = item.getId();
             this.itemName = item.getName();
+            this.unitAmount = item.getPrice();
+        }
+        if (bill != null) {
+            this.billId = bill.getId();
         }
     }
 
