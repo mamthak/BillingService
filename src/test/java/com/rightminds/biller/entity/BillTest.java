@@ -15,9 +15,9 @@ public class BillTest {
     public void fromMapShouldReturnOrderObject() throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", "order 1");
-        map.put("serviceCharge", "1");
-        map.put("serviceTax", "2");
-        map.put("subTotal", "10");
+        map.put("servicecharge", "1");
+        map.put("servicetax", "2");
+        map.put("subtotal", "10");
         map.put("discount", "5");
         map.put("total", "110");
         map.put("cash", "50");

@@ -2,7 +2,6 @@ package com.rightminds.biller.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.rightminds.biller.AllConstants;
 import com.rightminds.biller.model.BillStatus;
 import lombok.Data;
 import org.hibernate.annotations.Formula;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
 import static com.rightminds.biller.model.BillStatus.COMPLETED;
@@ -94,7 +94,7 @@ public class Bill {
 
     public Bill(Customer customer, String name, BigDecimal serviceCharge,
                 BigDecimal serviceTax, BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash,
-                BigDecimal card, BillStatus status) {
+                BigDecimal card, BillStatus status, Date createdOn, List<BillItem> billItems) {
         this.customer = customer;
         this.name = name;
         this.serviceCharge = serviceCharge;
@@ -105,11 +105,14 @@ public class Bill {
         this.cash = cash;
         this.card = card;
         this.status = status;
+        this.createdOn = createdOn;
+        this.billItems = billItems;
     }
 
     public Bill(Integer id, Customer customer, String name, BigDecimal serviceCharge, BigDecimal serviceTax,
-                BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash, BigDecimal card, BillStatus status) {
-        this(customer, name, serviceCharge, serviceTax, discount, subTotal, total, cash, card, status);
+                BigDecimal subTotal, BigDecimal discount, BigDecimal total, BigDecimal cash, BigDecimal card,
+                BillStatus status, Date createdOn, List<BillItem> billItems) {
+        this(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status, createdOn, billItems);
         this.id = id;
     }
 
@@ -154,22 +157,24 @@ public class Bill {
     public static Bill fromMap(Map map) {
         Customer customer = map.get("customer") != null ? Customer.fromMap((Map) map.get("customer")) : null;
         String name = getString(map.get("name"));
-        BigDecimal serviceCharge = getBigDecimal(map.get("serviceCharge"));
-        BigDecimal serviceTax = getBigDecimal(map.get("serviceTax"));
-        BigDecimal subTotal = getBigDecimal(map.get("subTotal"));
+        BigDecimal serviceCharge = getBigDecimal(map.get("servicecharge"));
+        BigDecimal serviceTax = getBigDecimal(map.get("servicetax"));
+        BigDecimal subTotal = getBigDecimal(map.get("subtotal"));
         BigDecimal discount = getBigDecimal(map.get("discount"));
+        List<BillItem> billItems = map.get("orders") != null ? ((List<BillItem>) ((List) map.get("orders")).stream().map(billItem -> BillItem.fromMap((Map) billItem)).collect(Collectors.toList())) : null;
         BigDecimal total = getBigDecimal(map.get("total"));
         BigDecimal cash = getBigDecimal(map.get("cash"));
         BigDecimal card = getBigDecimal(map.get("card"));
+        Date createdOn = getDate(map.get("created"));
         BillStatus status = map.get("status") != null ? BillStatus.valueOf(getString(map.get("status")).toUpperCase()) : IN_PROGRESS;
         Integer id = getInteger(map.get("id"));
         if (id == null) {
-            return new Bill(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
+            return new Bill(customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status, createdOn, billItems);
         }
-        return new Bill(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status);
+        return new Bill(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, status, createdOn, billItems);
     }
 
     public Bill withComputedValues(BigDecimal serviceCharge, BigDecimal serviceTax, BigDecimal total) {
-        return new Bill(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, COMPLETED);
+        return new Bill(id, customer, name, serviceCharge, serviceTax, subTotal, discount, total, cash, card, COMPLETED, createdOn, billItems);
     }
 }

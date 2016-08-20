@@ -58,7 +58,7 @@ public class BillControllerTest {
 
     @Test
     public void getShouldReturnOrderBasedOnTheIdValue() throws Exception {
-        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
         when(billService.getById(any())).thenReturn(bill);
 
         billController.get(1);
@@ -68,7 +68,7 @@ public class BillControllerTest {
 
     @Test
     public void getAllShouldReturnAllOrderItems() throws Exception {
-        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
         when(billService.getById(any())).thenReturn(bill);
 
         billController.getAll();
@@ -78,7 +78,7 @@ public class BillControllerTest {
 
     @Test
     public void getOngoingBillShouldReturnOngoingBills() throws Exception {
-        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
         when(billService.getById(any())).thenReturn(bill);
 
         billController.getOngoingBills();

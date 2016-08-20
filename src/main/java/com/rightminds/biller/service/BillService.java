@@ -28,6 +28,9 @@ public class BillService {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private ElasticSearchService elasticSearchService;
+
     public Bill save(Bill bill) {
         return repository.save(bill);
     }
@@ -46,15 +49,6 @@ public class BillService {
         return bills;
     }
 
-    private void enrichBills(List<Bill> bills) {
-        bills.stream().forEach(bill -> {
-            List<BillItem> billItems = bill.getBillItems()
-                    .stream().map(BillItem::withTransientData).collect(Collectors.toList());
-            bill.getBillItems().clear();
-            bill.getBillItems().addAll(billItems);
-        });
-    }
-
     public List<Bill> getOngoingBills() {
         List<Bill> allBills = (List<Bill>) repository.findAll();
         List<Bill> ongoingBills = allBills
@@ -70,8 +64,10 @@ public class BillService {
         BigDecimal serviceTax = getBigDecimal(configurationService.getByKey(SERVICE_TAX).getValue());
         BigDecimal total = getTotal(bill, serviceCharge, serviceTax);
 
-        save(bill.withComputedValues(serviceCharge, serviceTax, total));
-        List<BillItem> billItems = bill.getBillItems();
+        Bill withComputedValues = bill.withComputedValues(serviceCharge, serviceTax, total);
+        Bill savedBill = save(withComputedValues);
+        elasticSearchService.save(savedBill);
+        List<BillItem> billItems = savedBill.getBillItems();
         for (BillItem billItem : billItems) {
             Integer orderedQuantity = billItem.getQuantity();
             itemService.reduceInventoryCount(billItem.getItem(), orderedQuantity);
@@ -83,6 +79,15 @@ public class BillService {
                 .add(bill.getSubTotal().multiply(serviceCharge.divide(valueOf(100))))
                 .add(bill.getSubTotal().multiply(serviceTax.divide(valueOf(100))))
                 .subtract(bill.getDiscount());
+    }
+
+    private void enrichBills(List<Bill> bills) {
+        bills.stream().forEach(bill -> {
+            List<BillItem> billItems = bill.getBillItems()
+                    .stream().map(BillItem::withTransientData).collect(Collectors.toList());
+            bill.getBillItems().clear();
+            bill.getBillItems().addAll(billItems);
+        });
     }
 
 

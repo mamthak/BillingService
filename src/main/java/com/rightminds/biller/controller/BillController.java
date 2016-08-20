@@ -48,7 +48,7 @@ public class BillController {
     }
 
     @RequestMapping(value = "process", method = POST, consumes = "application/json")
-    public void processOrder(HashMap<String, Object> request) {
+    public void processOrder(@RequestBody Map<String, Object> request) {
         Bill bill = Bill.fromMap(request);
         billService.processBill(bill);
     }

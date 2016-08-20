@@ -2,7 +2,6 @@ package com.rightminds.biller.repository;
 
 import com.rightminds.biller.BillingServiceApplication;
 import com.rightminds.biller.entity.*;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.List;
 
-import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -51,7 +48,7 @@ public class BillRepositoryTest {
     public void findByIdShouldReturnTheOrder() throws Exception {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
-        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
         Bill savedItem = repository.save(bill);
 
         Bill fromRepository = repository.findById(savedItem.getId());
@@ -63,7 +60,7 @@ public class BillRepositoryTest {
     public void subTotalShouldBeUpdatedOnAdditionOfBillItem() throws Exception {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
-        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), null, new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), null, new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
         Bill savedBill = repository.save(bill);
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
         Category savedCategory = categoryRepository.save(category);

@@ -7,13 +7,17 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
+import static java.util.Collections.emptyList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -38,6 +42,9 @@ public class BillServiceTest {
     @Mock
     private ItemService itemService;
 
+    @Mock
+    private ElasticSearchService elasticSearchService;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -45,7 +52,10 @@ public class BillServiceTest {
 
     @Test
     public void saveShouldSaveTheOrder() throws Exception {
-        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList());
+        Bill savedBill = new Bill(1, new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList());
+        when(repository.findById(any())).thenReturn(bill);
+        Mockito.when(repository.save(bill)).thenReturn(savedBill);
 
         billService.save(bill);
 
@@ -54,7 +64,7 @@ public class BillServiceTest {
 
     @Test
     public void getShouldReturnOrderBasedOnTheIdValue() throws Exception {
-        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList());
         when(repository.findOne(any())).thenReturn(bill);
 
         billService.getById(1);
@@ -64,7 +74,7 @@ public class BillServiceTest {
 
     @Test
     public void findAllShouldReturnBillWithTransientData() throws Exception {
-        Bill bill = new Bill(1, new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
+        Bill bill = new Bill(1, new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList<>());
         Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, new Category(), true, 10);
         BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, BigDecimal.ONE, null);
         billItem.setItemId(null);
@@ -82,8 +92,8 @@ public class BillServiceTest {
 
     @Test
     public void getOngoingOrderShouldReturnOrdersWithStatusAsFalse() throws Exception {
-        Bill firstBill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
-        Bill secondBill = new Bill(new Customer(), "Order 2", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), COMPLETED);
+        Bill firstBill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList());
+        Bill secondBill = new Bill(new Customer(), "Order 2", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), COMPLETED, null, new ArrayList());
         when(repository.findAll()).thenReturn(Arrays.asList(firstBill, secondBill));
 
         List<Bill> ongoingOrders = billService.getOngoingBills();
@@ -99,7 +109,9 @@ public class BillServiceTest {
         when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
         Bill bill = new Bill(new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(0), null,
-                null, null, IN_PROGRESS);
+                null, null, IN_PROGRESS, null, new ArrayList<>());
+        when(repository.findById(any())).thenReturn(bill);
+        Mockito.when(repository.save(any(Bill.class))).thenReturn(bill);
 
         billService.processBill(bill);
 
@@ -118,7 +130,9 @@ public class BillServiceTest {
         when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
         Bill bill = new Bill(new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
-                null, null, IN_PROGRESS);
+                null, null, IN_PROGRESS, null, new ArrayList<>());
+        when(repository.findById(any())).thenReturn(bill);
+        Mockito.when(repository.save(any(Bill.class))).thenReturn(bill);
 
         billService.processBill(bill);
 
@@ -135,10 +149,12 @@ public class BillServiceTest {
         when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
         Bill bill = new Bill(new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
-                null, null, IN_PROGRESS);
+                null, null, IN_PROGRESS, null, null);
         Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), true, 15);
         BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, null, null);
         bill.setBillItems(Arrays.asList(billItem));
+        when(repository.findById(any())).thenReturn(bill);
+        Mockito.when(repository.save(any(Bill.class))).thenReturn(bill);
 
         billService.processBill(bill);
 
