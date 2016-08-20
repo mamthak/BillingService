@@ -35,7 +35,8 @@ public class BillItemService {
             BillItem billItemFromDb = repository.findById(billItem.getId());
             // TODO: Use delete column for deleting the item
             repository.delete(billItemFromDb);
-            return new BillItemResponse(billItemFromDb, null, billItemFromDb.getBill());
+            Bill updatedBill = billService.getById(billItem.getBill().getId());
+            return new BillItemResponse(billItemFromDb, null, updatedBill);
         } else {
             BigDecimal total = getTotal(billItem);
             BillItem updatedBillItem = billItem.withTotal(total);

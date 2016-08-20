@@ -95,6 +95,7 @@ public class BillItemServiceTest {
 
         verify(repository).findById(1);
         verify(repository).delete(billItemFromMap);
+        verify(billService).getById(1);
         assertThat(response.itemMap(), is(new HashMap()));
         verifyNoMoreInteractions(repository);
     }
