@@ -1,7 +1,6 @@
 package com.rightminds.biller.controller;
 
 import com.rightminds.biller.entity.Bill;
-import com.rightminds.biller.service.OrderService;
 import com.rightminds.biller.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,9 +23,6 @@ public class BillController {
 
     @Autowired
     private BillService billService;
-
-    @Autowired
-    private OrderService orderService;
 
     @RequestMapping(value = "save", method = POST, consumes = "application/json")
     public void save(@RequestBody Map request) {
@@ -57,6 +53,6 @@ public class BillController {
     @RequestMapping(value = "process", method = POST, consumes = "application/json")
     public void processOrder(HashMap<String, Object> request) {
         Bill bill = Bill.fromMap(request);
-        orderService.processBill(bill);
+        billService.processBill(bill);
     }
 }

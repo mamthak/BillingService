@@ -2,7 +2,6 @@ package com.rightminds.biller.controller;
 
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.Customer;
-import com.rightminds.biller.service.OrderService;
 import com.rightminds.biller.service.BillService;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +27,6 @@ public class BillControllerTest {
 
     @Mock
     private BillService billService;
-
-    @Mock
-    private OrderService orderService;
 
     @Before
     public void setUp() throws Exception {
@@ -109,7 +105,7 @@ public class BillControllerTest {
         billController.processOrder(map);
 
         ArgumentCaptor<Bill> argumentCaptor = ArgumentCaptor.forClass(Bill.class);
-        verify(orderService).processBill(argumentCaptor.capture());
+        verify(billService).processBill(argumentCaptor.capture());
         assertThat(argumentCaptor.getValue().getName(), is("order 1"));
     }
 }

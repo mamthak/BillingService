@@ -266,4 +266,28 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="201608200115" author="Thiru">
+        <insert tableName="CONFIGURATION">
+            <column name="KEY" value="servicecharge"/>
+            <column name="VALUE" value="0"/>
+            <column name="CREATEDON" value="now()"/>
+            <column name="LASTMODIFIEDON" value="now()"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="201608200125" author="Thiru">
+        <insert tableName="CONFIGURATION">
+            <column name="KEY" value="servicetax"/>
+            <column name="VALUE" value="0"/>
+            <column name="CREATEDON" value="now()"/>
+            <column name="LASTMODIFIEDON" value="now()"/>
+        </insert>
+        <insert tableName="CONFIGURATION">
+            <column name="KEY" value="vat"/>
+            <column name="VALUE" value="0"/>
+            <column name="CREATEDON" value="now()"/>
+            <column name="LASTMODIFIEDON" value="now()"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
