@@ -3,10 +3,7 @@ package com.rightminds.biller.controller;
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.HashMap;
@@ -24,10 +21,10 @@ public class BillController {
     @Autowired
     private BillService billService;
 
-    @RequestMapping(value = "save", method = POST, consumes = "application/json")
-    public void save(@RequestBody Map request) {
+    @RequestMapping(value = "save", method = POST, consumes = "application/x-www-form-urlencoded", produces = "application/json")
+    public Bill save(@RequestParam Map request) {
         Bill bill = Bill.fromMap(request);
-        billService.save(bill);
+        return billService.save(bill);
     }
 
     @RequestMapping(value = "", method = GET, params = "id", produces = "application/json")

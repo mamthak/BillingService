@@ -28,8 +28,8 @@ public class BillService {
     @Autowired
     private ItemService itemService;
 
-    public void save(Bill bill) {
-        repository.save(bill);
+    public Bill save(Bill bill) {
+        return repository.save(bill);
     }
 
     public Bill getById(Integer id) {
