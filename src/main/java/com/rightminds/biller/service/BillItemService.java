@@ -1,5 +1,6 @@
 package com.rightminds.biller.service;
 
+import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.entity.Item;
 import com.rightminds.biller.model.BillItemResponse;
@@ -25,11 +26,16 @@ public class BillItemService {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private BillService billService;
+
     public BillItemResponse save(BillItem billItem) {
         BigDecimal total = getTotal(billItem);
         BillItem updatedBillItem = billItem.withTotal(total);
-        BillItem savedItem = repository.save(updatedBillItem);
-        return new BillItemResponse(savedItem, savedItem.getBill());
+        BillItem savedBillItem = repository.save(updatedBillItem);
+        Item item = itemService.getById(billItem.getItem().getId());
+        Bill bill = billService.getById(billItem.getBill().getId());
+        return new BillItemResponse(savedBillItem, item, bill);
     }
 
     public BillItem getById(Integer id) {

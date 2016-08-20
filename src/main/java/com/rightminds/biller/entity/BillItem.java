@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.util.CastUtil;
@@ -47,6 +48,7 @@ public class BillItem {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
     private Date createdOn;
 
     @LastModifiedDate

@@ -20,7 +20,7 @@ public class BillItemResponseTest {
         Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
         BillItem billItem = new BillItem(bill, item, 1, new BigDecimal(2), null);
 
-        BillItemResponse response = new BillItemResponse(billItem, bill);
+        BillItemResponse response = new BillItemResponse(billItem, item, bill);
 
         Map map = response.itemMap();
         assertThat(map.get("itemname"), is("Coke"));

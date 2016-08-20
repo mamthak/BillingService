@@ -31,6 +31,9 @@ public class BillItemServiceTest {
     private ItemService itemService;
 
     @Mock
+    private BillService billService;
+
+    @Mock
     private BillItemRepository repository;
 
     @Before
@@ -43,7 +46,9 @@ public class BillItemServiceTest {
         Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
         Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
         when(itemService.getById(any())).thenReturn(item);
-        BillItem billItemFromMap = new BillItem(null, itemFromMap, 1, BigDecimal.ZERO, null);
+        Bill bill = new Bill(1);
+        when(billService.getById(any())).thenReturn(bill);
+        BillItem billItemFromMap = new BillItem(bill, itemFromMap, 1, BigDecimal.ZERO, null);
         Mockito.when(repository.save(any(BillItem.class))).thenReturn(billItemFromMap);
 
         service.save(billItemFromMap);
@@ -57,8 +62,9 @@ public class BillItemServiceTest {
     public void saveShouldFetchThePriceOfItemAndComputeTotalWithDeductingDiscountAndSave() throws Exception {
         Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
         Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
-        when(itemService.getById(any())).thenReturn(item);
         Bill bill = new Bill(1);
+        when(itemService.getById(any())).thenReturn(item);
+        when(billService.getById(any())).thenReturn(bill);
         BillItem billItemFromMap = new BillItem(bill, itemFromMap, 1, new BigDecimal(2), null);
         Mockito.when(repository.save(any(BillItem.class))).thenReturn(billItemFromMap);
 

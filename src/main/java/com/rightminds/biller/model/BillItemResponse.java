@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.BillItem;
+import com.rightminds.biller.entity.Item;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +17,13 @@ public class BillItemResponse {
     @JsonProperty("bill")
     private Bill bill;
 
-    public BillItemResponse(BillItem billItem, Bill bill) {
+    @JsonIgnore
+    private Item item;
+
+    public BillItemResponse(BillItem billItem, Item item, Bill bill) {
         this.billItem = billItem;
         this.bill = bill;
+        this.item = item;
     }
 
     public BillItem getBillItem() {
@@ -32,9 +37,9 @@ public class BillItemResponse {
     @JsonProperty("order")
     public Map itemMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("billItem", billItem.getItem());
-        map.put("itemid", billItem.getItem().getId());
-        map.put("itemname", billItem.getItem().getName());
+        map.put("item", item);
+        map.put("itemid", item.getId());
+        map.put("itemname", item.getName());
         map.put("quantity", billItem.getQuantity());
         map.put("discount", billItem.getDiscount());
         map.put("total", billItem.getTotal());
