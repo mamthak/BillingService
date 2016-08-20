@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.entity.Item;
+import com.rightminds.biller.util.CastUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.rightminds.biller.util.CastUtil.formatDate;
 
 public class BillItemResponse {
 
@@ -44,7 +47,7 @@ public class BillItemResponse {
             map.put("quantity", billItem.getQuantity());
             map.put("discount", billItem.getDiscount());
             map.put("total", billItem.getTotal());
-            map.put("created", billItem.getCreatedOn());
+            map.put("created", formatDate(billItem.getCreatedOn()));
         }
         return map;
     }

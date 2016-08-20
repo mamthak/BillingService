@@ -66,7 +66,7 @@ public class BillServiceTest {
     public void findAllShouldReturnBillWithTransientData() throws Exception {
         Bill bill = new Bill(1, new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS);
         Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, new Category(), true, 10);
-        BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, BigDecimal.ONE);
+        BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, BigDecimal.ONE, null);
         billItem.setItemId(null);
         billItem.setItemName(null);
         bill.getBillItems().add(billItem);
@@ -137,7 +137,7 @@ public class BillServiceTest {
                 null, new BigDecimal(100), new BigDecimal(3), null,
                 null, null, IN_PROGRESS);
         Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), true, 15);
-        BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, null);
+        BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, null, null);
         bill.setBillItems(Arrays.asList(billItem));
 
         billService.processBill(bill);

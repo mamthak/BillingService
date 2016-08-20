@@ -69,8 +69,8 @@ public class BillRepositoryTest {
         Category savedCategory = categoryRepository.save(category);
         Item item = new Item("Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, savedCategory, false, 15);
         Item savedItem = itemRepository.save(item);
-        BillItem firstBillItem = new BillItem(savedBill, savedItem, 1, BigDecimal.ZERO, BigDecimal.TEN);
-        BillItem secondBillItem = new BillItem(savedBill, savedItem, 2, BigDecimal.ZERO, new BigDecimal(2));
+        BillItem firstBillItem = new BillItem(savedBill, savedItem, 1, BigDecimal.ZERO, BigDecimal.TEN, null);
+        BillItem secondBillItem = new BillItem(savedBill, savedItem, 2, BigDecimal.ZERO, new BigDecimal(2), null);
         billItemRepository.save(firstBillItem);
         billItemRepository.save(secondBillItem);
         entityManager.flush();

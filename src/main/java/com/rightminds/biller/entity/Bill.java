@@ -2,6 +2,7 @@ package com.rightminds.biller.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.rightminds.biller.AllConstants;
 import com.rightminds.biller.model.BillStatus;
 import lombok.Data;
 import org.hibernate.annotations.Formula;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
 import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static com.rightminds.biller.util.CastUtil.*;
@@ -70,7 +72,7 @@ public class Bill {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private Date createdOn;
 
     @LastModifiedDate

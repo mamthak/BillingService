@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
 import static com.rightminds.biller.util.CastUtil.*;
 
 @Entity
@@ -54,6 +56,7 @@ public class Item {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private Date createdOn;
 
     @LastModifiedDate

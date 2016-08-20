@@ -52,7 +52,7 @@ public class BillItemServiceTest {
         when(itemService.getById(any())).thenReturn(item);
         Bill bill = new Bill(1);
         when(billService.getById(any())).thenReturn(bill);
-        BillItem billItemFromMap = new BillItem(bill, itemFromMap, 1, BigDecimal.ZERO, null);
+        BillItem billItemFromMap = new BillItem(bill, itemFromMap, 1, BigDecimal.ZERO, null, null);
         Mockito.when(repository.save(any(BillItem.class))).thenReturn(billItemFromMap);
 
         service.save(billItemFromMap);
@@ -69,7 +69,7 @@ public class BillItemServiceTest {
         Bill bill = new Bill(1);
         when(itemService.getById(any())).thenReturn(item);
         when(billService.getById(any())).thenReturn(bill);
-        BillItem billItemFromMap = new BillItem(bill, itemFromMap, 1, new BigDecimal(2), null);
+        BillItem billItemFromMap = new BillItem(bill, itemFromMap, 1, new BigDecimal(2), null, null);
         Mockito.when(repository.save(any(BillItem.class))).thenReturn(billItemFromMap);
 
         BillItemResponse response = service.save(billItemFromMap);
@@ -88,7 +88,7 @@ public class BillItemServiceTest {
         Bill bill = new Bill(1);
         when(itemService.getById(any())).thenReturn(item);
         when(billService.getById(any())).thenReturn(bill);
-        BillItem billItemFromMap = new BillItem(1, bill, itemFromMap, 0, new BigDecimal(2), null);
+        BillItem billItemFromMap = new BillItem(1, bill, itemFromMap, 0, new BigDecimal(2), null, null);
         when(repository.findById(any())).thenReturn(billItemFromMap);
 
         BillItemResponse response = service.save(billItemFromMap);

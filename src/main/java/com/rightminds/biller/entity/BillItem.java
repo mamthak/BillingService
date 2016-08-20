@@ -3,6 +3,7 @@ package com.rightminds.biller.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.rightminds.biller.AllConstants;
 import com.rightminds.biller.util.CastUtil;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
+import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
 import static com.rightminds.biller.util.CastUtil.getInteger;
 
 @Entity
@@ -47,7 +49,7 @@ public class BillItem {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private Date createdOn;
 
     @LastModifiedDate
@@ -74,18 +76,19 @@ public class BillItem {
 
     }
 
-    public BillItem(Integer id, Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
-        this(bill, item, quantity, discount, total);
+    public BillItem(Integer id, Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total, Date createdOn) {
+        this(bill, item, quantity, discount, total, createdOn);
         this.id = id;
         initializeItem(item);
     }
 
-    public BillItem(Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total) {
+    public BillItem(Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total, Date createdOn) {
         this.bill = bill;
         this.item = item;
         this.quantity = quantity;
         this.discount = discount;
         this.total = total;
+        this.createdOn = createdOn;
         initializeItem(item);
     }
 
@@ -137,18 +140,19 @@ public class BillItem {
         Integer quantity = map.get("quantity") != null ? getInteger(map.get("quantity")) : 1;
         BigDecimal discount = map.get("discount") != null ? CastUtil.getBigDecimal(map.get("discount")) : BigDecimal.ZERO;
         BigDecimal total = CastUtil.getBigDecimal(map.get("total"));
+        Date createdOn = CastUtil.getDate(map.get("created"));
         Bill bill = map.get("billid") != null ? new Bill(getInteger(map.get("billid"))) : null;
         Item item = map.get("itemid") != null ? new Item(getInteger(map.get("itemid"))) : null;
         if (id == null)
-            return new BillItem(bill, item, quantity, discount, total);
-        return new BillItem(id, bill, item, quantity, discount, total);
+            return new BillItem(bill, item, quantity, discount, total, createdOn);
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
     }
 
     public BillItem withTotal(BigDecimal total) {
-        return new BillItem(bill, item, quantity, discount, total);
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
     }
 
     public BillItem withTransientData() {
-        return new BillItem(id, bill, item, quantity, discount, total);
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
     }
 }

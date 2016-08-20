@@ -19,7 +19,7 @@ public class BillItemResponseTest {
     public void toMapShouldReturnMap() throws Exception {
         Bill bill = new Bill(1);
         Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
-        BillItem billItem = new BillItem(bill, item, 1, new BigDecimal(2), null);
+        BillItem billItem = new BillItem(bill, item, 1, new BigDecimal(2), null, null);
 
         BillItemResponse response = new BillItemResponse(billItem, item, bill);
 
@@ -31,7 +31,7 @@ public class BillItemResponseTest {
     @Test
     public void toMapShouldReturnEmptyHashMapWhenItemIsNull() throws Exception {
         Bill bill = new Bill(1);
-        BillItem billItem = new BillItem(bill, null, 1, new BigDecimal(2), null);
+        BillItem billItem = new BillItem(bill, null, 1, new BigDecimal(2), null, null);
 
         BillItemResponse response = new BillItemResponse(billItem, null, bill);
 

@@ -1,5 +1,7 @@
 package com.rightminds.biller.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,6 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Map;
 
+import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
 import static com.rightminds.biller.util.CastUtil.getInteger;
 import static com.rightminds.biller.util.CastUtil.getString;
 
@@ -36,6 +39,8 @@ public class Customer {
 
     @CreatedDate
     @Column(name = "CREATEDON")
+    @JsonProperty("created")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private Date createdOn;
 
     @LastModifiedDate

@@ -3,6 +3,7 @@ package com.rightminds.biller.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.rightminds.biller.AllConstants;
 import com.rightminds.biller.util.CastUtil;
 import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -18,7 +19,6 @@ import java.util.Map;
 @Table(name = "CATEGORY")
 @Data
 public class Category {
-    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq_gen")
@@ -41,13 +41,13 @@ public class Category {
 
     @CreatedDate
     @Column(name = "CREATEDON")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AllConstants.DATE_TIME_FORMAT)
     @JsonProperty("created")
     private Date createdOn;
 
     @LastModifiedDate
     @Column(name = "LASTMODIFIEDON")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AllConstants.DATE_TIME_FORMAT)
     private Date lastModifiedOn;
 
     public Category() {

@@ -50,7 +50,7 @@ public class BillItemRepositoryTest {
         Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         Item save = itemRepository.save(item);
 
-        BillItem billItem = new BillItem(new Bill(savedBill.getId()), new Item(save.getId()), 1, new BigDecimal(1), new BigDecimal(10));
+        BillItem billItem = new BillItem(new Bill(savedBill.getId()), new Item(save.getId()), 1, new BigDecimal(1), new BigDecimal(10), null);
         BillItem savedItem = repository.save(billItem);
 
         BillItem fromRepository = repository.findById(savedItem.getId());
