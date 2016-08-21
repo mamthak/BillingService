@@ -67,6 +67,17 @@ public class BillControllerTest {
     }
 
     @Test
+    public void updateNameShouldUpdateNameOfTheBill() throws Exception {
+        HashMap map = new HashMap<Object, Object>() {{
+            put("id", "1");
+            put("name", "new name");
+        }};
+        billController.updateName(map);
+
+        verify(billService).updateName(1, "new name");
+    }
+
+    @Test
     public void getAllShouldReturnAllOrderItems() throws Exception {
         Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
         when(billService.getById(any())).thenReturn(bill);

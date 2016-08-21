@@ -2,6 +2,7 @@ package com.rightminds.biller.controller;
 
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.service.BillService;
+import com.rightminds.biller.util.CastUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,17 @@ public class BillController {
     @Autowired
     private BillService billService;
 
-    @RequestMapping(value = "save", method = POST, consumes = "application/x-www-form-urlencoded", produces = "application/json")
+    @RequestMapping(value = "save", method = POST, produces = "application/json")
     public Bill save(@RequestParam Map request) {
         Bill bill = Bill.fromMap(request);
         return billService.save(bill);
     }
 
+    @RequestMapping(value = "updateName", method = POST, consumes = "application/x-www-form-urlencoded")
+    public void updateName(@RequestParam Map<String, String> request) {
+        billService.updateName(CastUtil.getInteger(request.get("id")), request.get("name"));
+
+    }
     @RequestMapping(value = "", method = GET, params = "id", produces = "application/json")
     public Bill get(@PathParam(value = "id") Integer id) {
         return billService.getById(id);

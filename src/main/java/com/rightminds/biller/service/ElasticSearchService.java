@@ -1,6 +1,7 @@
 package com.rightminds.biller.service;
 
 import com.rightminds.biller.entity.Bill;
+import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.util.JsonUtil;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
@@ -41,6 +42,17 @@ public class ElasticSearchService {
     public void save(Bill bill) {
         IndexRequest indexRequest = new IndexRequest("bill", "bill", bill.getId().toString());
         String source = JsonUtil.toJson(bill);
+        indexRequest.source(source);
+        IndexResponse response = client.index(indexRequest).actionGet();
+        if (!response.isCreated()) {
+            LOGGER.error("Problem in saving data in elasticsearch: {}", source);
+            throw new RuntimeException("Data not created");
+        }
+    }
+
+    public void save(BillItem billItem) {
+        IndexRequest indexRequest = new IndexRequest("billitem", "billitem", billItem.getId().toString());
+        String source = JsonUtil.toJson(billItem);
         indexRequest.source(source);
         IndexResponse response = client.index(indexRequest).actionGet();
         if (!response.isCreated()) {

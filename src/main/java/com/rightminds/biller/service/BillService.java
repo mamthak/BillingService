@@ -35,6 +35,10 @@ public class BillService {
         return repository.save(bill);
     }
 
+    public void updateName(Integer id, String name) {
+        repository.updateName(id, name);
+    }
+
     public Bill getById(Integer id) {
         return  repository.findById(id);
     }
@@ -70,6 +74,7 @@ public class BillService {
         List<BillItem> billItems = savedBill.getBillItems();
         for (BillItem billItem : billItems) {
             Integer orderedQuantity = billItem.getQuantity();
+            elasticSearchService.save(billItem);
             itemService.reduceInventoryCount(billItem.getItem(), orderedQuantity);
         }
     }

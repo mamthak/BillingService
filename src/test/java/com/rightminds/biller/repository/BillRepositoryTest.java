@@ -57,6 +57,21 @@ public class BillRepositoryTest {
     }
 
     @Test
+    public void updateNameShouldChangeTheNameOfTheBill() throws Exception {
+        Customer customer = new Customer("Thiru", "963247955", "Perundurai");
+        customerRepository.save(customer);
+        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
+        Bill savedItem = repository.save(bill);
+
+        repository.updateName(savedItem.getId(), "New name");
+
+        entityManager.flush();
+        entityManager.clear();
+        Bill fromRepository = repository.findById(bill.getId());
+        assertThat(fromRepository.getName(), is("New name"));
+    }
+
+    @Test
     public void subTotalShouldBeUpdatedOnAdditionOfBillItem() throws Exception {
         Customer customer = new Customer("Thiru", "963247955", "Perundurai");
         customerRepository.save(customer);
