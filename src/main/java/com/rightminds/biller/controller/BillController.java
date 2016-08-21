@@ -33,6 +33,13 @@ public class BillController {
         billService.updateName(CastUtil.getInteger(request.get("id")), request.get("name"));
 
     }
+
+    @RequestMapping(value = "delete", method = POST, consumes = "application/x-www-form-urlencoded")
+    public void delete(@RequestParam Map<String, String> request) {
+        billService.delete(CastUtil.getInteger(request.get("id")));
+
+    }
+
     @RequestMapping(value = "", method = GET, params = "id", produces = "application/json")
     public Bill get(@PathParam(value = "id") Integer id) {
         return billService.getById(id);

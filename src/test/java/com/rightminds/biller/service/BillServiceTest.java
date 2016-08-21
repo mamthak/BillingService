@@ -73,6 +73,17 @@ public class BillServiceTest {
     }
 
     @Test
+    public void deleteShouldFindTheItemAndDelete() throws Exception {
+        Bill bill = new Bill(1, new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList());
+        when(repository.findById(1)).thenReturn(bill);
+
+        billService.delete(1);
+
+        verify(repository).findById(1);
+        verify(repository).delete(bill);
+    }
+
+    @Test
     public void updateNameShouldUpdateTheNameOfTheBill() throws Exception {
         billService.updateName(1, "new name");
 

@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 
@@ -91,5 +92,30 @@ public class BillRepositoryTest {
         Bill fromRepository = repository.findById(savedBill.getId());
 
         assertThat(fromRepository.getSubTotal(), is(new BigDecimal(12)));
+    }
+
+    @Test
+    public void deleteShouldDeleteTheBillAndItsAssociatedBillItems() throws Exception {
+        Customer customer = new Customer("Thiru", "963247955", "Perundurai");
+        customerRepository.save(customer);
+        Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), null, new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
+        Bill savedBill = repository.save(bill);
+        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category savedCategory = categoryRepository.save(category);
+        Item item = new Item("Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, savedCategory, false, 15);
+        Item savedItem = itemRepository.save(item);
+        BillItem firstBillItem = billItemRepository.save(new BillItem(savedBill, savedItem, 1, BigDecimal.ZERO, BigDecimal.TEN, null));
+        BillItem secondBillItem = billItemRepository.save(new BillItem(savedBill, savedItem, 2, BigDecimal.ZERO, new BigDecimal(2), null));
+
+        repository.delete(savedBill);
+
+        entityManager.flush();
+        entityManager.clear();
+        Bill fromRepository = repository.findById(savedBill.getId());
+        assertNull(fromRepository);
+        BillItem firstBillItemFromRepo = billItemRepository.findById(firstBillItem.getId());
+        assertNull(firstBillItemFromRepo);
+        BillItem secondBillItemFromRepo = billItemRepository.findById(secondBillItem.getId());
+        assertNull(secondBillItemFromRepo);
     }
 }

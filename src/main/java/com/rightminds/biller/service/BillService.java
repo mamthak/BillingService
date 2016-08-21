@@ -39,6 +39,11 @@ public class BillService {
         repository.updateName(id, name);
     }
 
+    public void delete(Integer id) {
+        Bill bill = repository.findById(id);
+        repository.delete(bill);
+    }
+
     public Bill getById(Integer id) {
         return  repository.findById(id);
     }
