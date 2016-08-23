@@ -62,7 +62,7 @@ public class CastUtil {
         if (date == null) {
             return null;
         }
-        Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+        Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
     }
 
