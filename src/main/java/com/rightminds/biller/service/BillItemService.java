@@ -30,19 +30,24 @@ public class BillItemService {
     @Autowired
     private BillService billService;
 
+    @Autowired
+    private ElasticSearchService elasticSearchService;
+
     public BillItemResponse save(BillItem billItem) {
         if (billItem.getQuantity() == 0) {
             BillItem billItemFromDb = repository.findById(billItem.getId());
             // TODO: Use delete column for deleting the item
             repository.delete(billItemFromDb);
+            elasticSearchService.delete(billItemFromDb);
             Bill updatedBill = billService.getById(billItem.getBill().getId());
             return new BillItemResponse(billItemFromDb, null, updatedBill);
         } else {
-            BigDecimal total = getTotal(billItem);
-            BillItem updatedBillItem = billItem.withTotal(total);
+            BillItem updatedBillItem = billItem.withTotal(getTotal(billItem));
             BillItem savedBillItem = repository.save(updatedBillItem);
             Bill bill = billService.getById(billItem.getBill().getId());
             Item item = itemService.getById(billItem.getItem().getId());
+            elasticSearchService.save(bill);
+            elasticSearchService.save(savedBillItem.withItemAndBill(item, bill));
             return new BillItemResponse(savedBillItem, item, bill);
         }
     }

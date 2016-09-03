@@ -19,6 +19,8 @@ public interface BillRepository extends CrudRepository<Bill, String> {
 
     Bill findByName(String name);
 
+    List<Bill> findTop10ByOrderByLastModifiedOnDesc();
+
     @Modifying
     @Query("UPDATE Bill b SET name = :name WHERE b.id = :id")
     void updateName(@Param("id") Integer id, @Param("name") String name);

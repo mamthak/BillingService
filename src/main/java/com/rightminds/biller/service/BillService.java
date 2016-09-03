@@ -14,6 +14,7 @@ import static com.rightminds.biller.AllConstants.SERVICE_CHARGE;
 import static com.rightminds.biller.AllConstants.SERVICE_TAX;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static com.rightminds.biller.util.CastUtil.getBigDecimal;
+import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
 
 @Service
@@ -32,7 +33,9 @@ public class BillService {
     private ElasticSearchService elasticSearchService;
 
     public Bill save(Bill bill) {
-        return repository.save(bill);
+        Bill savedBill = repository.save(bill);
+        elasticSearchService.save(bill);
+        return savedBill;
     }
 
     public void updateName(Integer id, String name) {
@@ -45,7 +48,9 @@ public class BillService {
     }
 
     public Bill getById(Integer id) {
-        return  repository.findById(id);
+        Bill bill = repository.findById(id);
+        enrichBillItem(bill);
+        return bill;
     }
 
     public Bill getByName(String name) {
@@ -68,7 +73,8 @@ public class BillService {
         return ongoingBills;
     }
 
-    public void processBill(Bill bill) {
+    public void processBill(Integer id) {
+        Bill bill = repository.findById(id);
         BigDecimal serviceCharge = getBigDecimal(configurationService.getByKey(SERVICE_CHARGE).getValue());
         BigDecimal serviceTax = getBigDecimal(configurationService.getByKey(SERVICE_TAX).getValue());
         BigDecimal total = getTotal(bill, serviceCharge, serviceTax);
@@ -84,21 +90,27 @@ public class BillService {
         }
     }
 
+    public List<Bill> recentBills() {
+        return repository.findTop10ByOrderByLastModifiedOnDesc();
+    }
+
     private BigDecimal getTotal(Bill bill, BigDecimal serviceCharge, BigDecimal serviceTax) {
+        BigDecimal discount = bill.getDiscount() == null ? ZERO : bill.getDiscount();
         return bill.getSubTotal()
                 .add(bill.getSubTotal().multiply(serviceCharge.divide(valueOf(100))))
                 .add(bill.getSubTotal().multiply(serviceTax.divide(valueOf(100))))
-                .subtract(bill.getDiscount());
+                .subtract(discount);
     }
 
     private void enrichBills(List<Bill> bills) {
-        bills.stream().forEach(bill -> {
-            List<BillItem> billItems = bill.getBillItems()
-                    .stream().map(BillItem::withTransientData).collect(Collectors.toList());
-            bill.getBillItems().clear();
-            bill.getBillItems().addAll(billItems);
-        });
+        bills.stream().forEach(this::enrichBillItem);
     }
 
+    private void enrichBillItem(Bill bill) {
+        List<BillItem> billItems = bill.getBillItems()
+                .stream().map(BillItem::withTransientData).collect(Collectors.toList());
+        bill.getBillItems().clear();
+        bill.getBillItems().addAll(billItems);
+    }
 
 }

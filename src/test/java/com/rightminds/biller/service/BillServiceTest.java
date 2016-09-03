@@ -10,10 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
@@ -64,12 +61,22 @@ public class BillServiceTest {
 
     @Test
     public void getShouldReturnOrderBasedOnTheIdValue() throws Exception {
-        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList());
-        when(repository.findOne(any())).thenReturn(bill);
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, new Date(), new ArrayList());
+        when(repository.findById(any())).thenReturn(bill);
 
         billService.getById(1);
 
         verify(repository).findById(1);
+    }
+
+    @Test
+    public void recentBillShouldReturnTheRecentBills() throws Exception {
+        Bill bill = new Bill(new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, new Date(), new ArrayList());
+        when(repository.findTop10ByOrderByLastModifiedOnDesc()).thenReturn(Arrays.asList(bill));
+
+        billService.recentBills();
+
+        verify(repository).findTop10ByOrderByLastModifiedOnDesc();
     }
 
     @Test
@@ -125,13 +132,13 @@ public class BillServiceTest {
     public void processOrderShouldComputeTheTotalAndSaveTheOrder() throws Exception {
         when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("servicecharge", "2"));
         when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
-        Bill bill = new Bill(new Customer(), "Order 1", null,
+        Bill bill = new Bill(1, new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(0), null,
                 null, null, IN_PROGRESS, null, new ArrayList<>());
         when(repository.findById(any())).thenReturn(bill);
         Mockito.when(repository.save(any(Bill.class))).thenReturn(bill);
 
-        billService.processBill(bill);
+        billService.processBill(1);
 
         ArgumentCaptor<Bill> argumentCaptor = ArgumentCaptor.forClass(Bill.class);
         verify(repository).save(argumentCaptor.capture());
@@ -146,13 +153,13 @@ public class BillServiceTest {
     public void processOrderShouldComputeTheTotalAndDeductTheDiscountSaveTheOrder() throws Exception {
         when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("servicecharge", "2"));
         when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
-        Bill bill = new Bill(new Customer(), "Order 1", null,
+        Bill bill = new Bill(1, new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
                 null, null, IN_PROGRESS, null, new ArrayList<>());
         when(repository.findById(any())).thenReturn(bill);
         Mockito.when(repository.save(any(Bill.class))).thenReturn(bill);
 
-        billService.processBill(bill);
+        billService.processBill(1);
 
         ArgumentCaptor<Bill> argumentCaptor = ArgumentCaptor.forClass(Bill.class);
         verify(repository).save(argumentCaptor.capture());
@@ -165,7 +172,7 @@ public class BillServiceTest {
     public void processOrderShouldUpdateTheInventory() throws Exception {
         when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("servicecharge", "2"));
         when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
-        Bill bill = new Bill(new Customer(), "Order 1", null,
+        Bill bill = new Bill(1, new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
                 null, null, IN_PROGRESS, null, null);
         Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), true, 15);
@@ -174,7 +181,7 @@ public class BillServiceTest {
         when(repository.findById(any())).thenReturn(bill);
         Mockito.when(repository.save(any(Bill.class))).thenReturn(bill);
 
-        billService.processBill(bill);
+        billService.processBill(1);
 
         ArgumentCaptor<Item> argumentCaptor = ArgumentCaptor.forClass(Item.class);
         verify(itemService).reduceInventoryCount(argumentCaptor.capture(), eq(1));

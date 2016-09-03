@@ -20,6 +20,7 @@ import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
 import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static com.rightminds.biller.util.CastUtil.*;
+import static java.math.BigDecimal.ZERO;
 
 @Entity
 @Table(name = "BILL")
@@ -55,7 +56,7 @@ public class Bill {
     private BigDecimal subTotal;
 
     @Column(name = "DISCOUNT")
-    private BigDecimal discount;
+    private BigDecimal discount = ZERO;
 
     @Column(name = "TOTAL")
     private BigDecimal total;

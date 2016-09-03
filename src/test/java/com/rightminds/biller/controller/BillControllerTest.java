@@ -109,24 +109,15 @@ public class BillControllerTest {
 
     @Test
     public void processOrderShouldConfirmTheOrder() throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("name", "order 1");
-        map.put("serviceCharge", "1");
-        map.put("serviceTax", "2");
-        map.put("subTotal", "10");
-        map.put("total", "110");
-        map.put("cash", "50");
-        map.put("card", "60");
-        map.put("status", "COMPLETED");
-        HashMap<String, String> customer = new HashMap<String, String>() {{
-            put("id", "1");
-        }};
-        map.put("customer", customer);
+        billController.processOrder(1);
 
-        billController.processOrder(map);
+        verify(billService).processBill(1);
+    }
 
-        ArgumentCaptor<Bill> argumentCaptor = ArgumentCaptor.forClass(Bill.class);
-        verify(billService).processBill(argumentCaptor.capture());
-        assertThat(argumentCaptor.getValue().getName(), is("order 1"));
+    @Test
+    public void recentBillsShouldReturnTheRecentBills() throws Exception {
+        billController.recentBills();
+
+        verify(billService).recentBills();
     }
 }

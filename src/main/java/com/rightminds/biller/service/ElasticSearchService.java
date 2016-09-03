@@ -3,6 +3,7 @@ package com.rightminds.biller.service;
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.BillItem;
 import com.rightminds.biller.util.JsonUtil;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
@@ -43,21 +44,17 @@ public class ElasticSearchService {
         IndexRequest indexRequest = new IndexRequest("bill", "bill", bill.getId().toString());
         String source = JsonUtil.toJson(bill);
         indexRequest.source(source);
-        IndexResponse response = client.index(indexRequest).actionGet();
-        if (!response.isCreated()) {
-            LOGGER.error("Problem in saving data in elasticsearch: {}", source);
-            throw new RuntimeException("Data not created");
-        }
+        client.index(indexRequest).actionGet();
     }
 
     public void save(BillItem billItem) {
         IndexRequest indexRequest = new IndexRequest("billitem", "billitem", billItem.getId().toString());
         String source = JsonUtil.toJson(billItem);
         indexRequest.source(source);
-        IndexResponse response = client.index(indexRequest).actionGet();
-        if (!response.isCreated()) {
-            LOGGER.error("Problem in saving data in elasticsearch: {}", source);
-            throw new RuntimeException("Data not created");
-        }
+        client.index(indexRequest).actionGet();
+    }
+
+    public void delete(BillItem billItem) {
+        client.prepareDelete("billitem", "billitem", billItem.getId().toString()).get();
     }
 }

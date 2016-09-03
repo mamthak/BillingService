@@ -40,6 +40,9 @@ public class BillItemServiceTest {
     @Mock
     private BillItemRepository repository;
 
+    @Mock
+    private ElasticSearchService elasticSearchService;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);

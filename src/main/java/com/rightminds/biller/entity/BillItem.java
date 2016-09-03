@@ -151,6 +151,10 @@ public class BillItem {
         return new BillItem(id, bill, item, quantity, discount, total, createdOn);
     }
 
+    public BillItem withItemAndBill(Item item, Bill bill) {
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
+    }
+
     public BillItem withTransientData() {
         return new BillItem(id, bill, item, quantity, discount, total, createdOn);
     }

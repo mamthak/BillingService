@@ -13,11 +13,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -70,6 +71,29 @@ public class BillRepositoryTest {
         entityManager.clear();
         Bill fromRepository = repository.findById(bill.getId());
         assertThat(fromRepository.getName(), is("New name"));
+    }
+
+    @Test
+    public void findTop10OrderByLastModifiedOnShouldReturnTop10Bills() throws Exception {
+        Customer customer = new Customer("Thiru", "963247955", "Perundurai");
+        customerRepository.save(customer);
+        Bill firstBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill secondBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill thirdBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill fourthBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill fifthBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill sixthBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill seventhBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill eigthBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill ninthBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill tenthBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+        Bill eleventhBill = repository.save(new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(3), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null));
+
+        List<Bill> recentBills = repository.findTop10ByOrderByLastModifiedOnDesc();
+
+        assertThat(recentBills.size(), is(10));
+        assertTrue(recentBills.containsAll(Arrays.asList(secondBill, thirdBill, fourthBill, fifthBill, sixthBill, seventhBill, eigthBill, ninthBill, tenthBill, eleventhBill)));
+        assertFalse(recentBills.contains(firstBill));
     }
 
     @Test

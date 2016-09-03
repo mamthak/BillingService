@@ -55,14 +55,18 @@ public class BillController {
         return billService.getAll();
     }
 
+    @RequestMapping(value = "recent", method = GET, produces = "application/json")
+    public List<Bill> recentBills() {
+        return billService.recentBills();
+    }
+
     @RequestMapping(value = "ongoingOrders", method = GET, produces = "application/json")
     public List<Bill> getOngoingBills() {
         return billService.getOngoingBills();
     }
 
-    @RequestMapping(value = "process", method = POST, consumes = "application/json")
-    public void processOrder(@RequestBody Map<String, Object> request) {
-        Bill bill = Bill.fromMap(request);
-        billService.processBill(bill);
+    @RequestMapping(value = "process", method = POST, consumes = "application/x-www-form-urlencoded")
+    public void processOrder(@PathParam(value = "id") Integer id) {
+        billService.processBill(id);
     }
 }

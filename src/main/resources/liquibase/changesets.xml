@@ -302,4 +302,8 @@
                                  referencedColumnNames="ID"/>
 
     </changeSet>
+
+    <changeSet id="201609040209" author="Thiru">
+        <addDefaultValue tableName="BILL" columnName="DISCOUNT" defaultValue="0"/>
+    </changeSet>
 </databaseChangeLog>
