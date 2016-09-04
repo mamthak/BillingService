@@ -41,20 +41,32 @@ public class ElasticSearchService {
     }
 
     public void save(Bill bill) {
-        IndexRequest indexRequest = new IndexRequest("bill", "bill", bill.getId().toString());
-        String source = JsonUtil.toJson(bill);
-        indexRequest.source(source);
-        client.index(indexRequest).actionGet();
+        try {
+            IndexRequest indexRequest = new IndexRequest("bill", "bill", bill.getId().toString());
+            String source = JsonUtil.toJson(bill);
+            indexRequest.source(source);
+            client.index(indexRequest).actionGet();
+        } catch (Exception e) {
+            LOGGER.error("Problem in saving the bill: {}", bill);
+        }
     }
 
     public void save(BillItem billItem) {
-        IndexRequest indexRequest = new IndexRequest("billitem", "billitem", billItem.getId().toString());
-        String source = JsonUtil.toJson(billItem);
-        indexRequest.source(source);
-        client.index(indexRequest).actionGet();
+        try {
+            IndexRequest indexRequest = new IndexRequest("billitem", "billitem", billItem.getId().toString());
+            String source = JsonUtil.toJson(billItem);
+            indexRequest.source(source);
+            client.index(indexRequest).actionGet();
+        } catch (Exception e) {
+            LOGGER.error("Problem in saving the bill item: {}", billItem);
+        }
     }
 
     public void delete(BillItem billItem) {
-        client.prepareDelete("billitem", "billitem", billItem.getId().toString()).get();
+        try {
+            client.prepareDelete("billitem", "billitem", billItem.getId().toString()).get();
+        } catch (Exception e) {
+            LOGGER.error("Problem in deleting the item: {}", billItem);
+        }
     }
 }
