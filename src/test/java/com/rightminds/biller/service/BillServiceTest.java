@@ -14,7 +14,6 @@ import java.util.*;
 
 import static com.rightminds.biller.model.BillStatus.COMPLETED;
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
-import static java.util.Collections.emptyList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -100,7 +99,7 @@ public class BillServiceTest {
     @Test
     public void findAllShouldReturnBillWithTransientData() throws Exception {
         Bill bill = new Bill(1, new Customer(), "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(15), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, new ArrayList<>());
-        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, new Category(), true, 10);
+        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, new Category(), true, 10, null);
         BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, BigDecimal.ONE, null);
         billItem.setItemId(null);
         billItem.setItemName(null);
@@ -175,7 +174,7 @@ public class BillServiceTest {
         Bill bill = new Bill(1, new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
                 null, null, IN_PROGRESS, null, null);
-        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), true, 15);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), true, 15, null);
         BillItem billItem = new BillItem(bill, item, 1, BigDecimal.ZERO, null, null);
         bill.setBillItems(Arrays.asList(billItem));
         when(repository.findById(any())).thenReturn(bill);

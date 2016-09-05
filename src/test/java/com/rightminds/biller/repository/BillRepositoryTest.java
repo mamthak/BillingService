@@ -13,7 +13,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
@@ -104,7 +103,7 @@ public class BillRepositoryTest {
         Bill savedBill = repository.save(bill);
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
         Category savedCategory = categoryRepository.save(category);
-        Item item = new Item("Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, savedCategory, false, 15);
+        Item item = new Item("Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, savedCategory, false, 15, null);
         Item savedItem = itemRepository.save(item);
         BillItem firstBillItem = new BillItem(savedBill, savedItem, 1, BigDecimal.ZERO, BigDecimal.TEN, null);
         BillItem secondBillItem = new BillItem(savedBill, savedItem, 2, BigDecimal.ZERO, new BigDecimal(2), null);
@@ -126,7 +125,7 @@ public class BillRepositoryTest {
         Bill savedBill = repository.save(bill);
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
         Category savedCategory = categoryRepository.save(category);
-        Item item = new Item("Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, savedCategory, false, 15);
+        Item item = new Item("Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, savedCategory, false, 15, null);
         Item savedItem = itemRepository.save(item);
         BillItem firstBillItem = billItemRepository.save(new BillItem(savedBill, savedItem, 1, BigDecimal.ZERO, BigDecimal.TEN, null));
         BillItem secondBillItem = billItemRepository.save(new BillItem(savedBill, savedItem, 2, BigDecimal.ZERO, new BigDecimal(2), null));

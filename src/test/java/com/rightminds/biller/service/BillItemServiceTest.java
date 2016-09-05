@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -50,8 +49,8 @@ public class BillItemServiceTest {
 
     @Test
     public void saveShouldFetchThePriceOfItemAndComputeTotalAndSave() throws Exception {
-        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
-        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
+        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0, null);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15, null);
         when(itemService.getById(any())).thenReturn(item);
         Bill bill = new Bill(1);
         when(billService.getById(any())).thenReturn(bill);
@@ -67,8 +66,8 @@ public class BillItemServiceTest {
 
     @Test
     public void saveShouldFetchThePriceOfItemAndComputeTotalWithDeductingDiscountAndSave() throws Exception {
-        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
-        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
+        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0, null);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15, null);
         Bill bill = new Bill(1);
         when(itemService.getById(any())).thenReturn(item);
         when(billService.getById(any())).thenReturn(bill);
@@ -86,8 +85,8 @@ public class BillItemServiceTest {
 
     @Test
     public void saveShouldDeleteTheItemWhenTheQuantityIsZero() throws Exception {
-        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0);
-        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
+        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0, null);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15, null);
         Bill bill = new Bill(1);
         when(itemService.getById(any())).thenReturn(item);
         when(billService.getById(any())).thenReturn(bill);

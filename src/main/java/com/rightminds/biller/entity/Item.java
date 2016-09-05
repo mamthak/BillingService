@@ -9,7 +9,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
@@ -70,7 +69,7 @@ public class Item {
         this.id = id;
     }
 
-    public Item(String name, String description, String imagePath, BigDecimal price, Category category, boolean isInventory, Integer quantity) {
+    public Item(String name, String description, String imagePath, BigDecimal price, Category category, boolean isInventory, Integer quantity, Date createdOn) {
         this.name = name;
         this.description = description;
         this.imagePath = imagePath;
@@ -78,19 +77,20 @@ public class Item {
         this.category = category;
         this.isInventory = isInventory;
         this.quantity = quantity;
+        this.createdOn = createdOn;
     }
 
     public Item(String name, String description, String imagePath, BigDecimal price, Category category) {
-        this(name, description, imagePath, price, category, false, 0);
+        this(name, description, imagePath, price, category, false, 0, null);
     }
 
     public Item(Integer id, String name, String description, String imagePath,  BigDecimal price, Category category) {
-        this(name, description, imagePath, price, category, false, 0);
+        this(name, description, imagePath, price, category, false, 0, null);
         this.id = id;
     }
 
-    public Item(Integer id, String name, String description, String imagePath, BigDecimal amount, Category category, boolean isInventory, Integer quantity) {
-        this(name, description, imagePath, amount, category, isInventory, quantity);
+    public Item(Integer id, String name, String description, String imagePath, BigDecimal amount, Category category, boolean isInventory, Integer quantity, Date createdOn) {
+        this(name, description, imagePath, amount, category, isInventory, quantity, createdOn);
         this.id = id;
     }
 
@@ -120,16 +120,17 @@ public class Item {
         String imagePath = getString(map.get("imagepath"));
         BigDecimal amount = getBigDecimal(map.get("price"));
         Category category = new Category(getInteger(map.get("categoryid")));
+        Date createdOn = getDate(map.get("created"));
         boolean isInventory = getBoolean(map.get("isinventory"));
         Integer quantity = getInteger(map.get("quantity"));
         if (id == null)
-            return new Item(name, description, imagePath, amount, category, isInventory, quantity);
-        return new Item(id, name, description, imagePath, amount, category, isInventory, quantity);
+            return new Item(name, description, imagePath, amount, category, isInventory, quantity, createdOn);
+        return new Item(id, name, description, imagePath, amount, category, isInventory, quantity, createdOn);
     }
 
     public Item withUpdatedQuantity(int quantity) {
         int updatedQuantity = this.quantity - quantity;
-        return new Item(id, name, description, imagePath, price, category, true, updatedQuantity);
+        return new Item(id, name, description, imagePath, price, category, true, updatedQuantity, createdOn);
     }
 
 }

@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.rightminds.biller.util.CastUtil.formatDate;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -19,7 +18,7 @@ public class BillItemResponseTest {
     @Test
     public void toMapShouldReturnMap() throws Exception {
         Bill bill = new Bill(1);
-        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15, null);
         BillItem billItem = new BillItem(bill, item, 1, new BigDecimal(2), BigDecimal.TEN, null);
 
         BillItemResponse response = new BillItemResponse(billItem, item, bill);

@@ -58,7 +58,7 @@ public class ItemServiceTest {
     @Test
     public void reduceInventoryCountShouldSubtractTheQuantityOfTheInventory() throws Exception {
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
-        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 10);
+        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 10, null);
         when(repository.findById(any())).thenReturn(item);
 
         itemService.reduceInventoryCount(item, 2);
@@ -71,7 +71,7 @@ public class ItemServiceTest {
     @Test
     public void reduceInventoryCountShouldDeductTheQuantityOnlyIfTheItemIsAnInventoryItem() throws Exception {
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
-        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0);
+        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0, null);
         when(repository.findById(any())).thenReturn(item);
 
         itemService.reduceInventoryCount(item, 2);
@@ -83,8 +83,8 @@ public class ItemServiceTest {
     @Test
     public void getByCategoryShouldReturnAllItemsBelongingTheCategoryWhenInventoryIsFalse() throws Exception {
         Category category = new Category(1);
-        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0);
-        Item secondItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0);
+        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0, null);
+        Item secondItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0, null);
         when(repository.findAllActiveItemsByCategoryId(any())).thenReturn(Arrays.asList(firstItem, secondItem));
 
         List<Item> actualItems = itemService.getByCategoryId(1, false);
@@ -97,8 +97,8 @@ public class ItemServiceTest {
     @Test
     public void getByCategoryShouldReturnOnlyInventoryItemsBelongingTheCategoryWhenInventoryIsTrue() throws Exception {
         Category category = new Category(1);
-        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0);
-        Item secondItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0);
+        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0, null);
+        Item secondItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0, null);
         when(repository.findAllActiveItemsByCategoryId(any())).thenReturn(Arrays.asList(firstItem, secondItem));
 
         List<Item> actualItems = itemService.getByCategoryId(1, true);
@@ -111,7 +111,7 @@ public class ItemServiceTest {
     @Test
     public void deleteShouldDeleteTheItem() throws Exception {
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
-        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 10);
+        Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 10, null);
 
         itemService.delete(item);
 
@@ -121,7 +121,7 @@ public class ItemServiceTest {
     @Test
     public void getAllActiveItemsShouldReturnNonDeletedItems() throws Exception {
         Category category = new Category("Coke", "Cool drink", "/category.jpg");
-        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0);
+        Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0, null);
         when(repository.findAllActiveItemsByCategoryId(any())).thenReturn(Arrays.asList(firstItem));
 
         List<Item> actualItems = itemService.getByCategoryId(1, true);

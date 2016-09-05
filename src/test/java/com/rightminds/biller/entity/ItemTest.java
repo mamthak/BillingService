@@ -20,6 +20,7 @@ public class ItemTest {
         map.put("isinventory", "true");
         map.put("imagepath", "/item.jpg");
         map.put("quantity", "10");
+        map.put("created", "2016-09-03 20:47:12");
         map.put("categoryid", 1);
 
         Item item = Item.fromMap(map);
@@ -31,6 +32,7 @@ public class ItemTest {
         assertThat(item.getQuantity(), is(10));
         assertThat(item.getImagePath(), is("/item.jpg"));
         assertThat(item.getCategory(), is(new Category(1)));
+        assertThat(item.getCreatedOn().toString(), is("Sat Sep 03 20:47:12 IST 2016"));
     }
 
 }
