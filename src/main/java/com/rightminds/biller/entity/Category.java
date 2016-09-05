@@ -57,17 +57,19 @@ public class Category {
         this.id = id;
     }
 
-    public Category(String name, String description, String imagePath) {
+    public Category(String name, String description, String imagePath, Date createdOn) {
         this.name = name;
         this.description = description;
         this.imagePath = imagePath;
+        this.createdOn = createdOn;
     }
 
-    public Category(Integer id, String name, String description, String imagePath) {
+    public Category(Integer id, String name, String description, String imagePath, Date createdOn) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imagePath = imagePath;
+        this.createdOn = createdOn;
     }
 
     @PrePersist
@@ -94,9 +96,10 @@ public class Category {
         String name = CastUtil.getString(map.get("name"));
         String imagePath = CastUtil.getString(map.get("imagepath"));
         String description = CastUtil.getString(map.get("description"));
+        Date createdOn = CastUtil.getDate(map.get("created"));
         if (id == null)
-            return new Category(name, description, imagePath);
-        return new Category(id, name, description, imagePath);
+            return new Category(name, description, imagePath, createdOn);
+        return new Category(id, name, description, imagePath, createdOn);
     }
 
     @Override

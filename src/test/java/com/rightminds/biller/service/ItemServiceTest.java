@@ -11,6 +11,7 @@ import org.mockito.Mock;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -34,7 +35,7 @@ public class ItemServiceTest {
 
     @Test
     public void saveShouldSaveTheMenu() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
 
         itemService.save(item);
@@ -44,7 +45,7 @@ public class ItemServiceTest {
 
     @Test
     public void getAllShouldReturnAllMenuItems() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         when(repository.findAll()).thenReturn(Arrays.asList(item));
 
@@ -57,7 +58,7 @@ public class ItemServiceTest {
 
     @Test
     public void reduceInventoryCountShouldSubtractTheQuantityOfTheInventory() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 10, null);
         when(repository.findById(any())).thenReturn(item);
 
@@ -70,7 +71,7 @@ public class ItemServiceTest {
 
     @Test
     public void reduceInventoryCountShouldDeductTheQuantityOnlyIfTheItemIsAnInventoryItem() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, false, 0, null);
         when(repository.findById(any())).thenReturn(item);
 
@@ -110,7 +111,7 @@ public class ItemServiceTest {
 
     @Test
     public void deleteShouldDeleteTheItem() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Item item = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 10, null);
 
         itemService.delete(item);
@@ -120,7 +121,7 @@ public class ItemServiceTest {
 
     @Test
     public void getAllActiveItemsShouldReturnNonDeletedItems() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Item firstItem = new Item(1, "Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category, true, 0, null);
         when(repository.findAllActiveItemsByCategoryId(any())).thenReturn(Arrays.asList(firstItem));
 

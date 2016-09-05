@@ -8,6 +8,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class CategoryControllerTest {
 
     @Test
     public void getShouldReturnInventoryBasedOnTheIdValue() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         when(categoryService.getById(any())).thenReturn(category);
 
         categoryController.get(1);
@@ -57,7 +58,7 @@ public class CategoryControllerTest {
 
     @Test
     public void getAllShouldReturnAllInventoryItems() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         when(categoryService.getById(any())).thenReturn(category);
 
         categoryController.getAllNonDeletedCategories();

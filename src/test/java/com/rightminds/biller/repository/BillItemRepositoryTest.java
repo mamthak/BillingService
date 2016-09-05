@@ -13,6 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import static com.rightminds.biller.model.BillStatus.IN_PROGRESS;
 import static org.hamcrest.core.Is.is;
@@ -46,7 +47,7 @@ public class BillItemRepositoryTest {
         customerRepository.save(customer);
         Bill bill = new Bill(customer, "Order 1", new BigDecimal(10), new BigDecimal(11), new BigDecimal(15), new BigDecimal(20), new BigDecimal(20), new BigDecimal(5), new BigDecimal(5), IN_PROGRESS, null, null);
         Bill savedBill = billRepository.save(bill);
-        Category category = categoryRepository.save(new Category("Coke", "Cool drink", "/category.jpg"));
+        Category category = categoryRepository.save(new Category("Coke", "Cool drink", "/category.jpg", new Date()));
         Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         Item save = itemRepository.save(item);
 

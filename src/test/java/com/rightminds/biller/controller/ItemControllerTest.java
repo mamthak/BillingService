@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class ItemControllerTest {
 
     @Test
     public void getByIdShouldReturnItemBasedOnId() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         when(itemService.getById(1)).thenReturn(item);
 

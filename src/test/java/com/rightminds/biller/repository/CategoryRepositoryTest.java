@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -39,7 +40,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void findByIdShouldReturnTheCategory() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Category savedItem = repository.save(category);
 
         Category fromRepository = repository.findActiveCategoryById(savedItem.getId());
@@ -49,7 +50,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void findByIdShouldNotReturnDeletedCategory() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         category.setDeleted(true);
         Category savedItem = repository.save(category);
 
@@ -60,7 +61,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void deleteShouldDeleteTheCategory() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         Category savedCategory = repository.save(category);
         entityManager.flush();
         entityManager.clear();
@@ -73,8 +74,8 @@ public class CategoryRepositoryTest {
 
     @Test
     public void findAllByCategoryIdShouldReturnAllNonDeletedCategories() throws Exception {
-        Category firstCategory = repository.save(new Category("Coke", "Cool drink", "/category.jpg"));
-        Category deletedCategory = new Category("Coke", "Cool drink", "/category.jpg");
+        Category firstCategory = repository.save(new Category("Coke", "Cool drink", "/category.jpg", new Date()));
+        Category deletedCategory = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         repository.save(deletedCategory);
         repository.softDelete(deletedCategory.getId());
         entityManager.flush();

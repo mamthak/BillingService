@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -39,7 +40,7 @@ public class ItemRepositoryTest {
 
     @Test
     public void deleteShouldDeleteTheItemBasedOnId() throws Exception {
-        Category category = categoryRepository.save(new Category("Coke", "Cool drink", "/category.jpg"));
+        Category category = categoryRepository.save(new Category("Coke", "Cool drink", "/category.jpg", new Date()));
         Item item = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         Item savedItem = itemRepository.save(item);
 
@@ -52,8 +53,8 @@ public class ItemRepositoryTest {
 
     @Test
     public void findByCategoryIdShouldReturnItemsBasedOnCategory() throws Exception {
-        Category firstCategory = categoryRepository.save(new Category("Cool drink", "Cool drink", "/category.jpg"));
-        Category secondCategory = categoryRepository.save(new Category("Hot Drink", "Hot drink", "/category.jpg"));
+        Category firstCategory = categoryRepository.save(new Category("Cool drink", "Cool drink", "/category.jpg", new Date()));
+        Category secondCategory = categoryRepository.save(new Category("Hot Drink", "Hot drink", "/category.jpg", new Date()));
         Item firstItem = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, firstCategory);
         Item secondItem = new Item("Coffee", "Hot drink", "/item.jpg", BigDecimal.ONE, secondCategory);
         Item savedItem = itemRepository.save(firstItem);
@@ -67,7 +68,7 @@ public class ItemRepositoryTest {
 
     @Test
     public void deleteByCategoryIdShouldDeleteAllItemsBelongingToTheCategory() throws Exception {
-        Category category = categoryRepository.save(new Category("Coke", "Cool drink", "/category.jpg"));
+        Category category = categoryRepository.save(new Category("Coke", "Cool drink", "/category.jpg", new Date()));
         Item firstItem = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         Item secondItem = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, category);
         itemRepository.save(firstItem);
@@ -84,7 +85,7 @@ public class ItemRepositoryTest {
 
     @Test
     public void findAllActiveItemsByCategoryShouldReturnAllActiveItemsBelongingToTheCategory() throws Exception {
-        Category firstCategory = categoryRepository.save(new Category("Cool drink", "Cool drink", "/category.jpg"));
+        Category firstCategory = categoryRepository.save(new Category("Cool drink", "Cool drink", "/category.jpg", new Date()));
         Item firstItem = new Item("Coke", "Cool drink", "/item.jpg", BigDecimal.ONE, firstCategory);
         Item secondItem = new Item("Coffee", "Hot drink", "/item.jpg", BigDecimal.ONE, firstCategory);
         secondItem.setDeleted(true);

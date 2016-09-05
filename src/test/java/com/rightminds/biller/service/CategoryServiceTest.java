@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.Date;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,7 +33,7 @@ public class CategoryServiceTest {
 
     @Test
     public void saveShouldSaveTheInventoryItem() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
 
         categoryService.save(category);
 
@@ -40,7 +42,7 @@ public class CategoryServiceTest {
 
     @Test
     public void getShouldReturnInventoryBasedOnTheIdValue() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         when(repository.findOne(any())).thenReturn(category);
 
         categoryService.getById(1);
@@ -50,7 +52,7 @@ public class CategoryServiceTest {
 
     @Test
     public void getAllShouldReturnAllActiveCategories() throws Exception {
-        Category category = new Category("Coke", "Cool drink", "/category.jpg");
+        Category category = new Category("Coke", "Cool drink", "/category.jpg", new Date());
         when(repository.findOne(any())).thenReturn(category);
 
         categoryService.getAllActiveCategories();
