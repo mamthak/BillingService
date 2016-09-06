@@ -1,5 +1,6 @@
 package com.rightminds.biller.entity;
 
+import com.rightminds.biller.util.CastUtil;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class CategoryTest {
 
         assertThat(category.getName(), is("Coke"));
         assertThat(category.getDescription(), is("Cool Drink"));
-        assertThat(category.getCreatedOn().getTime(), is(1472915832000L));
+        assertThat(category.getCreatedOn(), is(CastUtil.getDate("2016-09-03 20:47:12")));
         assertThat(category.getImagePath(), is("/category.jpg"));
     }
 }

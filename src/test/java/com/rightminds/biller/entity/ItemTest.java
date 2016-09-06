@@ -1,8 +1,10 @@
 package com.rightminds.biller.entity;
 
+import com.rightminds.biller.util.CastUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.HashMap;
 
 import static org.hamcrest.Matchers.is;
@@ -32,7 +34,7 @@ public class ItemTest {
         assertThat(item.getQuantity(), is(10));
         assertThat(item.getImagePath(), is("/item.jpg"));
         assertThat(item.getCategory(), is(new Category(1)));
-        assertThat(item.getCreatedOn().getTime(), is(1472915832000L));
+        assertThat(item.getCreatedOn(), is(CastUtil.getDate("2016-09-03 20:47:12")));
     }
 
 }
