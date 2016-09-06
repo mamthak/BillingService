@@ -32,7 +32,7 @@ public class ItemTest {
         assertThat(item.getQuantity(), is(10));
         assertThat(item.getImagePath(), is("/item.jpg"));
         assertThat(item.getCategory(), is(new Category(1)));
-        assertThat(item.getCreatedOn().toString(), is("Sat Sep 03 20:47:12 IST 2016"));
+        assertThat(item.getCreatedOn().getTime(), is(1472915832000L));
     }
 
 }

@@ -22,7 +22,7 @@ public class CategoryTest {
 
         assertThat(category.getName(), is("Coke"));
         assertThat(category.getDescription(), is("Cool Drink"));
-        assertThat(category.getCreatedOn().toString(), is("Sat Sep 03 20:47:12 IST 2016"));
+        assertThat(category.getCreatedOn().getTime(), is(1472915832000L));
         assertThat(category.getImagePath(), is("/category.jpg"));
     }
 }
