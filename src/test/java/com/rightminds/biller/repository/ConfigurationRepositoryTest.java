@@ -28,7 +28,7 @@ public class ConfigurationRepositoryTest {
 
     @Test
     public void findByIdShouldReturnTheConfiguration() throws Exception {
-        Configuration config = new Configuration("name", "Storm games");
+        Configuration config = new Configuration("name", "", "Storm games", "", "");
         Configuration savedItem = repository.save(config);
 
         Configuration fromRepository = repository.findById(savedItem.getId());

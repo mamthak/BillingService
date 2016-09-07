@@ -129,8 +129,8 @@ public class BillServiceTest {
 
     @Test
     public void processOrderShouldComputeTheTotalAndSaveTheOrder() throws Exception {
-        when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("servicecharge", "2"));
-        when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
+        when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("serviceCharge", "", "10", "", ""));
+        when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("serviceTax", "", "1", "", ""));
         Bill bill = new Bill(1, new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(0), null,
                 null, null, IN_PROGRESS, null, new ArrayList<>());
@@ -142,16 +142,16 @@ public class BillServiceTest {
         ArgumentCaptor<Bill> argumentCaptor = ArgumentCaptor.forClass(Bill.class);
         verify(repository).save(argumentCaptor.capture());
         assertThat(argumentCaptor.getValue().getName(), is("Order 1"));
-        assertThat(argumentCaptor.getValue().getServiceCharge(), is(new BigDecimal(2)));
+        assertThat(argumentCaptor.getValue().getServiceCharge(), is(new BigDecimal(10)));
         assertTrue(argumentCaptor.getValue().getServiceTax().compareTo(new BigDecimal(1)) == 0);
-        assertTrue(argumentCaptor.getValue().getTotal().compareTo(new BigDecimal(103.00)) == 0);
+        assertTrue(argumentCaptor.getValue().getTotal().compareTo(new BigDecimal(111)) == 0);
         assertThat(argumentCaptor.getValue().getStatus(), is(COMPLETED));
     }
 
     @Test
     public void processOrderShouldComputeTheTotalAndDeductTheDiscountSaveTheOrder() throws Exception {
-        when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("servicecharge", "2"));
-        when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
+        when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("serviceCharge", "", "2", "", ""));
+        when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("serviceTax", "", "1", "", ""));
         Bill bill = new Bill(1, new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
                 null, null, IN_PROGRESS, null, new ArrayList<>());
@@ -169,8 +169,8 @@ public class BillServiceTest {
 
     @Test
     public void processOrderShouldUpdateTheInventory() throws Exception {
-        when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("servicecharge", "2"));
-        when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("servicetax", "1"));
+        when(configurationService.getByKey("servicecharge")).thenReturn(new Configuration("serviceCharge", "", "2", "", ""));
+        when(configurationService.getByKey("servicetax")).thenReturn(new Configuration("serviceTax", "", "1", "", ""));
         Bill bill = new Bill(1, new Customer(), "Order 1", null,
                 null, new BigDecimal(100), new BigDecimal(3), null,
                 null, null, IN_PROGRESS, null, null);

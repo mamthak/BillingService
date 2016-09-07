@@ -266,29 +266,7 @@
         </addColumn>
     </changeSet>
 
-    <changeSet id="201608200115" author="Thiru">
-        <insert tableName="CONFIGURATION">
-            <column name="KEY" value="servicecharge"/>
-            <column name="VALUE" value="0"/>
-            <column name="CREATEDON" value="now()"/>
-            <column name="LASTMODIFIEDON" value="now()"/>
-        </insert>
-    </changeSet>
 
-    <changeSet id="201608200125" author="Thiru">
-        <insert tableName="CONFIGURATION">
-            <column name="KEY" value="servicetax"/>
-            <column name="VALUE" value="0"/>
-            <column name="CREATEDON" value="now()"/>
-            <column name="LASTMODIFIEDON" value="now()"/>
-        </insert>
-        <insert tableName="CONFIGURATION">
-            <column name="KEY" value="vat"/>
-            <column name="VALUE" value="0"/>
-            <column name="CREATEDON" value="now()"/>
-            <column name="LASTMODIFIEDON" value="now()"/>
-        </insert>
-    </changeSet>
 
     <changeSet id="201608210547" author="Thiru">
         <dropForeignKeyConstraint baseTableName="BILLITEM"
@@ -306,4 +284,45 @@
     <changeSet id="201609040209" author="Thiru">
         <addDefaultValue tableName="BILL" columnName="DISCOUNT" defaultValue="0"/>
     </changeSet>
+
+    <changeSet id="201609050806" author="Thiru">
+        <addColumn tableName="CONFIGURATION">
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="varchar(255)"/>
+            <column name="DEFAULTVALUE" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="201609061148" author="Thiru">
+        <insert tableName="CONFIGURATION">
+            <column name="KEY" value="servicecharge"/>
+            <column name="NAME" value="Service Charge"/>
+            <column name="VALUE" value="10"/>
+            <column name="DEFAULTVALUE" value="0"/>
+            <column name="CREATEDON" value="now()"/>
+            <column name="LASTMODIFIEDON" value="now()"/>
+        </insert>
+        <insert tableName="CONFIGURATION">
+            <column name="KEY" value="servicetax"/>
+            <column name="NAME" value="Service Tax"/>
+            <column name="VALUE" value="0"/>
+            <column name="DEFAULTVALUE" value="0"/>
+            <column name="CREATEDON" value="now()"/>
+            <column name="LASTMODIFIEDON" value="now()"/>
+        </insert>
+        <insert tableName="CONFIGURATION">
+            <column name="KEY" value="vat"/>
+            <column name="NAME" value="VAT"/>
+            <column name="VALUE" value="0"/>
+            <column name="DEFAULTVALUE" value="0"/>
+            <column name="CREATEDON" value="now()"/>
+            <column name="LASTMODIFIEDON" value="now()"/>
+        </insert>
+
+    </changeSet>
+
 </databaseChangeLog>

@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.rightminds.biller.AllConstants.DATE_TIME_FORMAT;
@@ -29,8 +30,17 @@ public class Configuration {
     @Column(name = "KEY")
     private String key;
 
+    @Column(name = "NAME")
+    private String name;
+
     @Column(name = "VALUE")
     private String value;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "DEFAULTVALUE")
+    private String defaultValue;
 
     @CreatedDate
     @Column(name = "CREATEDON")
@@ -45,15 +55,21 @@ public class Configuration {
     public Configuration() {
     }
 
-    public Configuration(String key, String value) {
+    public Configuration(String key, String name, String value, String defaultValue, String description) {
         this.key = key;
+        this.name = name;
         this.value = value;
+        this.defaultValue = defaultValue;
+        this.description = description;
     }
 
-    public Configuration(Integer id, String key, String value, Date createdOn) {
+    public Configuration(Integer id, String key, String name, String defaultValue, String value, String description, Date createdOn) {
         this.id = id;
         this.key = key;
+        this.name = name;
+        this.defaultValue = defaultValue;
         this.value = value;
+        this.description = description;
         this.createdOn = createdOn;
     }
 
@@ -79,13 +95,25 @@ public class Configuration {
     public static Configuration fromMap(Map map) {
         Integer id = CastUtil.getInteger(map.get("id"));
         String key = getString(map.get("key"));
+        String name = getString(map.get("name"));
+        String defaultValue = getString(map.get("defaultValue"));
+        String description = getString(map.get("description"));
         String value = getString(map.get("value"));
         if (id != null) {
             Date createdOn = new Date(getLong(map.get("createdOn")));
-            return new Configuration(id, key, value, createdOn);
+            return new Configuration(id, key, name, defaultValue, value, description, createdOn);
         }
-        return new Configuration(key, value);
+        return new Configuration(key, name, value, defaultValue, description);
     }
 
+    public Map toMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("key", key);
+        map.put("description", description);
+        map.put("value", value);
+        map.put("defaultValue", defaultValue);
+        return map;
+    }
 
 }

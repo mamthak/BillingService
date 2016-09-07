@@ -7,6 +7,12 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,7 +33,7 @@ public class ConfigurationServiceTest {
 
     @Test
     public void saveShouldSaveTheConfiguration() throws Exception {
-        Configuration config = new Configuration("serviceCharge", "10");
+        Configuration config = new Configuration("serviceCharge", "", "10", "", "");
 
         configurationService.save(config);
 
@@ -36,7 +42,7 @@ public class ConfigurationServiceTest {
 
     @Test
     public void getShouldReturnConfigurationBasedOnTheIdValue() throws Exception {
-        Configuration config = new Configuration("serviceCharge", "10");
+        Configuration config = new Configuration("serviceCharge", "", "10", "", "");
         when(repository.findOne(any())).thenReturn(config);
 
         configurationService.getById(1);
@@ -46,7 +52,7 @@ public class ConfigurationServiceTest {
 
     @Test
     public void getByNameShouldReturnConfigurationBasedOnTheName() throws Exception {
-        Configuration config = new Configuration("serviceCharge", "10");
+        Configuration config = new Configuration("serviceCharge", "", "10", "", "");
         when(repository.findOne(any())).thenReturn(config);
 
         configurationService.getByKey("serviceCharge");
@@ -54,4 +60,16 @@ public class ConfigurationServiceTest {
         verify(repository).findByKey("serviceCharge");
     }
 
+    @Test
+    public void getAllShouldReturnAllTheConfigurationAsMap() throws Exception {
+        Configuration serviceCharge = new Configuration("serviceCharge", "", "10", "", "");
+        Configuration serviceTax = new Configuration("serviceTax", "", "10", "", "");
+        when(repository.findAll()).thenReturn(Arrays.asList(serviceCharge, serviceTax));
+
+        List<Configuration> all = configurationService.getAll();
+
+        verify(repository).findAll();
+        assertThat(all.size(), is(2));
+
+    }
 }

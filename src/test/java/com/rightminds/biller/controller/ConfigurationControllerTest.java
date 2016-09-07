@@ -46,7 +46,7 @@ public class ConfigurationControllerTest {
 
     @Test
     public void getShouldReturnConfigBasedOnTheIdValue() throws Exception {
-        Configuration config = new Configuration("serviceCharge", "10");
+        Configuration config = new Configuration("serviceCharge", "", "10", "", "");
         when(service.getById(any())).thenReturn(config);
 
         controller.get(1);
@@ -56,7 +56,7 @@ public class ConfigurationControllerTest {
 
     @Test
     public void getAllShouldReturnAllInventoryItems() throws Exception {
-        Configuration config = new Configuration("serviceCharge", "10");
+        Configuration config = new Configuration("serviceCharge", "", "10", "", "");
         when(service.getById(any())).thenReturn(config);
 
         controller.getAll();
