@@ -51,6 +51,7 @@ public class BillItemResponse {
             map.put("discount", billItem.getDiscount());
             map.put("total", billItem.getTotal());
             map.put("created", formatDate(billItem.getCreatedOn()));
+            map.put("lastModifiedOn", formatDate(billItem.getLastModifiedOn()));
         }
         return map;
     }

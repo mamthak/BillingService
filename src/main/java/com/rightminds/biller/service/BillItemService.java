@@ -35,21 +35,36 @@ public class BillItemService {
 
     public BillItemResponse save(BillItem billItem) {
         if (billItem.getQuantity() == 0) {
-            BillItem billItemFromDb = repository.findById(billItem.getId());
-            // TODO: Use delete column for deleting the item
-            repository.delete(billItemFromDb);
-            elasticSearchService.delete(billItemFromDb);
-            Bill updatedBill = billService.getById(billItem.getBill().getId());
-            return new BillItemResponse(billItemFromDb, null, updatedBill);
+            return deleteBillItem(billItem);
         } else {
-            BillItem updatedBillItem = billItem.withTotal(getTotal(billItem));
-            BillItem savedBillItem = repository.save(updatedBillItem);
-            Bill bill = billService.getById(billItem.getBill().getId());
-            Item item = itemService.getById(billItem.getItem().getId());
-            elasticSearchService.save(bill);
-            elasticSearchService.save(savedBillItem.withItemAndBill(item, bill));
-            return new BillItemResponse(savedBillItem, item, bill);
+            return saveBillItem(billItem);
         }
+    }
+
+    private BillItemResponse saveBillItem(BillItem billItem) {
+        BillItem oldBillItem = repository.findById(billItem.getId());
+        BillItem updatedBillItem = billItem.withTotal(getTotal(billItem));
+        BillItem savedBillItem = repository.save(updatedBillItem);
+        Bill bill = billService.getById(billItem.getBill().getId());
+        Item item = itemService.getById(billItem.getItem().getId());
+        elasticSearchService.save(bill);
+        elasticSearchService.save(savedBillItem.withItemAndBill(item, bill));
+        BillItemResponse response = new BillItemResponse(savedBillItem, item, bill);
+        if (oldBillItem != null) {
+            BillItem deltaBillItem = oldBillItem.withDeltaQuantity(savedBillItem.getQuantity() - oldBillItem.getQuantity(), savedBillItem.getLastModifiedOn());
+            elasticSearchService.saveBillItemDelta(new BillItemResponse(deltaBillItem, item, bill).itemMap());
+        } else
+            elasticSearchService.saveBillItemDelta(response.itemMap());
+        return response;
+    }
+
+    private BillItemResponse deleteBillItem(BillItem billItem) {
+        BillItem billItemFromDb = repository.findById(billItem.getId());
+        // TODO: Use delete column for deleting the item
+        repository.delete(billItemFromDb);
+        elasticSearchService.delete(billItemFromDb);
+        Bill updatedBill = billService.getById(billItem.getBill().getId());
+        return new BillItemResponse(billItemFromDb, null, updatedBill);
     }
 
     public BillItem getById(Integer id) {

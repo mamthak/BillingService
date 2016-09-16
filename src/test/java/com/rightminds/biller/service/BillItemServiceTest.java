@@ -15,6 +15,8 @@ import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -90,7 +92,7 @@ public class BillItemServiceTest {
         Bill bill = new Bill(1);
         when(itemService.getById(any())).thenReturn(item);
         when(billService.getById(any())).thenReturn(bill);
-        BillItem billItemFromMap = new BillItem(1, bill, itemFromMap, 0, new BigDecimal(2), null, null);
+        BillItem billItemFromMap = new BillItem(1, bill, itemFromMap, 0, new BigDecimal(2), null, null, null);
         when(repository.findById(any())).thenReturn(billItemFromMap);
 
         BillItemResponse response = service.save(billItemFromMap);
@@ -101,4 +103,26 @@ public class BillItemServiceTest {
         assertThat(response.itemMap(), is(new HashMap()));
         verifyNoMoreInteractions(repository);
     }
+
+    @Test
+    public void saveShouldStoreWithDeltaInElasticSearch() throws Exception {
+        Item itemFromMap = new Item(1, null, null, null, null, null, false, 0, null);
+        Item item = new Item(1, "Coke", "Cool Drink", "/item.jpg", BigDecimal.TEN, new Category(), false, 15, null);
+        Bill bill = new Bill(1);
+        when(itemService.getById(any())).thenReturn(item);
+        when(billService.getById(any())).thenReturn(bill);
+        BillItem billItemFromMap = new BillItem(1, bill, itemFromMap, 5, new BigDecimal(2), null, null, null);
+        BillItem oldBillItem = new BillItem(1, bill, itemFromMap, 2, new BigDecimal(2), null, null, null);
+        when(repository.findById(any())).thenReturn(oldBillItem);
+        Mockito.when(repository.save(any(BillItem.class))).thenReturn(billItemFromMap);
+
+        service.save(billItemFromMap);
+
+        verify(repository).findById(1);
+        verify(billService).getById(1);
+        ArgumentCaptor<Map> argumentCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(elasticSearchService).saveBillItemDelta(argumentCaptor.capture());
+        assertThat(argumentCaptor.getValue().get("quantity"), is(3));
+    }
+
 }

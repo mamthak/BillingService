@@ -48,11 +48,12 @@ public class BillItem {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT, timezone = "Asia/Kolkata")
     private Date createdOn;
 
     @LastModifiedDate
     @Column(name = "LASTMODIFIEDON")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT, timezone = "Asia/Kolkata")
     private Date lastModifiedOn;
 
     @JsonProperty("itemname")
@@ -75,9 +76,10 @@ public class BillItem {
 
     }
 
-    public BillItem(Integer id, Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total, Date createdOn) {
+    public BillItem(Integer id, Bill bill, Item item, Integer quantity, BigDecimal discount, BigDecimal total, Date createdOn, Date lastModifiedOn) {
         this(bill, item, quantity, discount, total, createdOn);
         this.id = id;
+        this.lastModifiedOn = lastModifiedOn;
         initializeItem(item);
     }
 
@@ -144,18 +146,22 @@ public class BillItem {
         Item item = map.get("itemid") != null ? new Item(getInteger(map.get("itemid"))) : null;
         if (id == null)
             return new BillItem(bill, item, quantity, discount, total, createdOn);
-        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn, null);
     }
 
     public BillItem withTotal(BigDecimal total) {
-        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn, lastModifiedOn);
     }
 
     public BillItem withItemAndBill(Item item, Bill bill) {
-        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn, lastModifiedOn);
     }
 
     public BillItem withTransientData() {
-        return new BillItem(id, bill, item, quantity, discount, total, createdOn);
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn, lastModifiedOn);
+    }
+
+    public BillItem withDeltaQuantity(int quantity, Date lastModifiedOn) {
+        return new BillItem(id, bill, item, quantity, discount, total, createdOn, lastModifiedOn);
     }
 }

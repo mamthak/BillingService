@@ -41,13 +41,13 @@ public class Category {
 
     @CreatedDate
     @Column(name = "CREATEDON")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AllConstants.DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AllConstants.DATE_TIME_FORMAT, timezone = "Asia/Kolkata")
     @JsonProperty("created")
     private Date createdOn;
 
     @LastModifiedDate
     @Column(name = "LASTMODIFIEDON")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AllConstants.DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AllConstants.DATE_TIME_FORMAT, timezone = "Asia/Kolkata")
     private Date lastModifiedOn;
 
     public Category() {

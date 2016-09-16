@@ -2,6 +2,7 @@ package com.rightminds.biller.service;
 
 import com.rightminds.biller.entity.Bill;
 import com.rightminds.biller.entity.BillItem;
+import com.rightminds.biller.model.BillItemResponse;
 import com.rightminds.biller.util.JsonUtil;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Client;
@@ -66,5 +67,17 @@ public class ElasticSearchService {
         } catch (Exception e) {
             LOGGER.error("Problem in deleting the item: {}", billItem);
         }
+    }
+
+    public void saveBillItemDelta(Map billItem) {
+        try {
+            IndexRequest indexRequest = new IndexRequest("billitemdelta", "billitemdelta");
+            String source = JsonUtil.toJson(billItem);
+            indexRequest.source(source);
+            client.index(indexRequest).actionGet();
+        } catch (Exception e) {
+            LOGGER.error("Problem in saving the bill item: {}", billItem);
+        }
+
     }
 }

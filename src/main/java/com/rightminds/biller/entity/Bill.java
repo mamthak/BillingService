@@ -73,11 +73,12 @@ public class Bill {
     @CreatedDate
     @Column(name = "CREATEDON")
     @JsonProperty("created")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT, timezone = "Asia/Kolkata")
     private Date createdOn;
 
     @LastModifiedDate
     @Column(name = "LASTMODIFIEDON")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT, timezone = "Asia/Kolkata")
     private Date lastModifiedOn;
 
     @OneToMany(mappedBy = "bill", fetch = FetchType.EAGER)

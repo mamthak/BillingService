@@ -54,7 +54,7 @@ public class CastUtil {
 
     public static Date getDate(Object dateTimeString) {
         String stringValue = getString(dateTimeString);
-        String pattern = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss").getPattern();
+        String pattern = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss.SSSZ").getPattern();
         return parseDate(stringValue, pattern);
     }
 
@@ -62,7 +62,7 @@ public class CastUtil {
         if (date == null) {
             return null;
         }
-        Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Format format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         return format.format(date);
     }
 

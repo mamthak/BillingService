@@ -17,13 +17,13 @@ public class CategoryTest {
         map.put("name", "Coke");
         map.put("description", "Cool Drink");
         map.put("imagepath", "/category.jpg");
-        map.put("created", "2016-09-03 20:47:12");
+        map.put("created", "2016-09-03T20:47:12.000+0530");
 
         Category category = Category.fromMap(map);
 
         assertThat(category.getName(), is("Coke"));
         assertThat(category.getDescription(), is("Cool Drink"));
-        assertThat(category.getCreatedOn(), is(CastUtil.getDate("2016-09-03 20:47:12")));
+        assertThat(category.getCreatedOn(), is(CastUtil.getDate("2016-09-03T20:47:12.000+0530")));
         assertThat(category.getImagePath(), is("/category.jpg"));
     }
 }

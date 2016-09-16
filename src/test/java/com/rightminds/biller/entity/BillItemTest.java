@@ -19,7 +19,7 @@ public class BillItemTest {
         map.put("total", "120");
         map.put("discount", "0.5");
         map.put("billid", "1");
-        map.put("created", "2016-08-20 06:34:17");
+        map.put("created", "2016-08-20T06:34:17.000+0530");
         map.put("itemid", "1");
 
         BillItem billItem = BillItem.fromMap(map);
